@@ -45,15 +45,16 @@ if __name__ == "__main__":
     # 🌟 Dynamically fetch configurations from the environment
     PROJECT_ID = os.environ.get("GCP_PROJECT_ID")
     BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME")
+    FILE_PATH = os.environ.get("GCS_FILE_PATH")
     
     # Validation step to ensure your container crashes early if you forgot to set them
-    if not PROJECT_ID or not BUCKET_NAME:
-        raise ValueError("❌ Missing required environment variables: GCP_PROJECT_ID or GCS_BUCKET_NAME")
+    if not PROJECT_ID or not BUCKET_NAME or not FILE_PATH:
+        raise ValueError("❌ Missing required environment variables: GCP_PROJECT_ID, GCS_BUCKET_NAME, or GCS_FILE_PATH")
 
     DATA_URL = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
     TARGET_COMPRESSED_CSV = "temp_dataset.csv.gz"
     TARGET_PARQUET = "yellow_tripdata_2021-01.parquet"
-    BLOB_PATH = "raw/ny_taxi/yellow_tripdata_2021-01.parquet"
+    BLOB_PATH = FILE_PATH # the file path where we keep the ingested data.
 
     # Execute Pipeline
     pipeline = GCSDataPipeline(project_id=PROJECT_ID, bucket_name=BUCKET_NAME)
