@@ -41,7 +41,7 @@ resource "google_storage_bucket" "data_lake" {
 
 # Create a BigQuery Dataset (The Warehouse Container)
 resource "google_bigquery_dataset" "ishak_tobbi_test_dataset" {
-  dataset_id                  = "ishak_tobbi_dataset"
+  dataset_id                  = var.dataset_name
   project                     = var.project_id
   location                    = var.region
   description                 = "Data warehouse storage for New York Taxi infrastructure data"
@@ -50,19 +50,21 @@ resource "google_bigquery_dataset" "ishak_tobbi_test_dataset" {
   delete_contents_on_destroy = true
 }
 
-# 🔗 Link the GCS Parquet files to BigQuery using an External Table
-resource "google_bigquery_table" "external_yellow_taxi_table" {
-  dataset_id = google_bigquery_dataset.ishak_tobbi_test_dataset.dataset_id
-  table_id   = "external_yellow_tripdata"
-  project    = var.project_id
+# #  🔗 Link the GCS Parquet files to BigQuery using an External Table
+# resource "google_bigquery_table" "external_yellow_taxi_table" {
+#   dataset_id = google_bigquery_dataset.ishak_tobbi_test_dataset.dataset_id
+#   table_id   = "external_yellow_tripdata"
+#   project    = var.project_id
 
-  external_data_configuration {
-    autodetect    = true
-    source_format = "PARQUET"
+#   deletion_protection = false # turn off the shield for this table, so we can delete it if we need to
 
-    # Points directly to the file pattern in your GCS bucket
-    source_uris = [
-      "gs://${var.bucket_name}/raw/ny_taxi/*.parquet"
-    ]
-  }
-}
+#   external_data_configuration {
+#     autodetect    = true
+#     source_format = "PARQUET"
+
+#     # Points directly to the file pattern in your GCS bucket
+#     source_uris = [
+#       "gs://${var.bucket_name}/raw/ny_taxi/*.parquet"
+#     ]
+#   }
+# }

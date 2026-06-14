@@ -15,3 +15,8 @@ variable "bucket_name" {
   type        = string
   default     = "ishak-tobbi-data-lake-2026" # Must be completely unique across all of GCP
 }
+variable "dataset_name" {
+  description = "The name for your BigQuery dataset (the data warehouse container)"
+  type        = string
+  default     = "ishak_tobbi_dataset"
+}
