@@ -15,7 +15,7 @@ COPY pyproject.toml uv.lock ./
 RUN uv pip install --system -r pyproject.toml
 
 # 6. Copy your source code into the container
-COPY src/ ./src/
+# COPY src/ ./src/      # This is no longer needed because we are mounting the src directory as a volume in the Airflow DAG
 
 # 7. Define the environment variable placeholders (Good documentation for the container)
 ENV GCP_PROJECT_ID=""

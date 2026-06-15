@@ -13,6 +13,7 @@ BIGQUERY_TABLE_NAME = os.getenv('BIGQUERY_TABLE_NAME')
 GCS_FILE_PATH = os.getenv('GCS_FILE_PATH')
 AIRFLOW_DOCKER_URL = os.getenv('AIRFLOW_DOCKER_URL', 'unix://var/run/docker.sock')
 
+
 # 1. Pipeline Default Settings
 default_args = {
     'owner': 'data_engineering_student',
@@ -43,6 +44,9 @@ with DAG(
         # Equivalent to typing '--rm' in terminal to clean up the container when done
         auto_remove=True,
         
+        # Force Airflow to boot the local image instantly! without waiting for docker to fetch for latest version.
+        # image_pull_policy='Never', 
+        
         # Use the host telephone line (/var/run/docker.sock) we mapped in docker-compose
         docker_url=AIRFLOW_DOCKER_URL,
         # if we use a different machine, the path ll be different, we can set it in .env file.
@@ -55,13 +59,23 @@ with DAG(
         tty=True,
         # it is as -t, what the script prints, airflow can grab it and show in the logs, if we dont have it, we can only see the logs after the script is done.
         
-        # 1. Share the key file from Airflow into the new extractor container
+
+        mount_tmp_dir=False, # We will handle our own custom mounts, so disable Airflow's default temp directory mount
+
+        # 1. Mount the shared named volume (same volume that Airflow uses) into the script container
         mounts=[
             {
-                'source': '/opt/airflow/secrets/google_key.json', # Location inside Airflow
-                'target': '/app/secrets/google_key.json',         # Location inside Extractor
-                'type': 'bind',
+                'source': 'orchestrator_gcp-creds',  # the name of the volume we defined in docker-compose.yaml
+                'target': '/tmp/gcp_creds',
+                'type': 'volume',       # we use volume when we want to share data from the docker daemon volume pocket, it is managed by docker, we can use it to share data between containers, and it is persistent, it will not be deleted when the container is deleted.
                 'read_only': True
+            },
+            {
+                 # Your absolute Mac path to where your script lives
+                'source': '/Users/ishak/Desktop/Data Engineer/Project/src',     # must be the absolute path to your src directory on your local machine, it is not the path inside the container, it is the path on your host machine, and we will map it to the container's working directory.
+                'type': 'bind',         # we use bind when we want to share data from the host machine, it is not managed by docker, it is just a direct link to the host file system, and it is not persistent, if we delete the file on the host, it will be deleted in the container as well.
+                'target': '/app/src',       # Maps directly over the container's working directory
+                'read_only': False
             }
         ],
         # 2. Tell Google's underlying libraries exactly where to look for that file
@@ -71,7 +85,7 @@ with DAG(
             'GCP_PROJECT_ID': GCP_PROJECT_ID,
             'GCS_BUCKET_NAME': GCS_BUCKET_NAME,
             'GCS_FILE_PATH': GCS_FILE_PATH,
-            'GOOGLE_APPLICATION_CREDENTIALS': '/app/secrets/google_key.json'
+            'GOOGLE_APPLICATION_CREDENTIALS': '/tmp/gcp_creds/application_default_credentials.json'
         }
     )
 

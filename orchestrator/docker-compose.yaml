@@ -84,7 +84,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - /var/run/docker.sock:/var/run/docker.sock # Required to run docker in docker
-    - ~/.config/gcloud/application_default_credentials.json:/opt/airflow/secrets/google_key.json # added by me, to pass the GCP json key to airflow container,
+    - gcp-creds:/opt/airflow/secrets # shared named volume for GCP credentials
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -292,5 +292,11 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
-volumes:
+volumes:        # Define named volumes for shared data and database persistence
+  gcp-creds:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/.config/gcloud
   postgres-db-volume:
