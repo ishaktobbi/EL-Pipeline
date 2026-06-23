@@ -21,8 +21,36 @@ class GCSDataPipeline:
         
 
         print("⚡ Converting raw CSV to optimized Parquet format...")
+
+        dtype = {
+            "VendorID": "Int64",
+            "passenger_count": "Int64",
+            "trip_distance": "float64",
+            "RatecodeID": "Int64",
+            "store_and_fwd_flag": "string",
+            "PULocationID": "Int64",
+            "DOLocationID": "Int64",
+            "payment_type": "Int64",
+            "fare_amount": "float64",
+            "extra": "float64",
+            "mta_tax": "float64",
+            "tip_amount": "float64",
+            "tolls_amount": "float64",
+            "improvement_surcharge": "float64",
+            "total_amount": "float64",
+            "congestion_surcharge": "float64"
+        }
+
+        parse_dates = [
+            "tpep_pickup_datetime",
+            "tpep_dropoff_datetime"
+        ]
         # Read the file and parse it into an optimized columnar Parquet format
-        df = pd.read_csv(target_compressed_csv, low_memory=False)
+        df = pd.read_csv(target_compressed_csv,
+                         dtype=dtype, 
+                         parse_dates=parse_dates,
+                            low_memory=False)
+
         df.to_parquet(local_parquet_path, engine="pyarrow", compression="snappy")
         
         # Delete temporary raw CSV to save local space

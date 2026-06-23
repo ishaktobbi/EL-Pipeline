@@ -1,8 +1,13 @@
 from datetime import datetime, timedelta
 import os
+from pathlib import Path
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
-from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
+from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateExternalTableOperator
+
+# Import Cosmos core components
+# from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig
+# from cosmos.profiles import GoogleCloudServiceAccountDictProfileMapping
 
 
 # 0. Read your local Mac/Docker environment variables
@@ -13,6 +18,7 @@ BIGQUERY_TABLE_NAME = os.getenv('BIGQUERY_TABLE_NAME')
 GCS_FILE_PATH = os.getenv('GCS_FILE_PATH')
 AIRFLOW_DOCKER_URL = os.getenv('AIRFLOW_DOCKER_URL', 'unix://var/run/docker.sock')
 
+DBT_PROJECT_PATH = Path("/opt/airflow/dbt")
 
 # 1. Pipeline Default Settings
 default_args = {
@@ -81,7 +87,7 @@ with DAG(
         # 2. Tell Google's underlying libraries exactly where to look for that file
         # In case your script needs extra environment configuration variables
         environment={
-            'ENVIRONMENT': 'production',
+            'ENVIRONMENT': 'development',
             'GCP_PROJECT_ID': GCP_PROJECT_ID,
             'GCS_BUCKET_NAME': GCS_BUCKET_NAME,
             'GCS_FILE_PATH': GCS_FILE_PATH,
@@ -89,21 +95,91 @@ with DAG(
         }
     )
 
-    create_external_table = BigQueryExecuteQueryOperator(
-        task_id='create_bq_external_table',
-        sql=f"""
-            CREATE OR REPLACE EXTERNAL TABLE `{GCP_PROJECT_ID}.{BIGQUERY_DATASET}.{BIGQUERY_TABLE_NAME}`
-            OPTIONS (
-                format = 'PARQUET',
-                uris = ['gs://{GCS_BUCKET_NAME}/{GCS_FILE_PATH}']
-            );
-        """,
-        use_legacy_sql=False,
-
-        gcp_conn_id='google_cloud_default', # Airflow uses its built-in GCP connection system
-        # we create the connection in the airflow ui, when it need to do something in the cloud, it will look for the connection with the name we specify here, and use the credentials we set up in that connection to authenticate and do the work in the cloud.
     
-    )
+
+    create_gcs_external_table = BigQueryCreateExternalTableOperator(
+    task_id="create_external_table",
+    bucket=GCS_BUCKET_NAME,
+    source_objects=[GCS_FILE_PATH], # Relative path inside bucket (without gs:// prefix)
+    source_format="PARQUET",
+    destination_project_dataset_table=f'{BIGQUERY_DATASET}.{BIGQUERY_TABLE_NAME}',
+    gcp_conn_id="google_cloud_default",
+    autodetect=True, # Let BigQuery infer the schema automatically
+
+    # schema_fields=[
+    #     {"name": "VendorID", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "tpep_pickup_datetime", "type": "STRING", "mode": "NULLABLE"},
+    #     {"name": "tpep_dropoff_datetime", "type": "STRING", "mode": "NULLABLE"},
+    #     {"name": "passenger_count", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "trip_distance", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "RatecodeID", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "store_and_fwd_flag", "type": "STRING", "mode": "NULLABLE"},
+    #     {"name": "PULocationID", "type": "INTEGER", "mode": "NULLABLE"},
+    #     {"name": "DOLocationID", "type": "INTEGER", "mode": "NULLABLE"},
+    #     {"name": "payment_type", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "fare_amount", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "extra", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "mta_tax", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "tip_amount", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "tolls_amount", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "improvement_surcharge", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "total_amount", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "congestion_surcharge", "type": "FLOAT", "mode": "NULLABLE"},
+    # ],
+
+)
+
+    # transform_data = DbtTaskGroup(
+    #     group_id="dbt_transformations",
+    #     project_config=ProjectConfig(DBT_PROJECT_PATH),
+    #     profile_config=ProfileConfig(
+    #         profile_name="bigquery_profile", # Must match the profile name in dbt_project.yml
+    #         target_name="dev",
+    #         profile_mapping=GoogleCloudServiceAccountDictProfileMapping(
+    #             conn_id="google_cloud_default", # Reuses your existing ADC container credentials!
+    #             profile_args={"dataset": f"{BIGQUERY_DATASET}"},
+    #         ),
+    #     ),
+    #     execution_config=ExecutionConfig(
+    #         # Tells Airflow where the dbt executable lives inside its virtual environment
+    #         dbt_executable_path="/home/airflow/.local/bin/dbt" 
+    #     )
+    # )
 
     # 4. Set our task into motion
-    run_extractor_container >> create_external_table
+    run_extractor_container >> create_gcs_external_table
+
+
+
+
+
+    # OLD USED OPERATORS : ##########################################################
+
+    # create_external_table = BigQueryExecuteQueryOperator(
+    #     task_id='create_bq_external_table',
+    #     sql=f"""
+    #         CREATE OR REPLACE EXTERNAL TABLE `{GCP_PROJECT_ID}.{BIGQUERY_DATASET}.{BIGQUERY_TABLE_NAME}`
+    #         OPTIONS (
+    #             format = 'PARQUET',
+    #             uris = ['gs://{GCS_BUCKET_NAME}/{GCS_FILE_PATH}']
+    #         );
+    #     """,
+    #     use_legacy_sql=False,
+
+    #     gcp_conn_id='google_cloud_default', # Airflow uses its built-in GCP connection system
+    #     # we create the connection in the airflow ui,
+
+    #     # conn_id : google_cloud_default
+    #     # provider : google cloud
+    #     # keypath : the path of the shared volume, > /opt/airflow/gcloud/creds.json
+    
+    # )
+
+    # move_date_to_bq = GCSToBigQueryOperator(
+    # task_id='move_data_to_bq',
+    # bucket=GCS_BUCKET_NAME,
+    # source_objects=[GCS_FILE_PATH],
+    # destination_project_dataset_table=f'{GCP_PROJECT_ID}:{BIGQUERY_DATASET}.{BIGQUERY_TABLE_NAME}'
+
+    # )
+

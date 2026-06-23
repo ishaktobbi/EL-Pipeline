@@ -1,0 +1,38 @@
+
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'dbt_project'
+version: '1.0.0'    # this is the version of our project, not the version of dbt.
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'dbt_project' # it should be the same as the profile name in profiles.yml in our machine.
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+# In this example config, we tell dbt to build all models in the example/
+# directory as views. These settings can be overridden in the individual model
+# files using the `{{ config(...) }}` macro.
+models:
+  dbt_project:              # ◄ Must match the 'name:' at the top of your file
+    staging:                # ◄ This is the folder name where your staging models are located
+      +materialized: view   # Turn every single SQL file in that folder into a View in BigQuery
+    marts:
+      +materialized: table  # Turn every single SQL file in that folder into a permanent physical Table in BigQuery
+      # +cluster_by: ['customer_id'] # ◄ Clusters data in BigQuery for faster joins

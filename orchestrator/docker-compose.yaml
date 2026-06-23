@@ -66,7 +66,6 @@ x-airflow-common:
     BIGQUERY_DATASET: ${BIGQUERY_DATASET} # added by me, to pass the BigQuery dataset name to the container, so we can use it in the script
     BIGQUERY_TABLE_NAME: ${BIGQUERY_TABLE_NAME} # added by me, to pass the BigQuery table name to the container, so we can use it in the script
     GCS_FILE_PATH: ${GCS_FILE_PATH} # added by me, to pass the GCS file path to the container, so we can use it in the script
-
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server
@@ -85,6 +84,8 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - /var/run/docker.sock:/var/run/docker.sock # Required to run docker in docker
     - gcp-creds:/opt/airflow/secrets # shared named volume for GCP credentials
+    - ../gcloud:/opt/airflow/gcloud # shared named volume for GCP credentials
+    - ../dbt_project:/opt/airflow/dbt # shared named volume for dbt project
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
