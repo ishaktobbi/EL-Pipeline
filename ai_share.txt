@@ -1,0 +1,108 @@
+
+    "project" : {
+        ".venv" :{},
+        "dbt_project" : {
+            "analysis" : {},
+            "logs" : {},
+            "macros" : {},
+            "models" : {
+                "staging" : {
+                    "schema.yml" : {
+                        version: 2 
+
+                        # schema.yml checks the data after your code runs (Testing your SQL Logic from the model).
+
+                        models:
+                        - name: stg_data
+                            description: "staging dbt model that transforms raw data into a more structured format for analysis."
+                            columns:
+                            - name: vendor_id
+                                description: "The primary key for this table"
+                                data_tests:
+                                - unique
+                                - not_null
+                    },
+                    "sources.yml" : {
+                        version: 2
+
+                        # sources.yml checks the data before your code runs (Testing the Ingestion).
+
+                        sources:
+                        - name: gcp_raw_lake       # ◄ The internal nickname of the table source
+                            database: elpipeline # ◄ the actual Google Cloud Project ID
+                            schema: ishak_tobbi_dataset # ◄  BigQuery dataset name which contains the raw data tables
+                            
+                            tables:
+                            - name: external_yellow_tripdata # ◄ The actual raw table name in the BigQuery (inside the dataset)
+                                description: "Raw table containing taxi events and user activity tracked from our application."
+                                # columns:
+                                #   - name: VendorID
+                                #     description: "The primary key for this table"
+                                #     data_tests:
+                                #       - unique
+                                #       - not_null
+
+                    },
+                    "stg_data.sql" : {
+                        with raw_source as (
+                            -- This function dynamically compiles to your real BigQuery path
+                            select * from {{ source('gcp_raw_lake', 'external_yellow_tripdata') }}
+                        ),
+
+                        renamed_and_cleaned as (
+                            select
+                                -- 1. Standardize your column naming conventions
+                                payment_type,
+                                VendorID as Vendor_id,
+                                passenger_count as passenger_number,
+                                
+                                -- 2. Clean up data types (explicit casting)
+                                -- cast(event_timestamp as timestamp) as occurred_at,
+                                -- lower(event_type) as event_name,
+                                
+                                -- 3. Handle null values safely
+                                coalesce(passenger_count, 0) as column_name_with_no_nulls
+                                
+                            from raw_source
+                            where VendorID is not null
+                        )
+
+                        select * from renamed_and_cleaned
+                    }
+                },
+                "marts" : {
+                    "dim_data.sql" : {
+                        with clean_staging_events as (
+                            -- Tells dbt: Wait for stg_data to finish building, then read from it!
+                            select * from {{ ref('stg_data') }}
+                        ),
+
+                        final_dimension as (
+                            select
+                                payment_type,
+                                count(vendor_id) as total_interactions,
+                                -- min(occurred_at) as first_seen_at,
+                                -- max(occurred_at) as last_active_at
+                                
+                            from clean_staging_events
+                            group by 1
+                        )
+
+                        select * from final_dimension
+                    }
+                }
+            },
+            "seeds" : {},
+            "snapshots" : {},
+            "tests" : {},
+            "target" : {},
+            "dbt_project.yml" : {},
+            "packages.yml" : {},
+            ".gitignore" : {},
+            "README.md" : {}
+    },
+    "gcloud" : {
+        "creds.json" : {}
+    },
+    
+}

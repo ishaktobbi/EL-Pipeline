@@ -1,0 +1,44 @@
+[2026-06-24T18:04:52.415+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.dbt_transformations.stg_data.run manual__2026-06-24T17:56:40.505013+00:00 [queued]>
+[2026-06-24T18:04:52.418+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.dbt_transformations.stg_data.run manual__2026-06-24T17:56:40.505013+00:00 [queued]>
+[2026-06-24T18:04:52.418+0000] {taskinstance.py:1359} INFO - Starting attempt 2 of 2
+[2026-06-24T18:04:52.422+0000] {taskinstance.py:1380} INFO - Executing <Task(DbtRunLocalOperator): dbt_transformations.stg_data.run> on 2026-06-24 17:56:40.505013+00:00
+[2026-06-24T18:04:52.424+0000] {standard_task_runner.py:57} INFO - Started process 76 to run task
+[2026-06-24T18:04:52.426+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'dbt_transformations.stg_data.run', 'manual__2026-06-24T17:56:40.505013+00:00', '--job-id', '28', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmp67zv7jhe']
+[2026-06-24T18:04:52.428+0000] {standard_task_runner.py:85} INFO - Job 28: Subtask dbt_transformations.stg_data.run
+[2026-06-24T18:04:52.445+0000] {task_command.py:415} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.dbt_transformations.stg_data.run manual__2026-06-24T17:56:40.505013+00:00 [running]> on host 5a6be50f59c7
+[2026-06-24T18:04:52.468+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='dbt_transformations.stg_data.run' AIRFLOW_CTX_EXECUTION_DATE='2026-06-24T17:56:40.505013+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-06-24T17:56:40.505013+00:00'
+[2026-06-24T18:04:53.012+0000] {local.py:244} INFO - dbtRunner is available. Using dbtRunner for invoking dbt.
+[2026-06-24T18:04:53.012+0000] {local.py:464} INFO - Cloning project to writable temp directory /tmp/tmph1689rdy from /opt/airflow/dbt
+[2026-06-24T18:04:53.013+0000] {local.py:484} INFO - Partial parse is enabled and the latest partial parse file is /opt/airflow/dbt/target/partial_parse.msgpack
+[2026-06-24T18:04:53.016+0000] {config.py:364} INFO - Profile caching is enable.
+[2026-06-24T18:04:53.019+0000] {connection.py:232} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-06-24T18:04:53.020+0000] {base.py:73} INFO - Using connection ID 'google_cloud_default' for task execution.
+[2026-06-24T18:04:53.020+0000] {base.py:244} INFO - Using real values for profile dbt_project
+[2026-06-24T18:04:53.021+0000] {config.py:351} INFO - Profile not found in cache storing and using profile: /tmp/cosmos/profile/88b53f70cfd2a0b5a9ecc24769e8777b069da093c93e1c535d155643181ccd7f/profiles.yml.
+[2026-06-24T18:04:53.021+0000] {runner.py:60} INFO - Trying to run dbtRunner with:
+ ['run', '--models', 'stg_data', '--project-dir', '/tmp/tmph1689rdy', '--profiles-dir', '/tmp/cosmos/profile/88b53f70cfd2a0b5a9ecc24769e8777b069da093c93e1c535d155643181ccd7f', '--profile', 'dbt_project', '--target', 'dev', '--no-static-parser']
+ in /tmp/tmph1689rdy
+[2026-06-24T18:04:53.041+0000] {logging_mixin.py:151} INFO - 18:04:53  Running with dbt=1.8.7
+[2026-06-24T18:04:56.180+0000] {logging_mixin.py:151} INFO - 18:04:56  Encountered an error:
+Runtime Error
+  Credentials in profile "dbt_project", target "dev" invalid: Runtime Error
+    Failed to authenticate with supplied credentials
+    error:
+    Your default credentials were not found. To set up Application Default Credentials, see https://cloud.google.com/docs/authentication/external/set-up-adc for more information.
+[2026-06-24T18:04:56.759+0000] {taskinstance.py:1935} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/cosmos/operators/base.py", line 310, in execute
+    self.build_and_run_cmd(context=context, cmd_flags=self.add_cmd_flags())
+  File "/home/airflow/.local/lib/python3.8/site-packages/cosmos/operators/local.py", line 842, in build_and_run_cmd
+    result = self.run_command(
+  File "/home/airflow/.local/lib/python3.8/site-packages/cosmos/operators/local.py", line 626, in run_command
+    self.calculate_openlineage_events_completes(env, tmp_dir_path)
+  File "/home/airflow/.local/lib/python3.8/site-packages/cosmos/operators/local.py", line 664, in calculate_openlineage_events_completes
+    openlineage_processor = DbtLocalArtifactProcessor(
+  File "/home/airflow/.local/lib/python3.8/site-packages/openlineage/common/provider/dbt/local.py", line 58, in __init__
+    absolute_dir, dbt_project["target-path"], "manifest.json"
+KeyError: 'target-path'
+[2026-06-24T18:04:56.765+0000] {taskinstance.py:1398} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=dbt_transformations.stg_data.run, execution_date=20260624T175640, start_date=20260624T180452, end_date=20260624T180456
+[2026-06-24T18:04:56.770+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 28 for task dbt_transformations.stg_data.run ('target-path'; 76)
+[2026-06-24T18:04:56.799+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-06-24T18:04:56.807+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check

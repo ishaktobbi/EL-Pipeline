@@ -3,11 +3,11 @@ import os
 from pathlib import Path
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
-from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateExternalTableOperator
+from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateExternalTableOperator,BigQueryCreateEmptyTableOperator
 
 # Import Cosmos core components
-# from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig
-# from cosmos.profiles import GoogleCloudServiceAccountDictProfileMapping
+from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig
+from cosmos.profiles import GoogleCloudServiceAccountFileProfileMapping
 
 
 # 0. Read your local Mac/Docker environment variables
@@ -26,7 +26,7 @@ default_args = {
     'depends_on_past': False,
     'email_on_failure': False,
     'retries': 1,
-    'retry_delay': timedelta(minutes=5),
+    'retry_delay': timedelta(seconds=5),
 }
 
 # 2. Define the Pipeline Structural Workflow
@@ -77,7 +77,7 @@ with DAG(
                 'read_only': True
             },
             {
-                 # Your absolute Mac path to where your script lives
+                 # we sping a docker without script, and create a shared volume between the script and the docker operator, thus we can modify the script and docker operator still run it without rebuild each time (this is for dev only).
                 'source': '/Users/ishak/Desktop/Data Engineer/Project/src',     # must be the absolute path to your src directory on your local machine, it is not the path inside the container, it is the path on your host machine, and we will map it to the container's working directory.
                 'type': 'bind',         # we use bind when we want to share data from the host machine, it is not managed by docker, it is just a direct link to the host file system, and it is not persistent, if we delete the file on the host, it will be deleted in the container as well.
                 'target': '/app/src',       # Maps directly over the container's working directory
@@ -95,19 +95,38 @@ with DAG(
         }
     )
 
+   
     
 
     create_gcs_external_table = BigQueryCreateExternalTableOperator(
-    task_id="create_external_table",
-    bucket=GCS_BUCKET_NAME,
-    source_objects=[GCS_FILE_PATH], # Relative path inside bucket (without gs:// prefix)
-    source_format="PARQUET",
-    destination_project_dataset_table=f'{BIGQUERY_DATASET}.{BIGQUERY_TABLE_NAME}',
-    gcp_conn_id="google_cloud_default",
-    autodetect=True, # Let BigQuery infer the schema automatically
+        task_id="create_external_table",
+        
+        bucket=GCS_BUCKET_NAME,
+        source_objects=[GCS_FILE_PATH],   # Relative path inside bucket (without gs:// prefix)
+        destination_project_dataset_table=f'{GCP_PROJECT_ID}.{BIGQUERY_DATASET}.{BIGQUERY_TABLE_NAME}',
+        
+        gcp_conn_id="google_cloud_default",
+       
+        source_format="PARQUET",
+        autodetect=True
+    
+        table_resource={
+            "tableReference": {
+                "projectId": GCP_PROJECT_ID,
+                "datasetId": BIGQUERY_DATASET,
+                "tableId": BIGQUERY_TABLE_NAME,
+            },
+            "externalDataConfiguration": {
+                "autodetect": True,  # 👈 This forces BigQuery to scan the files and build the schema
+                "sourceFormat": "PARQUET",
+                "sourceUris": [f"gs://{GCS_BUCKET_NAME}/{GCS_FILE_PATH}"] 
+            }
+        }
+    )
+        
 
     # schema_fields=[
-    #     {"name": "VendorID", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "VendorID", "type": "INT64", "mode": "REQUIRED"},
     #     {"name": "tpep_pickup_datetime", "type": "STRING", "mode": "NULLABLE"},
     #     {"name": "tpep_dropoff_datetime", "type": "STRING", "mode": "NULLABLE"},
     #     {"name": "passenger_count", "type": "FLOAT", "mode": "NULLABLE"},
@@ -116,7 +135,7 @@ with DAG(
     #     {"name": "store_and_fwd_flag", "type": "STRING", "mode": "NULLABLE"},
     #     {"name": "PULocationID", "type": "INTEGER", "mode": "NULLABLE"},
     #     {"name": "DOLocationID", "type": "INTEGER", "mode": "NULLABLE"},
-    #     {"name": "payment_type", "type": "FLOAT", "mode": "NULLABLE"},
+    #     {"name": "payment_type", "type": "INT64", "mode": "NULLABLE"},
     #     {"name": "fare_amount", "type": "FLOAT", "mode": "NULLABLE"},
     #     {"name": "extra", "type": "FLOAT", "mode": "NULLABLE"},
     #     {"name": "mta_tax", "type": "FLOAT", "mode": "NULLABLE"},
@@ -127,27 +146,37 @@ with DAG(
     #     {"name": "congestion_surcharge", "type": "FLOAT", "mode": "NULLABLE"},
     # ],
 
-)
-
-    # transform_data = DbtTaskGroup(
-    #     group_id="dbt_transformations",
-    #     project_config=ProjectConfig(DBT_PROJECT_PATH),
-    #     profile_config=ProfileConfig(
-    #         profile_name="bigquery_profile", # Must match the profile name in dbt_project.yml
-    #         target_name="dev",
-    #         profile_mapping=GoogleCloudServiceAccountDictProfileMapping(
-    #             conn_id="google_cloud_default", # Reuses your existing ADC container credentials!
-    #             profile_args={"dataset": f"{BIGQUERY_DATASET}"},
-    #         ),
-    #     ),
-    #     execution_config=ExecutionConfig(
-    #         # Tells Airflow where the dbt executable lives inside its virtual environment
-    #         dbt_executable_path="/home/airflow/.local/bin/dbt" 
-    #     )
     # )
 
+    transform_data = DbtTaskGroup(      # as a visual box , we can see a task for each model in dbt_project yamland all form a group.
+       
+        group_id="dbt_transformations", # a name of the group, it is not the name of the task.
+       
+        project_config=ProjectConfig(DBT_PROJECT_PATH),     # the path to dbt folders volume mapped to airflow in docker-compose.
+       
+        profile_config=ProfileConfig(
+            profile_name="dbt_project", # Must match the profile name in dbt_project.yml
+            target_name="dev",          # it determines which datasets to use in the profile, it is defined in profiles.yml, we can have multiple targets for different environments, like dev, prod, test, etc.
+         
+            # i used before GoogleCloudServiceAccountDictProfileMapping, it expects me to pass the json content in the connection and not the file path.
+
+            profile_mapping=GoogleCloudServiceAccountFileProfileMapping(    # or use profiles.yaml with its path in the machine, cosmos than use it to pass the data connection needed.
+                conn_id="google_cloud_default",
+                profile_args={
+                    "project": f"{GCP_PROJECT_ID}",
+                    "dataset": f"{BIGQUERY_DATASET}"
+                },   
+            ),
+            
+            # execution_config=ExecutionConfig(
+            #     # Tells Airflow where the dbt executable lives inside its virtual environment
+            #     dbt_executable_path="/home/airflow/.local/bin/dbt" 
+            # )
+        )
+    )
+
     # 4. Set our task into motion
-    run_extractor_container >> create_gcs_external_table
+    run_extractor_container >> create_gcs_external_table >> transform_data
 
 
 
