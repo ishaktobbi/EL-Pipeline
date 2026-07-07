@@ -1,0 +1,32 @@
+version: 2
+
+# sources.yml checks the data before your code runs (Testing the Ingestion from the external source).
+
+sources:
+  - name: raw_nyc_taxi      # ◄ The internal nickname of the table source
+    database: elpipeline # ◄ the actual Google Cloud Project ID
+    schema: ishak_tobbi_dataset # ◄  BigQuery dataset name which contains the raw data tables
+    
+    tables:
+      - name: yellow_taxi_trips # ◄ The actual raw table name in the BigQuery (inside the dataset)
+        description: "Raw table containing yellow taxi events."
+        columns:
+          - name: VendorID
+            description: "The primary key for this table"
+            data_tests:       # "Did the city portal send us nulls in the raw file today?"
+              - not_null:
+                  config:
+                    severity: warn
+              
+
+
+      - name: green_taxi_trips # ◄ The actual raw table name in the BigQuery (inside the dataset)
+        description: "Raw table containing green taxi events."
+        columns:
+          - name: VendorID
+            description: "The primary key for this table"
+            data_tests:       # "Did the city portal send us nulls in the raw file today?"
+              - not_null:
+                  config:
+                    severity: warn
+

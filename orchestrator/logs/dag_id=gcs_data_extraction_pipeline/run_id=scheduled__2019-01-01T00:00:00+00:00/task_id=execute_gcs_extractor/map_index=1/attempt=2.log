@@ -1,0 +1,711 @@
+[2026-06-30T17:39:39.183+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-06-30T17:39:39.245+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-06-30T17:39:39.264+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-06-30T17:39:39.264+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 3
+[2026-06-30T17:39:39.282+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-01-01 00:00:00+00:00
+[2026-06-30T17:39:39.293+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=108) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-06-30T17:39:39.296+0000] {standard_task_runner.py:72} INFO - Started process 154 to run task
+[2026-06-30T17:39:39.296+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'execute_gcs_extractor', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '266', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpkj0htb61', '--map-index', '1']
+[2026-06-30T17:39:39.298+0000] {standard_task_runner.py:105} INFO - Job 266: Subtask execute_gcs_extractor
+[2026-06-30T17:39:39.355+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host f5a9c2178466
+[2026-06-30T17:39:39.404+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-06-30T17:39:39.714+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-06-30T17:39:39.716+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-06-30T17:39:39.796+0000] {docker.py:367} INFO - Starting docker container from image elpipeline:latest
+[2026-06-30T17:39:49.476+0000] {local_task_job_runner.py:346} WARNING - State of this instance has been externally set to restarting. Terminating instance.
+[2026-06-30T17:39:49.488+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-06-30T17:39:49.491+0000] {process_utils.py:132} INFO - Sending 15 to group 154. PIDs of all processes in the group: [154]
+[2026-06-30T17:39:49.491+0000] {process_utils.py:87} INFO - Sending the signal 15 to group 154
+[2026-06-30T17:39:49.492+0000] {taskinstance.py:3092} ERROR - Received SIGTERM. Terminating subprocesses.
+[2026-06-30T17:39:49.495+0000] {docker.py:533} INFO - Stopping docker container
+[2026-06-30T17:39:51.205+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 434, in _run_image_with_mounts
+    for log_chunk in logstream:
+                     ^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/types/daemon.py", line 29, in __next__
+    return next(self._stream)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 438, in <genexpr>
+    gen = (data for (_, data) in gen)
+                                 ^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/utils/socket.py", line 101, in <genexpr>
+    return ((STDOUT, frame) for frame in frames_iter_tty(socket))
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/utils/socket.py", line 133, in frames_iter_tty
+    result = read(socket)
+             ^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/utils/socket.py", line 40, in read
+    poll.poll()
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3094, in signal_handler
+    raise AirflowTaskTerminated("Task received SIGTERM signal")
+airflow.exceptions.AirflowTaskTerminated: Task received SIGTERM signal
+[2026-06-30T17:39:51.246+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=gcs_data_extraction_pipeline, task_id=execute_gcs_extractor, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260630T173939, end_date=20260630T173951
+[2026-06-30T17:39:51.311+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-06-30T17:39:51.377+0000] {process_utils.py:80} INFO - Process psutil.Process(pid=154, status='terminated', exitcode=2, started='17:39:38') (154) terminated with exit code 2
+[2026-07-01T11:11:05.880+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T11:11:05.889+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T11:11:05.895+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T11:11:05.895+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T11:11:05.902+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-01-01 00:00:00+00:00
+[2026-07-01T11:11:05.906+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=59) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T11:11:05.906+0000] {standard_task_runner.py:72} INFO - Started process 71 to run task
+[2026-07-01T11:11:05.907+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'execute_gcs_extractor', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '646', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpbhdjfrk3', '--map-index', '1']
+[2026-07-01T11:11:05.908+0000] {standard_task_runner.py:105} INFO - Job 646: Subtask execute_gcs_extractor
+[2026-07-01T11:11:05.938+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host c42692e10205
+[2026-07-01T11:11:05.964+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-01T11:11:06.137+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T11:11:06.138+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T11:11:06.190+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-01T11:11:08.893+0000] {docker.py:438} INFO - Traceback (most recent call last):
+[2026-07-01T11:11:08.894+0000] {docker.py:438} INFO -   File "/app/src/ingestion_v2.py", line 158, in <module>
+[2026-07-01T11:11:08.895+0000] {docker.py:438} INFO - pipeline = GCSDataPipeline(project_id=PROJECT_ID, bucket_name=BUCKET_NAME)
+[2026-07-01T11:11:08.896+0000] {docker.py:438} INFO -                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:11:08.896+0000] {docker.py:438} INFO -   File "/app/src/ingestion_v2.py", line 20, in __init__
+[2026-07-01T11:11:08.896+0000] {docker.py:438} INFO -     self.bucket = self.storage_client.get_bucket(self.bucket_name)
+[2026-07-01T11:11:08.897+0000] {docker.py:438} INFO -                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:11:08.897+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/client.py", line 978, in get_bucket
+[2026-07-01T11:11:08.897+0000] {docker.py:438} INFO -     bucket.reload(
+[2026-07-01T11:11:08.897+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/bucket.py", line 1195, in reload
+[2026-07-01T11:11:08.897+0000] {docker.py:438} INFO -     super(Bucket, self).reload(
+[2026-07-01T11:11:08.898+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/_helpers.py", line 400, in reload
+[2026-07-01T11:11:08.898+0000] {docker.py:438} INFO -     api_response = client._get_resource(
+[2026-07-01T11:11:08.898+0000] {docker.py:438} INFO -                    ^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:11:08.898+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/client.py", line 539, in _get_resource
+[2026-07-01T11:11:08.898+0000] {docker.py:438} INFO -     return self._connection.api_request(
+[2026-07-01T11:11:08.899+0000] {docker.py:438} INFO -            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:11:08.899+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/_http.py", line 123, in api_request
+[2026-07-01T11:11:08.899+0000] {docker.py:438} INFO -     return call()
+[2026-07-01T11:11:08.899+0000] {docker.py:438} INFO -            ^^^^^^
+[2026-07-01T11:11:08.899+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 294, in retry_wrapped_func
+[2026-07-01T11:11:08.900+0000] {docker.py:438} INFO -     return retry_target(
+[2026-07-01T11:11:08.900+0000] {docker.py:438} INFO -            ^^^^^^^^^^^^^
+[2026-07-01T11:11:08.900+0000] {docker.py:438} INFO - File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 156, in retry_target
+[2026-07-01T11:11:08.900+0000] {docker.py:438} INFO -     next_sleep = _retry_error_helper(
+[2026-07-01T11:11:08.900+0000] {docker.py:438} INFO -                  ^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:11:08.901+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_base.py", line 216, in _retry_error_helper
+[2026-07-01T11:11:08.901+0000] {docker.py:438} INFO -     raise final_exc from source_exc
+[2026-07-01T11:11:08.901+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 147, in retry_target
+[2026-07-01T11:11:08.901+0000] {docker.py:438} INFO -     result = target()
+[2026-07-01T11:11:08.901+0000] {docker.py:438} INFO -              ^^^^^^^^
+[2026-07-01T11:11:08.902+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+[2026-07-01T11:11:08.902+0000] {docker.py:438} INFO -     raise exceptions.from_http_response(response)
+[2026-07-01T11:11:08.902+0000] {docker.py:438} INFO - google.api_core.exceptions.BadRequest: 400 GET https://storage.googleapis.com/storage/v1/b/GCS_BUCKET_NAME?projection=noAcl&prettyPrint=false: Invalid bucket name: 'GCS_BUCKET_NAME'
+[2026-07-01T11:11:09.271+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-01T11:11:09.274+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=execute_gcs_extractor, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T111105, end_date=20260701T111109
+[2026-07-01T11:11:09.282+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T11:11:09.283+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 646 for task execute_gcs_extractor (Docker container failed: {'StatusCode': 1}; 71)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-01T11:11:09.306+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T11:11:09.322+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T11:11:09.325+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T11:15:14.915+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T11:15:14.926+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T11:15:14.932+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T11:15:14.932+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T11:15:14.938+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-01-01 00:00:00+00:00
+[2026-07-01T11:15:14.941+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=62) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T11:15:14.942+0000] {standard_task_runner.py:72} INFO - Started process 79 to run task
+[2026-07-01T11:15:14.943+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'execute_gcs_extractor', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '671', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpv57c58iz', '--map-index', '1']
+[2026-07-01T11:15:14.944+0000] {standard_task_runner.py:105} INFO - Job 671: Subtask execute_gcs_extractor
+[2026-07-01T11:15:14.968+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host ade3a5df2f8d
+[2026-07-01T11:15:15.002+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-01T11:15:15.164+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T11:15:15.165+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T11:15:15.218+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-01T11:15:18.144+0000] {docker.py:438} INFO - Traceback (most recent call last):
+[2026-07-01T11:15:18.144+0000] {docker.py:438} INFO -   File "/app/src/ingestion_v2.py", line 158, in <module>
+[2026-07-01T11:15:18.145+0000] {docker.py:438} INFO - pipeline = GCSDataPipeline(project_id=PROJECT_ID, bucket_name=BUCKET_NAME)
+[2026-07-01T11:15:18.147+0000] {docker.py:438} INFO -                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:15:18.147+0000] {docker.py:438} INFO -   File "/app/src/ingestion_v2.py", line 20, in __init__
+[2026-07-01T11:15:18.148+0000] {docker.py:438} INFO - self.bucket = self.storage_client.get_bucket(self.bucket_name)
+[2026-07-01T11:15:18.148+0000] {docker.py:438} INFO -                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:15:18.148+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/client.py", line 978, in get_bucket
+[2026-07-01T11:15:18.148+0000] {docker.py:438} INFO -     bucket.reload(
+[2026-07-01T11:15:18.149+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/bucket.py", line 1195, in reload
+[2026-07-01T11:15:18.149+0000] {docker.py:438} INFO - super(Bucket, self).reload(
+[2026-07-01T11:15:18.149+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/_helpers.py", line 400, in reload
+[2026-07-01T11:15:18.150+0000] {docker.py:438} INFO -     api_response = client._get_resource(
+[2026-07-01T11:15:18.150+0000] {docker.py:438} INFO -                    ^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:15:18.151+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/client.py", line 539, in _get_resource
+[2026-07-01T11:15:18.151+0000] {docker.py:438} INFO -     return self._connection.api_request(
+[2026-07-01T11:15:18.152+0000] {docker.py:438} INFO -            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:15:18.152+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/_http.py", line 123, in api_request
+[2026-07-01T11:15:18.152+0000] {docker.py:438} INFO -     return call()
+[2026-07-01T11:15:18.152+0000] {docker.py:438} INFO -            ^^^^^^
+[2026-07-01T11:15:18.153+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 294, in retry_wrapped_func
+[2026-07-01T11:15:18.153+0000] {docker.py:438} INFO -     return retry_target(
+[2026-07-01T11:15:18.153+0000] {docker.py:438} INFO -            ^^^^^^^^^^^^^
+[2026-07-01T11:15:18.153+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 156, in retry_target
+[2026-07-01T11:15:18.154+0000] {docker.py:438} INFO -     next_sleep = _retry_error_helper(
+[2026-07-01T11:15:18.154+0000] {docker.py:438} INFO -                  ^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:15:18.155+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_base.py", line 216, in _retry_error_helper
+[2026-07-01T11:15:18.155+0000] {docker.py:438} INFO -     raise final_exc from source_exc
+[2026-07-01T11:15:18.155+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 147, in retry_target
+[2026-07-01T11:15:18.155+0000] {docker.py:438} INFO -     result = target()
+[2026-07-01T11:15:18.156+0000] {docker.py:438} INFO -              ^^^^^^^^
+[2026-07-01T11:15:18.156+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+[2026-07-01T11:15:18.157+0000] {docker.py:438} INFO -     raise exceptions.from_http_response(response)
+[2026-07-01T11:15:18.158+0000] {docker.py:438} INFO - google.api_core.exceptions.BadRequest: 400 GET https://storage.googleapis.com/storage/v1/b/GCS_BUCKET_NAME?projection=noAcl&prettyPrint=false: Invalid bucket name: 'GCS_BUCKET_NAME'
+[2026-07-01T11:15:18.766+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-01T11:15:18.769+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=execute_gcs_extractor, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T111514, end_date=20260701T111518
+[2026-07-01T11:15:18.778+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T11:15:18.779+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 671 for task execute_gcs_extractor (Docker container failed: {'StatusCode': 1}; 79)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-01T11:15:18.827+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T11:15:18.836+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T11:15:18.837+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T11:17:55.537+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T11:17:55.555+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T11:17:55.559+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T11:17:55.559+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T11:17:55.571+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-01-01 00:00:00+00:00
+[2026-07-01T11:17:55.577+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=191) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T11:17:55.579+0000] {standard_task_runner.py:72} INFO - Started process 203 to run task
+[2026-07-01T11:17:55.579+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'execute_gcs_extractor', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '688', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpnxhskl23', '--map-index', '1']
+[2026-07-01T11:17:55.583+0000] {standard_task_runner.py:105} INFO - Job 688: Subtask execute_gcs_extractor
+[2026-07-01T11:17:55.755+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host ade3a5df2f8d
+[2026-07-01T11:17:55.793+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-01T11:17:55.807+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T11:17:55.808+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T11:17:55.837+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-01T11:17:58.028+0000] {docker.py:438} INFO - Traceback (most recent call last):
+[2026-07-01T11:17:58.028+0000] {docker.py:438} INFO -   File "/app/src/ingestion_v2.py", line 158, in <module>
+[2026-07-01T11:17:58.028+0000] {docker.py:438} INFO - pipeline = GCSDataPipeline(project_id=PROJECT_ID, bucket_name=BUCKET_NAME)
+[2026-07-01T11:17:58.029+0000] {docker.py:438} INFO -                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:17:58.029+0000] {docker.py:438} INFO -   File "/app/src/ingestion_v2.py", line 20, in __init__
+[2026-07-01T11:17:58.029+0000] {docker.py:438} INFO -     self.bucket = self.storage_client.get_bucket(self.bucket_name)
+[2026-07-01T11:17:58.030+0000] {docker.py:438} INFO -                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:17:58.030+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/client.py", line 978, in get_bucket
+[2026-07-01T11:17:58.031+0000] {docker.py:438} INFO - bucket.reload(
+[2026-07-01T11:17:58.031+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/bucket.py", line 1195, in reload
+[2026-07-01T11:17:58.031+0000] {docker.py:438} INFO -     super(Bucket, self).reload(
+[2026-07-01T11:17:58.031+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/_helpers.py", line 400, in reload
+[2026-07-01T11:17:58.032+0000] {docker.py:438} INFO -     api_response = client._get_resource(
+[2026-07-01T11:17:58.032+0000] {docker.py:438} INFO -                    ^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:17:58.033+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/client.py", line 539, in _get_resource
+[2026-07-01T11:17:58.033+0000] {docker.py:438} INFO -     return self._connection.api_request(
+[2026-07-01T11:17:58.033+0000] {docker.py:438} INFO -            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:17:58.033+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/_http.py", line 123, in api_request
+[2026-07-01T11:17:58.033+0000] {docker.py:438} INFO -     return call()
+[2026-07-01T11:17:58.034+0000] {docker.py:438} INFO -            ^^^^^^
+[2026-07-01T11:17:58.034+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 294, in retry_wrapped_func
+[2026-07-01T11:17:58.034+0000] {docker.py:438} INFO -     return retry_target(
+[2026-07-01T11:17:58.034+0000] {docker.py:438} INFO -            ^^^^^^^^^^^^^
+[2026-07-01T11:17:58.034+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 156, in retry_target
+[2026-07-01T11:17:58.034+0000] {docker.py:438} INFO -     next_sleep = _retry_error_helper(
+[2026-07-01T11:17:58.034+0000] {docker.py:438} INFO -                  ^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:17:58.035+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_base.py", line 216, in _retry_error_helper
+[2026-07-01T11:17:58.035+0000] {docker.py:438} INFO -     raise final_exc from source_exc
+[2026-07-01T11:17:58.035+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 147, in retry_target
+[2026-07-01T11:17:58.035+0000] {docker.py:438} INFO - result = target()
+[2026-07-01T11:17:58.035+0000] {docker.py:438} INFO -              ^^^^^^^^
+[2026-07-01T11:17:58.035+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+[2026-07-01T11:17:58.035+0000] {docker.py:438} INFO -     raise exceptions.from_http_response(response)
+[2026-07-01T11:17:58.036+0000] {docker.py:438} INFO - google.api_core.exceptions.BadRequest: 400 GET https://storage.googleapis.com/storage/v1/b/GCS_BUCKET_NAME?projection=noAcl&prettyPrint=false: Invalid bucket name: 'GCS_BUCKET_NAME'
+[2026-07-01T11:17:58.316+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-01T11:17:58.319+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=execute_gcs_extractor, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T111755, end_date=20260701T111758
+[2026-07-01T11:17:58.326+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T11:17:58.327+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 688 for task execute_gcs_extractor (Docker container failed: {'StatusCode': 1}; 203)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-01T11:17:58.344+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T11:17:58.353+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T11:20:09.585+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T11:20:09.592+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T11:20:09.599+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T11:20:09.600+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T11:20:09.605+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-01-01 00:00:00+00:00
+[2026-07-01T11:20:09.608+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=179) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T11:20:09.609+0000] {standard_task_runner.py:72} INFO - Started process 191 to run task
+[2026-07-01T11:20:09.610+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'execute_gcs_extractor', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '22', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpdxhqnoqf', '--map-index', '1']
+[2026-07-01T11:20:09.610+0000] {standard_task_runner.py:105} INFO - Job 22: Subtask execute_gcs_extractor
+[2026-07-01T11:20:09.779+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 9ed54f829625
+[2026-07-01T11:20:09.799+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-01T11:20:09.811+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T11:20:09.812+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T11:20:09.847+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-01T11:20:12.132+0000] {docker.py:438} INFO - Traceback (most recent call last):
+[2026-07-01T11:20:12.133+0000] {docker.py:438} INFO -   File "/app/src/ingestion_v2.py", line 158, in <module>
+[2026-07-01T11:20:12.133+0000] {docker.py:438} INFO - pipeline = GCSDataPipeline(project_id=PROJECT_ID, bucket_name=BUCKET_NAME)
+[2026-07-01T11:20:12.133+0000] {docker.py:438} INFO -                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:20:12.133+0000] {docker.py:438} INFO -   File "/app/src/ingestion_v2.py", line 20, in __init__
+[2026-07-01T11:20:12.134+0000] {docker.py:438} INFO -     self.bucket = self.storage_client.get_bucket(self.bucket_name)
+[2026-07-01T11:20:12.134+0000] {docker.py:438} INFO -                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:20:12.134+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/client.py", line 978, in get_bucket
+[2026-07-01T11:20:12.134+0000] {docker.py:438} INFO - bucket.reload(
+[2026-07-01T11:20:12.134+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/bucket.py", line 1195, in reload
+[2026-07-01T11:20:12.134+0000] {docker.py:438} INFO -     super(Bucket, self).reload(
+[2026-07-01T11:20:12.134+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/_helpers.py", line 400, in reload
+[2026-07-01T11:20:12.135+0000] {docker.py:438} INFO -     api_response = client._get_resource(
+[2026-07-01T11:20:12.135+0000] {docker.py:438} INFO - ^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:20:12.135+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/client.py", line 539, in _get_resource
+[2026-07-01T11:20:12.135+0000] {docker.py:438} INFO -     return self._connection.api_request(
+[2026-07-01T11:20:12.135+0000] {docker.py:438} INFO -            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:20:12.135+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/storage/_http.py", line 123, in api_request
+[2026-07-01T11:20:12.136+0000] {docker.py:438} INFO -     return call()
+[2026-07-01T11:20:12.136+0000] {docker.py:438} INFO -            ^^^^^^
+[2026-07-01T11:20:12.136+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 294, in retry_wrapped_func
+[2026-07-01T11:20:12.136+0000] {docker.py:438} INFO -     return retry_target(
+[2026-07-01T11:20:12.136+0000] {docker.py:438} INFO -            ^^^^^^^^^^^^^
+[2026-07-01T11:20:12.136+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 156, in retry_target
+[2026-07-01T11:20:12.136+0000] {docker.py:438} INFO -     next_sleep = _retry_error_helper(
+[2026-07-01T11:20:12.136+0000] {docker.py:438} INFO -                  ^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T11:20:12.136+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_base.py", line 216, in _retry_error_helper
+[2026-07-01T11:20:12.137+0000] {docker.py:438} INFO -     raise final_exc from source_exc
+[2026-07-01T11:20:12.137+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/api_core/retry/retry_unary.py", line 147, in retry_target
+[2026-07-01T11:20:12.137+0000] {docker.py:438} INFO -     result = target()
+[2026-07-01T11:20:12.137+0000] {docker.py:438} INFO -              ^^^^^^^^
+[2026-07-01T11:20:12.137+0000] {docker.py:438} INFO -   File "/usr/local/lib/python3.11/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+[2026-07-01T11:20:12.137+0000] {docker.py:438} INFO -     raise exceptions.from_http_response(response)
+[2026-07-01T11:20:12.137+0000] {docker.py:438} INFO - google.api_core.exceptions.BadRequest: 400 GET https://storage.googleapis.com/storage/v1/b/GCS_BUCKET_NAME?projection=noAcl&prettyPrint=false: Invalid bucket name: 'GCS_BUCKET_NAME'
+[2026-07-01T11:20:12.317+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-01T11:20:12.319+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=execute_gcs_extractor, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T112009, end_date=20260701T112012
+[2026-07-01T11:20:12.324+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T11:20:12.324+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 22 for task execute_gcs_extractor (Docker container failed: {'StatusCode': 1}; 191)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-01T11:20:12.341+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T11:20:12.444+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T11:20:12.445+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T12:26:09.552+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T12:26:09.559+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T12:26:09.564+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T12:26:09.564+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T12:26:09.569+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-01-01 00:00:00+00:00
+[2026-07-01T12:26:09.572+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=385) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T12:26:09.573+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'execute_gcs_extractor', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '193', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpdwuteiks', '--map-index', '1']
+[2026-07-01T12:26:09.574+0000] {standard_task_runner.py:72} INFO - Started process 393 to run task
+[2026-07-01T12:26:09.574+0000] {standard_task_runner.py:105} INFO - Job 193: Subtask execute_gcs_extractor
+[2026-07-01T12:26:09.698+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.execute_gcs_extractor scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 0b2fbdc7d39a
+[2026-07-01T12:26:09.711+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-01T12:26:09.718+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T12:26:09.719+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T12:26:09.743+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-01T12:26:09.864+0000] {docker.py:438} INFO - File "/app/src/ingestion_v2.py", line 47
+[2026-07-01T12:26:09.864+0000] {docker.py:438} INFO -     date_obj = datetime.strptime(execution_date, "%Y-%m-%d")=
+[2026-07-01T12:26:09.864+0000] {docker.py:438} INFO -                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-07-01T12:26:09.865+0000] {docker.py:438} INFO - SyntaxError: cannot assign to function call
+[2026-07-01T12:26:09.959+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-01T12:26:09.961+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=execute_gcs_extractor, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T122609, end_date=20260701T122609
+[2026-07-01T12:26:09.967+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T12:26:09.967+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 193 for task execute_gcs_extractor (Docker container failed: {'StatusCode': 1}; 393)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-01T12:26:10.000+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T12:26:10.101+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T12:26:10.102+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

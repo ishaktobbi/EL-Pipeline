@@ -15,11 +15,15 @@ COPY pyproject.toml uv.lock ./
 RUN uv pip install --system -r pyproject.toml
 
 # 6. Copy your source code into the container
-# COPY src/ ./src/      # This is no longer needed because we are mounting the src directory as a volume in the Airflow DAG
+# COPY src/ ./src/     
+#  This is no longer needed because we are mounting the src directory as a volume in the Airflow DAG
 
 # 7. Define the environment variable placeholders (Good documentation for the container)
-ENV GCP_PROJECT_ID=""
-ENV GCS_BUCKET_NAME=""
+ENV GCP_PROJECT_ID="" \
+    GCS_BUCKET_NAME="" \
+    TAXI_COLOR="" \
+    # GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp_creds/application_default_credentials.json \
+    EXECUTION_DATE=""
 
 # 8. The command that executes automatically when the container boots up
-CMD ["python", "src/extract.py"]
+CMD ["python", "src/ingestion_v2.py"]

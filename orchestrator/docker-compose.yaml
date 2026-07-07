@@ -51,6 +51,8 @@ x-airflow-common:
   # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
   # image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.10.2}
   build: .
+  # env_file:
+  #     - ../configs/.env     # added by me, it points the docker to the .env file, later docker extract the env variables automaticaly.
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -66,6 +68,7 @@ x-airflow-common:
     BIGQUERY_DATASET: ${BIGQUERY_DATASET} # added by me, to pass the BigQuery dataset name to the container, so we can use it in the script
     BIGQUERY_TABLE_NAME: ${BIGQUERY_TABLE_NAME} # added by me, to pass the BigQuery table name to the container, so we can use it in the script
     GCS_FILE_PATH: ${GCS_FILE_PATH} # added by me, to pass the GCS file path to the container, so we can use it in the script
+    TAXI_COLOR: ${TAXI_COLOR}       # added by me, 
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server

@@ -1,0 +1,37 @@
+version: 2
+
+__shared_specs:
+  - &shared_tests
+    - name: vendor_id
+      description: "Primary key component. Combined with pickup/dropoff, this must be unique."
+      tests:
+        - not_null
+    - name: pickup_datetime
+      description: "The timestamp when the trip started."
+      tests:
+        - not_null
+    - name: dropoff_datetime
+      description: "The timestamp when the trip ended."
+      tests:
+        - not_null
+    - name: total_amount
+      description: "The total amount charged to passengers. Must always be positive."
+      tests:
+        - not_null
+        - dbt_utils.expression_is_true:
+            expression: ">= 0"
+    - name: passenger_count
+      description: "The number of passengers in the vehicle. Must always be positive."
+      tests:
+        - not_null
+        - dbt_utils.expression_is_true:
+            expression: "> 0"
+
+models:
+  - name: int_yellow_taxi_trips
+    description: "Deduplicated and cleaned yellow taxi trips. Ready for the core union."
+    columns: *shared_tests   
+
+  - name: int_green_taxi_trips
+    description: "Deduplicated and cleaned green taxi trips. Aligned structurally with yellow."
+    columns: *shared_tests

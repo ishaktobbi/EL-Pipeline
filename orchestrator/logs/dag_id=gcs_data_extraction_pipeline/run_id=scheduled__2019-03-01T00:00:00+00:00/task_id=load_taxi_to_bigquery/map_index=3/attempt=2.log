@@ -1,0 +1,755 @@
+[2026-07-01T18:02:48.966+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:02:48.979+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:02:48.984+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:02:48.985+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T18:02:48.993+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-03-01 00:00:00+00:00
+[2026-07-01T18:02:48.997+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3842) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:02:48.998+0000] {standard_task_runner.py:72} INFO - Started process 3854 to run task
+[2026-07-01T18:02:48.998+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '516', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmp9khw8i_6', '--map-index', '3']
+[2026-07-01T18:02:48.999+0000] {standard_task_runner.py:105} INFO - Job 516: Subtask load_taxi_to_bigquery
+[2026-07-01T18:02:49.031+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [running]> on host 14c3550a9bfb
+[2026-07-01T18:02:49.290+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-01T18:02:49.291+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:02:49.303+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:02:49.305+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:02:49.305+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:02:49.353+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'raw_nyc_taxi', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ["gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year={ ds_format(ds, '%Y-%m-%d', '%Y') }/month={ ds_format(ds, '%Y-%m-%d', '%m') }/data.parquet"], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:02:49.354+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_03_01T00_00_00_00_00_aaa73742660045380aec7f50207ea964
+[2026-07-01T18:02:49.976+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 386, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(self.hook, job_id)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 308, in _submit_job
+    return hook.insert_job(
+           ^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1705, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.NotFound: 404 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Not found: Dataset elpipeline:raw_nyc_taxi
+[2026-07-01T18:02:49.981+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=3, execution_date=20190301T000000, start_date=20260701T180248, end_date=20260701T180249
+[2026-07-01T18:02:49.985+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:02:49.985+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 516 for task load_taxi_to_bigquery (404 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Not found: Dataset elpipeline:raw_nyc_taxi; 3854)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 386, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(self.hook, job_id)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 308, in _submit_job
+    return hook.insert_job(
+           ^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1705, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.NotFound: 404 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Not found: Dataset elpipeline:raw_nyc_taxi
+[2026-07-01T18:02:50.026+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T18:02:50.033+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:02:50.034+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:06:39.919+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:06:39.932+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:06:39.938+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:06:39.939+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T18:06:39.946+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-03-01 00:00:00+00:00
+[2026-07-01T18:06:39.951+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4075) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:06:39.952+0000] {standard_task_runner.py:72} INFO - Started process 4085 to run task
+[2026-07-01T18:06:39.953+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '551', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmp2blpxy3o', '--map-index', '3']
+[2026-07-01T18:06:39.954+0000] {standard_task_runner.py:105} INFO - Job 551: Subtask load_taxi_to_bigquery
+[2026-07-01T18:06:39.986+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [running]> on host 14c3550a9bfb
+[2026-07-01T18:06:40.233+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-01T18:06:40.234+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:06:40.248+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:06:40.250+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:06:40.250+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:06:40.296+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ["gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year={ ds_format(ds, '%Y-%m-%d', '%Y') }/month={ ds_format(ds, '%Y-%m-%d', '%m') }/data.parquet"], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:06:40.297+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_03_01T00_00_00_00_00_05194de06f4abe3468aea0d38209355d
+[2026-07-01T18:06:40.708+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 386, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(self.hook, job_id)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 308, in _submit_job
+    return hook.insert_job(
+           ^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1705, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Source URI must not contain the ',' character: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year={ ds_format(ds, '%Y-%m-%d', '%Y') }/month={ ds_format(ds, '%Y-%m-%d', '%m') }/data.parquet
+[2026-07-01T18:06:40.714+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=3, execution_date=20190301T000000, start_date=20260701T180639, end_date=20260701T180640
+[2026-07-01T18:06:40.719+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:06:40.719+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 551 for task load_taxi_to_bigquery (400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Source URI must not contain the ',' character: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year={ ds_format(ds, '%Y-%m-%d', '%Y') }/month={ ds_format(ds, '%Y-%m-%d', '%m') }/data.parquet; 4085)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 386, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(self.hook, job_id)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 308, in _submit_job
+    return hook.insert_job(
+           ^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1705, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Source URI must not contain the ',' character: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year={ ds_format(ds, '%Y-%m-%d', '%Y') }/month={ ds_format(ds, '%Y-%m-%d', '%m') }/data.parquet
+[2026-07-01T18:06:40.759+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T18:06:40.768+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:06:40.769+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:18:34.899+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:18:34.919+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:18:34.929+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:18:34.930+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T18:18:34.939+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-03-01 00:00:00+00:00
+[2026-07-01T18:18:34.945+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4422) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:18:34.946+0000] {standard_task_runner.py:72} INFO - Started process 4431 to run task
+[2026-07-01T18:18:34.947+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '585', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmp4zlvjqsj', '--map-index', '3']
+[2026-07-01T18:18:34.948+0000] {standard_task_runner.py:105} INFO - Job 585: Subtask load_taxi_to_bigquery
+[2026-07-01T18:18:34.980+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [running]> on host 14c3550a9bfb
+[2026-07-01T18:18:35.219+0000] {abstractoperator.py:778} ERROR - Exception rendering Jinja template for task 'load_taxi_to_bigquery', field 'source_objects'. Template: ["raw/taxi/yellow/year={{ ds_format(ds, '%Y-%m-%d', '%Y') }}/month={{ ds_format(ds, '%Y-%m-%d', '%m') }}/data.parquet"]
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 770, in _do_render_template_fields
+    rendered_content = self.render_template(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 183, in render_template
+    return [self.render_template(element, context, jinja_env, oids) for element in value]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 171, in render_template
+    return self._render(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 725, in _render
+    return super()._render(template, context, dag=dag)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 127, in _render
+    return render_template_to_string(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 301, in render_template_to_string
+    return render_template(template, cast(MutableMapping[str, Any], context), native=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 296, in render_template
+    return "".join(nodes)
+           ^^^^^^^^^^^^^^
+  File "<template>", line 14, in root
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 392, in call
+    if not __self.is_safe_callable(__obj):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 276, in is_safe_callable
+    getattr(obj, "unsafe_callable", False) or getattr(obj, "alters_data", False)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 864, in __getattr__
+    return self._fail_with_undefined_error()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 857, in _fail_with_undefined_error
+    raise self._undefined_exception(self._undefined_message)
+jinja2.exceptions.UndefinedError: 'ds_format' is undefined
+[2026-07-01T18:18:35.222+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3114, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3533, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 920, in render_template_fields
+    unmapped_task._do_render_template_fields(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 770, in _do_render_template_fields
+    rendered_content = self.render_template(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 183, in render_template
+    return [self.render_template(element, context, jinja_env, oids) for element in value]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 171, in render_template
+    return self._render(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 725, in _render
+    return super()._render(template, context, dag=dag)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 127, in _render
+    return render_template_to_string(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 301, in render_template_to_string
+    return render_template(template, cast(MutableMapping[str, Any], context), native=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 296, in render_template
+    return "".join(nodes)
+           ^^^^^^^^^^^^^^
+  File "<template>", line 14, in root
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 392, in call
+    if not __self.is_safe_callable(__obj):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 276, in is_safe_callable
+    getattr(obj, "unsafe_callable", False) or getattr(obj, "alters_data", False)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 864, in __getattr__
+    return self._fail_with_undefined_error()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 857, in _fail_with_undefined_error
+    raise self._undefined_exception(self._undefined_message)
+jinja2.exceptions.UndefinedError: 'ds_format' is undefined
+[2026-07-01T18:18:35.228+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=3, execution_date=20190301T000000, start_date=20260701T181834, end_date=20260701T181835
+[2026-07-01T18:18:35.237+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:18:35.237+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 585 for task load_taxi_to_bigquery ('ds_format' is undefined; 4431)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3114, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3533, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 920, in render_template_fields
+    unmapped_task._do_render_template_fields(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 770, in _do_render_template_fields
+    rendered_content = self.render_template(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 183, in render_template
+    return [self.render_template(element, context, jinja_env, oids) for element in value]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 171, in render_template
+    return self._render(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 725, in _render
+    return super()._render(template, context, dag=dag)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 127, in _render
+    return render_template_to_string(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 301, in render_template_to_string
+    return render_template(template, cast(MutableMapping[str, Any], context), native=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 296, in render_template
+    return "".join(nodes)
+           ^^^^^^^^^^^^^^
+  File "<template>", line 14, in root
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 392, in call
+    if not __self.is_safe_callable(__obj):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 276, in is_safe_callable
+    getattr(obj, "unsafe_callable", False) or getattr(obj, "alters_data", False)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 864, in __getattr__
+    return self._fail_with_undefined_error()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 857, in _fail_with_undefined_error
+    raise self._undefined_exception(self._undefined_message)
+jinja2.exceptions.UndefinedError: 'ds_format' is undefined
+[2026-07-01T18:18:35.251+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T18:18:35.264+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:18:35.265+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:25:28.917+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:25:28.930+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:25:28.936+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:25:28.936+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T18:25:28.943+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-03-01 00:00:00+00:00
+[2026-07-01T18:25:28.947+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4672) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:25:28.948+0000] {standard_task_runner.py:72} INFO - Started process 4676 to run task
+[2026-07-01T18:25:28.949+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '616', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpz22fsi0s', '--map-index', '3']
+[2026-07-01T18:25:28.950+0000] {standard_task_runner.py:105} INFO - Job 616: Subtask load_taxi_to_bigquery
+[2026-07-01T18:25:28.974+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [running]> on host 14c3550a9bfb
+[2026-07-01T18:25:29.154+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-01T18:25:29.154+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:25:29.164+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:25:29.166+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:25:29.167+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:25:29.202+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=03/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:25:29.202+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_03_01T00_00_00_00_00_8ba219912863d7dd85f80c0397321a54
+[2026-07-01T18:25:30.455+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 446, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime); reason: invalid, message: Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime)
+[2026-07-01T18:25:30.459+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=3, execution_date=20190301T000000, start_date=20260701T182528, end_date=20260701T182530
+[2026-07-01T18:25:30.462+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:25:30.462+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 616 for task load_taxi_to_bigquery (400 Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime); reason: invalid, message: Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime); 4676)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 446, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime); reason: invalid, message: Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime)
+[2026-07-01T18:25:30.488+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T18:25:30.495+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:25:30.495+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:28:43.699+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:28:43.710+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:28:43.714+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:28:43.714+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T18:28:43.719+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-03-01 00:00:00+00:00
+[2026-07-01T18:28:43.722+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4888) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:28:43.723+0000] {standard_task_runner.py:72} INFO - Started process 4890 to run task
+[2026-07-01T18:28:43.724+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '648', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpgywu0_41', '--map-index', '3']
+[2026-07-01T18:28:43.724+0000] {standard_task_runner.py:105} INFO - Job 648: Subtask load_taxi_to_bigquery
+[2026-07-01T18:28:43.745+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [running]> on host 14c3550a9bfb
+[2026-07-01T18:28:43.900+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-01T18:28:43.901+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:28:43.911+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:28:43.911+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:28:43.912+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:28:43.944+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=03/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:28:43.944+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_03_01T00_00_00_00_00_77d7fbe166976861799cc5327374176d
+[2026-07-01T18:28:44.868+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 446, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime); reason: invalid, message: Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime)
+[2026-07-01T18:28:44.876+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=3, execution_date=20190301T000000, start_date=20260701T182843, end_date=20260701T182844
+[2026-07-01T18:28:44.880+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:28:44.880+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 648 for task load_taxi_to_bigquery (400 Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime); reason: invalid, message: Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime); 4890)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 446, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime); reason: invalid, message: Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips. Cannot add fields (field: tpep_pickup_datetime)
+[2026-07-01T18:28:44.896+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T18:28:44.902+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:28:44.902+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:33:29.196+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:33:29.207+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:33:29.214+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [queued]>
+[2026-07-01T18:33:29.215+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-01T18:33:29.221+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-03-01 00:00:00+00:00
+[2026-07-01T18:33:29.227+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5107) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:33:29.227+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '677', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmp6icquqtp', '--map-index', '3']
+[2026-07-01T18:33:29.228+0000] {standard_task_runner.py:72} INFO - Started process 5111 to run task
+[2026-07-01T18:33:29.229+0000] {standard_task_runner.py:105} INFO - Job 677: Subtask load_taxi_to_bigquery
+[2026-07-01T18:33:29.254+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-03-01T00:00:00+00:00 map_index=3 [running]> on host 14c3550a9bfb
+[2026-07-01T18:33:29.453+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-01T18:33:29.454+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:33:29.464+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:33:29.465+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:33:29.465+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:33:29.502+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips-2019-03'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=03/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:33:29.502+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_03_01T00_00_00_00_00_3f746dc683206d4f3ed991abc57d2aee
+[2026-07-01T18:33:30.516+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 446, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips-2019-03. Cannot add fields (field: tpep_pickup_datetime); reason: invalid, message: Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips-2019-03. Cannot add fields (field: tpep_pickup_datetime)
+[2026-07-01T18:33:30.520+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=3, execution_date=20190301T000000, start_date=20260701T183329, end_date=20260701T183330
+[2026-07-01T18:33:30.523+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:33:30.523+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 677 for task load_taxi_to_bigquery (400 Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips-2019-03. Cannot add fields (field: tpep_pickup_datetime); reason: invalid, message: Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips-2019-03. Cannot add fields (field: tpep_pickup_datetime); 5111)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 446, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips-2019-03. Cannot add fields (field: tpep_pickup_datetime); reason: invalid, message: Provided Schema does not match Table elpipeline:ishak_tobbi_dataset.yellow_taxi_trips-2019-03. Cannot add fields (field: tpep_pickup_datetime)
+[2026-07-01T18:33:30.569+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T18:33:30.575+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:33:30.576+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

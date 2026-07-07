@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
 import os
 from pathlib import Path
-from airflow import DAG
+from orchestrator.dags.pipeline_with_dbt_kubernete import DAG
+from airflow.models.param import Param
 from airflow.providers.docker.operators.docker import DockerOperator
-from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateExternalTableOperator,BigQueryCreateEmptyTableOperator
-
+from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 # Import Cosmos core components
-from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, ExecutionConfig
+from cosmos import DbtTaskGroup, ProjectConfig, ProfileConfig, RenderConfig
 from cosmos.profiles import GoogleCloudServiceAccountFileProfileMapping
 
 
@@ -17,6 +17,8 @@ BIGQUERY_DATASET = os.getenv('BIGQUERY_DATASET')
 BIGQUERY_TABLE_NAME = os.getenv('BIGQUERY_TABLE_NAME')
 GCS_FILE_PATH = os.getenv('GCS_FILE_PATH')
 AIRFLOW_DOCKER_URL = os.getenv('AIRFLOW_DOCKER_URL', 'unix://var/run/docker.sock')
+
+TAXI_COLOR = os.getenv('TAXI_COLOR')
 
 DBT_PROJECT_PATH = Path("/opt/airflow/dbt")
 
@@ -29,23 +31,34 @@ default_args = {
     'retry_delay': timedelta(seconds=5),
 }
 
-# 2. Define the Pipeline Structural Workflow
+# 2. Define the Pipeline Structural Workflow w
 with DAG(
     dag_id='gcs_data_extraction_pipeline',
     default_args=default_args,
     description='Triggers our isolated custom Python container to extract data to GCS',
-    schedule_interval=None,  # Set to None for manual testing; can change to '@daily' later
-    start_date=datetime(2026, 1, 1),
-    catchup=False,
+    schedule_interval='@monthly',  # Set to None for manual testing; can change to '@daily' later
+    start_date=datetime(2019, 1, 1),
+    end_date=datetime(2019, 3, 1),
+    catchup=True,  # This allows Airflow to backfill for all past months since the start_date
 ) as dag:
     
+    taxi_colors = TAXI_COLOR.split(",")
+    # 1. Define the base environment settings shared by EVERY parallel run
+    base_env = {
+        'ENVIRONMENT': 'development',
+        'GCP_PROJECT_ID': GCP_PROJECT_ID,
+        'GCS_BUCKET_NAME': GCS_BUCKET_NAME,
+        # 'GCS_FILE_PATH': GCS_FILE_PATH,
+        'GOOGLE_APPLICATION_CREDENTIALS': '/tmp/gcp_creds/application_default_credentials.json',
+        'EXECUTION_DATE': '{{ ds }}'
+    }
 
     # 3. The Master Task: Run our isolated container
-    run_extractor_container = DockerOperator(
+    run_extractor_container = DockerOperator.partial(
         task_id='execute_gcs_extractor',
         
         # Tell Airflow which custom image we built earlier to look for
-        image='elpipeline:latest',
+        image='ingestion:latest',
         
         # Equivalent to typing '--rm' in terminal to clean up the container when done
         auto_remove=True,
@@ -86,73 +99,66 @@ with DAG(
         ],
         # 2. Tell Google's underlying libraries exactly where to look for that file
         # In case your script needs extra environment configuration variables
-        environment={
-            'ENVIRONMENT': 'development',
-            'GCP_PROJECT_ID': GCP_PROJECT_ID,
-            'GCS_BUCKET_NAME': GCS_BUCKET_NAME,
-            'GCS_FILE_PATH': GCS_FILE_PATH,
-            'GOOGLE_APPLICATION_CREDENTIALS': '/tmp/gcp_creds/application_default_credentials.json'
-        }
+
+        # environment={
+        #     'ENVIRONMENT': 'development',
+        #     'GCP_PROJECT_ID': GCP_PROJECT_ID,
+        #     'GCS_BUCKET_NAME': GCS_BUCKET_NAME,
+        #     'GCS_FILE_PATH': GCS_FILE_PATH,
+        #     'TAXI_COLOR': TAXI_COLOR,
+        #     'EXECUTION_DATE': '{{ ds }}',
+        #     'GOOGLE_APPLICATION_CREDENTIALS': '/tmp/gcp_creds/application_default_credentials.json'
+        # }
+    ).expand(
+        # 🟢 This maps a unique TAXI_COLOR env variable to each split container runtime!
+        environment=[{**base_env, "TAXI_COLOR": color} for color in taxi_colors]
     )
 
+
+    load_raw_taxi_to_bq = GCSToBigQueryOperator.partial(
+        task_id='load_taxi_to_bigquery',
+        bucket=GCS_BUCKET_NAME,
+        source_format='PARQUET',
+        schema_update_options=['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION'],       # allow new columns to be added to the table, and allow existing columns to be relaxed (e.g., from REQUIRED to NULLABLE)
+        write_disposition='WRITE_APPEND', # or 'WRITE_TRUNCATE' if you want to overwrite the table each time, or 'WRITE_EMPTY' if you want to ensure the table is empty before writing
+        autodetect=True,                  # BigQuery reads the string schemas automatically
+        create_disposition='CREATE_IF_NEEDED' # or 'CREATE_NEVER' if you want to ensure the table already exists
+    ).expand_kwargs( # 🟢 Notice we changed .expand to .expand_kwargs
+        # We use a clean Python list comprehension to zip keys and values together 
+        [
+            {
+                "source_objects": [f"raw/taxi/{color}/year={{{{ macros.ds_format(ds, '%Y-%m-%d', '%Y') }}}}/month={{{{ macros.ds_format(ds, '%Y-%m-%d', '%m') }}}}/data.parquet"],
+                "destination_project_dataset_table": f"{GCP_PROJECT_ID}.{BIGQUERY_DATASET}.{color}_taxi_trips"
+            }
+            for color in taxi_colors
+        ]
+    )
    
     
 
-    create_gcs_external_table = BigQueryCreateExternalTableOperator(
-        task_id="create_external_table",
-        
-        bucket=GCS_BUCKET_NAME,
-        source_objects=[GCS_FILE_PATH],   # Relative path inside bucket (without gs:// prefix)
-        destination_project_dataset_table=f'{GCP_PROJECT_ID}.{BIGQUERY_DATASET}.{BIGQUERY_TABLE_NAME}',
-        
-        gcp_conn_id="google_cloud_default",
-       
-        source_format="PARQUET",
-        autodetect=True
     
-        table_resource={
-            "tableReference": {
-                "projectId": GCP_PROJECT_ID,
-                "datasetId": BIGQUERY_DATASET,
-                "tableId": BIGQUERY_TABLE_NAME,
-            },
-            "externalDataConfiguration": {
-                "autodetect": True,  # 👈 This forces BigQuery to scan the files and build the schema
-                "sourceFormat": "PARQUET",
-                "sourceUris": [f"gs://{GCS_BUCKET_NAME}/{GCS_FILE_PATH}"] 
-            }
-        }
-    )
         
 
-    # schema_fields=[
-    #     {"name": "VendorID", "type": "INT64", "mode": "REQUIRED"},
-    #     {"name": "tpep_pickup_datetime", "type": "STRING", "mode": "NULLABLE"},
-    #     {"name": "tpep_dropoff_datetime", "type": "STRING", "mode": "NULLABLE"},
-    #     {"name": "passenger_count", "type": "FLOAT", "mode": "NULLABLE"},
-    #     {"name": "trip_distance", "type": "FLOAT", "mode": "NULLABLE"},
-    #     {"name": "RatecodeID", "type": "FLOAT", "mode": "NULLABLE"},
-    #     {"name": "store_and_fwd_flag", "type": "STRING", "mode": "NULLABLE"},
-    #     {"name": "PULocationID", "type": "INTEGER", "mode": "NULLABLE"},
-    #     {"name": "DOLocationID", "type": "INTEGER", "mode": "NULLABLE"},
-    #     {"name": "payment_type", "type": "INT64", "mode": "NULLABLE"},
-    #     {"name": "fare_amount", "type": "FLOAT", "mode": "NULLABLE"},
-    #     {"name": "extra", "type": "FLOAT", "mode": "NULLABLE"},
-    #     {"name": "mta_tax", "type": "FLOAT", "mode": "NULLABLE"},
-    #     {"name": "tip_amount", "type": "FLOAT", "mode": "NULLABLE"},
-    #     {"name": "tolls_amount", "type": "FLOAT", "mode": "NULLABLE"},
-    #     {"name": "improvement_surcharge", "type": "FLOAT", "mode": "NULLABLE"},
-    #     {"name": "total_amount", "type": "FLOAT", "mode": "NULLABLE"},
-    #     {"name": "congestion_surcharge", "type": "FLOAT", "mode": "NULLABLE"},
-    # ],
-
-    # )
+    # using cosmos, it runs dbt seeds automatically.
 
     transform_data = DbtTaskGroup(      # as a visual box , we can see a task for each model in dbt_project yamland all form a group.
        
+        
         group_id="dbt_transformations", # a name of the group, it is not the name of the task.
-       
-        project_config=ProjectConfig(DBT_PROJECT_PATH),     # the path to dbt folders volume mapped to airflow in docker-compose.
+        
+        render_config=RenderConfig(
+            emit_datasets=False,  # this is a flag to tell cosmos to not emit datasets in the dbt_project, it is useful when we don't want to create datasets in the dbt_project, we just want to run the models and not create datasets.
+        ),
+
+        operator_args={
+            "install_deps": True, # <-- This tells Airflow to run 'dbt deps' inside its container automatically!
+        },
+
+        project_config=ProjectConfig(
+            DBT_PROJECT_PATH,
+            manifest_path="opt/airflow/dbt/target/manifest.json" # this is the path to the manifest.json file that is generated by dbt when we run dbt compile or dbt run, it is used by cosmos to know which models to run and which models to skip.
+
+        ),     # the path to dbt folders volume mapped to airflow in docker-compose.
        
         profile_config=ProfileConfig(
             profile_name="dbt_project", # Must match the profile name in dbt_project.yml
@@ -176,7 +182,7 @@ with DAG(
     )
 
     # 4. Set our task into motion
-    run_extractor_container >> create_gcs_external_table >> transform_data
+    run_extractor_container >> load_raw_taxi_to_bq  >> transform_data
 
 
 
@@ -203,12 +209,47 @@ with DAG(
     #     # keypath : the path of the shared volume, > /opt/airflow/gcloud/creds.json
     
     # )
+    #############
+
+    # Move data to bigquery 
 
     # move_date_to_bq = GCSToBigQueryOperator(
-    # task_id='move_data_to_bq',
-    # bucket=GCS_BUCKET_NAME,
-    # source_objects=[GCS_FILE_PATH],
-    # destination_project_dataset_table=f'{GCP_PROJECT_ID}:{BIGQUERY_DATASET}.{BIGQUERY_TABLE_NAME}'
+    #       task_id='move_data_to_bq',
+    #       bucket=GCS_BUCKET_NAME,
+    #       source_objects=[GCS_FILE_PATH],
+    #       destination_project_dataset_table=f'{GCP_PROJECT_ID}:{BIGQUERY_DATASET}.{BIGQUERY_TABLE_NAME}'
 
     # )
+
+    ###########
+
+    # Create External table from data in gcloud storage.
+
+    # create_gcs_external_table = BigQueryCreateExternalTableOperator(
+    #     task_id="create_external_table",
+        
+    #     # bucket=GCS_BUCKET_NAME,
+    #     # source_objects=[GCS_FILE_PATH],   # Relative path inside bucket (without gs:// prefix)
+    #     # destination_project_dataset_table=f'{GCP_PROJECT_ID}.{BIGQUERY_DATASET}.{BIGQUERY_TABLE_NAME}',
+        
+    #     gcp_conn_id="google_cloud_default",
+       
+    #     # source_format="PARQUET",
+    #     # autodetect=True
+    
+    #     table_resource={
+    #         "tableReference": {
+    #             "projectId": GCP_PROJECT_ID,
+    #             "datasetId": BIGQUERY_DATASET,
+    #             "tableId": BIGQUERY_TABLE_NAME,
+    #         },
+    #         "externalDataConfiguration": {
+    #             "autodetect": True,  # 👈 This forces BigQuery to scan the files and build the schema
+    #             "sourceFormat": "PARQUET",
+    #             "sourceUris": [f"gs://{GCS_BUCKET_NAME}/{GCS_FILE_PATH}"] 
+    #         }
+    #     }
+    # )
+
+   
 

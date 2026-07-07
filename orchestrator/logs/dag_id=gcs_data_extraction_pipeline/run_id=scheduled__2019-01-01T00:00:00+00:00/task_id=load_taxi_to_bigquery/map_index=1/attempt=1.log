@@ -1,0 +1,1002 @@
+[2026-07-01T18:02:38.490+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:02:38.510+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:02:38.520+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:02:38.521+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-01T18:02:38.533+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-01T18:02:38.540+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3770) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:02:38.542+0000] {standard_task_runner.py:72} INFO - Started process 3779 to run task
+[2026-07-01T18:02:38.543+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '499', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpuggny0yb', '--map-index', '1']
+[2026-07-01T18:02:38.544+0000] {standard_task_runner.py:105} INFO - Job 499: Subtask load_taxi_to_bigquery
+[2026-07-01T18:02:38.588+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 14c3550a9bfb
+[2026-07-01T18:02:39.013+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T18:02:39.016+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:02:39.040+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:02:39.044+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:02:39.046+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:02:39.228+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'raw_nyc_taxi', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ["gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year={ ds_format(ds, '%Y-%m-%d', '%Y') }/month={ ds_format(ds, '%Y-%m-%d', '%m') }/data.parquet"], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:02:39.229+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_077bcc199b9b5d00d8d4406b0cd00f02
+[2026-07-01T18:02:40.045+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 386, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(self.hook, job_id)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 308, in _submit_job
+    return hook.insert_job(
+           ^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1705, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.NotFound: 404 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Not found: Dataset elpipeline:raw_nyc_taxi
+[2026-07-01T18:02:40.079+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T180238, end_date=20260701T180240
+[2026-07-01T18:02:40.137+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:02:40.138+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 499 for task load_taxi_to_bigquery (404 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Not found: Dataset elpipeline:raw_nyc_taxi; 3779)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 386, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(self.hook, job_id)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 308, in _submit_job
+    return hook.insert_job(
+           ^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1705, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.NotFound: 404 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Not found: Dataset elpipeline:raw_nyc_taxi
+[2026-07-01T18:02:40.232+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T18:02:40.274+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:02:40.277+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:06:26.211+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:06:26.238+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:06:26.248+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:06:26.249+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-01T18:06:26.264+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-01T18:06:26.274+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4011) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:06:26.276+0000] {standard_task_runner.py:72} INFO - Started process 4039 to run task
+[2026-07-01T18:06:26.282+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '539', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmp6c2nzz2w', '--map-index', '1']
+[2026-07-01T18:06:26.287+0000] {standard_task_runner.py:105} INFO - Job 539: Subtask load_taxi_to_bigquery
+[2026-07-01T18:06:26.365+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 14c3550a9bfb
+[2026-07-01T18:06:26.763+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T18:06:26.764+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:06:26.782+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:06:26.783+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:06:26.784+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:06:26.837+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ["gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year={ ds_format(ds, '%Y-%m-%d', '%Y') }/month={ ds_format(ds, '%Y-%m-%d', '%m') }/data.parquet"], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:06:26.838+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_7f169fd9db62aace98aab3a9fbbb74a5
+[2026-07-01T18:06:28.373+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 386, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(self.hook, job_id)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 308, in _submit_job
+    return hook.insert_job(
+           ^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1705, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Source URI must not contain the ',' character: gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year={ ds_format(ds, '%Y-%m-%d', '%Y') }/month={ ds_format(ds, '%Y-%m-%d', '%m') }/data.parquet
+[2026-07-01T18:06:28.378+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T180626, end_date=20260701T180628
+[2026-07-01T18:06:28.382+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:06:28.382+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 539 for task load_taxi_to_bigquery (400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Source URI must not contain the ',' character: gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year={ ds_format(ds, '%Y-%m-%d', '%Y') }/month={ ds_format(ds, '%Y-%m-%d', '%m') }/data.parquet; 4039)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 386, in execute
+    job: BigQueryJob | UnknownJob = self._submit_job(self.hook, job_id)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 308, in _submit_job
+    return hook.insert_job(
+           ^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 1705, in insert_job
+    job_api_repr._begin()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 740, in _begin
+    api_response = client._call_api(
+                   ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/jobs?prettyPrint=false: Source URI must not contain the ',' character: gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year={ ds_format(ds, '%Y-%m-%d', '%Y') }/month={ ds_format(ds, '%Y-%m-%d', '%m') }/data.parquet
+[2026-07-01T18:06:28.401+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T18:06:28.407+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:06:28.408+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:18:18.135+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:18:18.154+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:18:18.167+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:18:18.169+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-01T18:18:18.181+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-01T18:18:18.188+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '569', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmp6kibqqpi', '--map-index', '1']
+[2026-07-01T18:18:18.188+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4352) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:18:18.189+0000] {standard_task_runner.py:105} INFO - Job 569: Subtask load_taxi_to_bigquery
+[2026-07-01T18:18:18.190+0000] {standard_task_runner.py:72} INFO - Started process 4358 to run task
+[2026-07-01T18:18:18.227+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 14c3550a9bfb
+[2026-07-01T18:18:18.487+0000] {abstractoperator.py:778} ERROR - Exception rendering Jinja template for task 'load_taxi_to_bigquery', field 'source_objects'. Template: ["raw/taxi/green/year={{ ds_format(ds, '%Y-%m-%d', '%Y') }}/month={{ ds_format(ds, '%Y-%m-%d', '%m') }}/data.parquet"]
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 770, in _do_render_template_fields
+    rendered_content = self.render_template(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 183, in render_template
+    return [self.render_template(element, context, jinja_env, oids) for element in value]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 171, in render_template
+    return self._render(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 725, in _render
+    return super()._render(template, context, dag=dag)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 127, in _render
+    return render_template_to_string(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 301, in render_template_to_string
+    return render_template(template, cast(MutableMapping[str, Any], context), native=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 296, in render_template
+    return "".join(nodes)
+           ^^^^^^^^^^^^^^
+  File "<template>", line 14, in root
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 392, in call
+    if not __self.is_safe_callable(__obj):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 276, in is_safe_callable
+    getattr(obj, "unsafe_callable", False) or getattr(obj, "alters_data", False)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 864, in __getattr__
+    return self._fail_with_undefined_error()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 857, in _fail_with_undefined_error
+    raise self._undefined_exception(self._undefined_message)
+jinja2.exceptions.UndefinedError: 'ds_format' is undefined
+[2026-07-01T18:18:18.488+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3114, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3533, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 920, in render_template_fields
+    unmapped_task._do_render_template_fields(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 770, in _do_render_template_fields
+    rendered_content = self.render_template(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 183, in render_template
+    return [self.render_template(element, context, jinja_env, oids) for element in value]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 171, in render_template
+    return self._render(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 725, in _render
+    return super()._render(template, context, dag=dag)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 127, in _render
+    return render_template_to_string(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 301, in render_template_to_string
+    return render_template(template, cast(MutableMapping[str, Any], context), native=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 296, in render_template
+    return "".join(nodes)
+           ^^^^^^^^^^^^^^
+  File "<template>", line 14, in root
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 392, in call
+    if not __self.is_safe_callable(__obj):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 276, in is_safe_callable
+    getattr(obj, "unsafe_callable", False) or getattr(obj, "alters_data", False)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 864, in __getattr__
+    return self._fail_with_undefined_error()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 857, in _fail_with_undefined_error
+    raise self._undefined_exception(self._undefined_message)
+jinja2.exceptions.UndefinedError: 'ds_format' is undefined
+[2026-07-01T18:18:18.496+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T181818, end_date=20260701T181818
+[2026-07-01T18:18:18.506+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:18:18.506+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 569 for task load_taxi_to_bigquery ('ds_format' is undefined; 4358)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3114, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3533, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 920, in render_template_fields
+    unmapped_task._do_render_template_fields(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 770, in _do_render_template_fields
+    rendered_content = self.render_template(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 183, in render_template
+    return [self.render_template(element, context, jinja_env, oids) for element in value]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 171, in render_template
+    return self._render(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/abstractoperator.py", line 725, in _render
+    return super()._render(template, context, dag=dag)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/template/templater.py", line 127, in _render
+    return render_template_to_string(template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 301, in render_template_to_string
+    return render_template(template, cast(MutableMapping[str, Any], context), native=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 296, in render_template
+    return "".join(nodes)
+           ^^^^^^^^^^^^^^
+  File "<template>", line 14, in root
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 392, in call
+    if not __self.is_safe_callable(__obj):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/sandbox.py", line 276, in is_safe_callable
+    getattr(obj, "unsafe_callable", False) or getattr(obj, "alters_data", False)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 864, in __getattr__
+    return self._fail_with_undefined_error()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/jinja2/runtime.py", line 857, in _fail_with_undefined_error
+    raise self._undefined_exception(self._undefined_message)
+jinja2.exceptions.UndefinedError: 'ds_format' is undefined
+[2026-07-01T18:18:18.539+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-01T18:18:18.547+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:25:13.598+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:25:13.623+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:25:13.636+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:25:13.636+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-01T18:25:13.649+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-01T18:25:13.658+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4628) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:25:13.660+0000] {standard_task_runner.py:72} INFO - Started process 4640 to run task
+[2026-07-01T18:25:13.661+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '608', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpwdqzex25', '--map-index', '1']
+[2026-07-01T18:25:13.662+0000] {standard_task_runner.py:105} INFO - Job 608: Subtask load_taxi_to_bigquery
+[2026-07-01T18:25:13.708+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 14c3550a9bfb
+[2026-07-01T18:25:13.982+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T18:25:13.983+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:25:13.997+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:25:13.998+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:25:13.998+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:25:14.044+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:25:14.045+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_d7249d5cddf72eee6ee90b34c1e2babf
+[2026-07-01T18:25:22.441+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:25:22.441+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T182513, end_date=20260701T182522
+[2026-07-01T18:25:22.486+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-01T18:25:22.495+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:25:22.495+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:28:27.242+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:28:27.258+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:28:27.264+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:28:27.264+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-01T18:28:27.274+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-01T18:28:27.279+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4830) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:28:27.281+0000] {standard_task_runner.py:72} INFO - Started process 4842 to run task
+[2026-07-01T18:28:27.282+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '637', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpav3trrxy', '--map-index', '1']
+[2026-07-01T18:28:27.283+0000] {standard_task_runner.py:105} INFO - Job 637: Subtask load_taxi_to_bigquery
+[2026-07-01T18:28:27.324+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 14c3550a9bfb
+[2026-07-01T18:28:27.579+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T18:28:27.580+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:28:27.593+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:28:27.594+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:28:27.595+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:28:27.644+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:28:27.645+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_99e84c5199ff4057af4dd22da31f90dd
+[2026-07-01T18:28:33.708+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:28:33.708+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T182827, end_date=20260701T182833
+[2026-07-01T18:28:33.741+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-01T18:28:33.751+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:28:33.752+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:32:52.267+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:32:52.282+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:32:52.288+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:32:52.288+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-01T18:32:52.297+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-01T18:32:52.301+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5052) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:32:52.302+0000] {standard_task_runner.py:72} INFO - Started process 5060 to run task
+[2026-07-01T18:32:52.303+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '665', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmplw1kjl04', '--map-index', '1']
+[2026-07-01T18:32:52.305+0000] {standard_task_runner.py:105} INFO - Job 665: Subtask load_taxi_to_bigquery
+[2026-07-01T18:32:52.340+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 14c3550a9bfb
+[2026-07-01T18:32:52.588+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T18:32:52.589+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:32:52.604+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:32:52.606+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:32:52.606+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:32:52.656+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips-2019-01'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:32:52.657+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_ab7f93ff128192ea12a2fd0a0a14ccf6
+[2026-07-01T18:32:58.837+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:32:58.838+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T183252, end_date=20260701T183258
+[2026-07-01T18:32:58.877+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-01T18:32:58.886+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:32:58.887+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-01T18:45:31.116+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-01T18:45:31.128+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:45:31.133+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-01T18:45:31.134+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-01T18:45:31.139+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-01T18:45:31.143+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5368) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-01T18:45:31.144+0000] {standard_task_runner.py:72} INFO - Started process 5372 to run task
+[2026-07-01T18:45:31.145+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '694', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpv1bv07ak', '--map-index', '1']
+[2026-07-01T18:45:31.146+0000] {standard_task_runner.py:105} INFO - Job 694: Subtask load_taxi_to_bigquery
+[2026-07-01T18:45:31.170+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 14c3550a9bfb
+[2026-07-01T18:45:31.346+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-01T18:45:31.347+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-01T18:45:31.357+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-01T18:45:31.358+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-01T18:45:31.358+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-01T18:45:31.394+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False}}
+[2026-07-01T18:45:31.394+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_393ccde6640bda929b209659f7f39ca7
+[2026-07-01T18:45:49.900+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-01T18:45:49.900+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260701T184531, end_date=20260701T184549
+[2026-07-01T18:45:49.912+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-01T18:45:49.917+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-01T18:45:49.918+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-03T08:22:44.431+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-03T08:22:44.444+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-03T08:22:44.448+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-03T08:22:44.448+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-03T08:22:44.453+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-03T08:22:44.457+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=288) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-03T08:22:44.458+0000] {standard_task_runner.py:72} INFO - Started process 295 to run task
+[2026-07-03T08:22:44.458+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '708', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmptvrwax8r', '--map-index', '1']
+[2026-07-03T08:22:44.458+0000] {standard_task_runner.py:105} INFO - Job 708: Subtask load_taxi_to_bigquery
+[2026-07-03T08:22:44.478+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host b006251d6707
+[2026-07-03T08:22:44.602+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-03T08:22:44.602+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-03T08:22:44.608+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-03T08:22:44.609+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-03T08:22:44.609+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-03T08:22:44.630+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-03T08:22:44.630+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-03T08:22:44.630+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_5385a25146b24df73205b66b343600bd
+[2026-07-03T08:23:17.912+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-03T08:23:17.914+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260703T082244, end_date=20260703T082317
+[2026-07-03T08:23:17.934+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-03T08:23:17.943+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-03T08:23:17.943+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-03T08:25:47.106+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-03T08:25:47.114+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-03T08:25:47.118+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-03T08:25:47.118+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-03T08:25:47.122+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-03T08:25:47.127+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=366) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-03T08:25:47.129+0000] {standard_task_runner.py:72} INFO - Started process 377 to run task
+[2026-07-03T08:25:47.129+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '720', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpym3b7agr', '--map-index', '1']
+[2026-07-03T08:25:47.130+0000] {standard_task_runner.py:105} INFO - Job 720: Subtask load_taxi_to_bigquery
+[2026-07-03T08:25:47.153+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host b006251d6707
+[2026-07-03T08:25:47.333+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-03T08:25:47.333+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-03T08:25:47.340+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-03T08:25:47.341+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-03T08:25:47.341+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-03T08:25:47.371+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-03T08:25:47.371+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-03T08:25:47.372+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_312543a2e4612f061d2e11cba99b775a
+[2026-07-03T08:25:48.171+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 446, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet; reason: notFound, message: Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet
+[2026-07-03T08:25:48.176+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260703T082547, end_date=20260703T082548
+[2026-07-03T08:25:48.182+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-03T08:25:48.182+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 720 for task load_taxi_to_bigquery (404 Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet; reason: notFound, message: Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet; 377)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 446, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet; reason: notFound, message: Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet
+[2026-07-03T08:25:48.188+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-03T08:25:48.194+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-03T08:25:48.194+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-03T08:29:58.280+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-03T08:29:58.286+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-03T08:29:58.289+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-03T08:29:58.289+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-03T08:29:58.292+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-03T08:29:58.294+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=503) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-03T08:29:58.295+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '740', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpwr9a2gtz', '--map-index', '1']
+[2026-07-03T08:29:58.295+0000] {standard_task_runner.py:72} INFO - Started process 520 to run task
+[2026-07-03T08:29:58.296+0000] {standard_task_runner.py:105} INFO - Job 740: Subtask load_taxi_to_bigquery
+[2026-07-03T08:29:58.308+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host b006251d6707
+[2026-07-03T08:29:58.402+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-03T08:29:58.402+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-03T08:29:58.408+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-03T08:29:58.409+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-03T08:29:58.409+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-03T08:29:58.429+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-03T08:29:58.429+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-03T08:29:58.429+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_60196b7c54685e33de65edb69d546750
+[2026-07-03T08:29:59.114+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 446, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet; reason: notFound, message: Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet
+[2026-07-03T08:29:59.119+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260703T082958, end_date=20260703T082959
+[2026-07-03T08:29:59.124+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-03T08:29:59.124+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 740 for task load_taxi_to_bigquery (404 Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet; reason: notFound, message: Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet; 520)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/transfers/gcs_to_bigquery.py", line 446, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.NotFound: 404 Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet; reason: notFound, message: Not found: URI gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet
+[2026-07-03T08:29:59.143+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-03T08:29:59.148+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-03T08:29:59.148+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-03T08:34:02.087+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-03T08:34:02.098+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-03T08:34:02.102+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-03T08:34:02.102+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-03T08:34:02.107+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-03T08:34:02.110+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=627) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-03T08:34:02.111+0000] {standard_task_runner.py:72} INFO - Started process 631 to run task
+[2026-07-03T08:34:02.111+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '755', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpij6ov9zh', '--map-index', '1']
+[2026-07-03T08:34:02.112+0000] {standard_task_runner.py:105} INFO - Job 755: Subtask load_taxi_to_bigquery
+[2026-07-03T08:34:02.129+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host b006251d6707
+[2026-07-03T08:34:02.251+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-03T08:34:02.252+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-03T08:34:02.258+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-03T08:34:02.259+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-03T08:34:02.259+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-03T08:34:02.280+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-03T08:34:02.280+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-03T08:34:02.280+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_d0b7364313655b7fec23e770283728b3
+[2026-07-03T08:34:25.953+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-03T08:34:25.956+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260703T083402, end_date=20260703T083425
+[2026-07-03T08:34:25.994+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-03T08:34:26.000+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-03T08:34:26.001+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-04T12:49:32.074+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-04T12:49:32.082+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-04T12:49:32.086+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-04T12:49:32.087+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-04T12:49:32.092+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-04T12:49:32.095+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=479) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-04T12:49:32.096+0000] {standard_task_runner.py:72} INFO - Started process 484 to run task
+[2026-07-04T12:49:32.097+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '815', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmp46dljn9k', '--map-index', '1']
+[2026-07-04T12:49:32.097+0000] {standard_task_runner.py:105} INFO - Job 815: Subtask load_taxi_to_bigquery
+[2026-07-04T12:49:32.119+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host f2e4d4aae311
+[2026-07-04T12:49:32.283+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-04T12:49:32.284+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-04T12:49:32.291+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-04T12:49:32.292+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-04T12:49:32.293+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-04T12:49:32.316+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-04T12:49:32.317+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-04T12:49:32.317+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_4db5064f7d9a9c39f1253b41783fa259
+[2026-07-04T12:49:50.409+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-04T12:49:50.409+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260704T124932, end_date=20260704T124950
+[2026-07-04T12:49:50.437+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-04T12:49:50.528+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-04T12:49:50.531+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-04T13:10:03.938+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-04T13:10:03.962+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-04T13:10:03.973+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-04T13:10:03.973+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-04T13:10:03.983+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-04T13:10:03.990+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=567) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-04T13:10:03.992+0000] {standard_task_runner.py:72} INFO - Started process 579 to run task
+[2026-07-04T13:10:03.993+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '873', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpr8ty72mt', '--map-index', '1']
+[2026-07-04T13:10:03.994+0000] {standard_task_runner.py:105} INFO - Job 873: Subtask load_taxi_to_bigquery
+[2026-07-04T13:10:04.053+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 2a5739520cee
+[2026-07-04T13:10:04.420+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-04T13:10:04.420+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-04T13:10:04.438+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-04T13:10:04.440+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-04T13:10:04.441+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-04T13:10:04.496+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-04T13:10:04.497+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-04T13:10:04.497+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_5fcdb418073da597def099f2cdd9957b
+[2026-07-04T13:10:32.818+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-04T13:10:32.820+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260704T131003, end_date=20260704T131032
+[2026-07-04T13:10:32.851+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-04T13:10:32.931+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-04T13:10:32.932+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-06T05:47:12.352+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-06T05:47:12.365+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-06T05:47:12.371+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-06T05:47:12.371+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-06T05:47:12.377+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-06T05:47:12.383+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=515) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-06T05:47:12.384+0000] {standard_task_runner.py:72} INFO - Started process 521 to run task
+[2026-07-06T05:47:12.384+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '926', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmp5uuwgdix', '--map-index', '1']
+[2026-07-06T05:47:12.385+0000] {standard_task_runner.py:105} INFO - Job 926: Subtask load_taxi_to_bigquery
+[2026-07-06T05:47:12.412+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 3a03c653ab23
+[2026-07-06T05:47:12.588+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-06T05:47:12.589+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-06T05:47:12.598+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-06T05:47:12.599+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-06T05:47:12.600+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-06T05:47:12.634+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-06T05:47:12.634+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-06T05:47:12.634+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_d3fd0614a145e30cd97adacb66174c9a
+[2026-07-06T05:47:34.451+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-06T05:47:34.453+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260706T054712, end_date=20260706T054734
+[2026-07-06T05:47:34.503+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-06T05:47:34.597+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-06T05:47:34.598+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-06T06:40:05.721+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-06T06:40:05.733+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-06T06:40:05.739+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-06T06:40:05.739+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-06T06:40:05.743+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-06T06:40:05.745+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=834) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-06T06:40:05.746+0000] {standard_task_runner.py:72} INFO - Started process 839 to run task
+[2026-07-06T06:40:05.746+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '993', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpj7a_028k', '--map-index', '1']
+[2026-07-06T06:40:05.747+0000] {standard_task_runner.py:105} INFO - Job 993: Subtask load_taxi_to_bigquery
+[2026-07-06T06:40:05.762+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 761c314e3949
+[2026-07-06T06:40:05.885+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-06T06:40:05.886+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-06T06:40:05.892+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-06T06:40:05.892+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-06T06:40:05.893+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-06T06:40:05.914+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-06T06:40:05.914+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-06T06:40:05.914+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_dee492e4c68d816a55e4163a50367fc4
+[2026-07-06T06:40:37.660+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-06T06:40:37.663+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260706T064005, end_date=20260706T064037
+[2026-07-06T06:40:37.696+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-06T06:40:37.784+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-06T06:40:37.784+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-07T07:26:30.731+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-07T07:26:30.739+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-07T07:26:30.743+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-07T07:26:30.743+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-07T07:26:30.747+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-07T07:26:30.750+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=524) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-07T07:26:30.750+0000] {standard_task_runner.py:72} INFO - Started process 541 to run task
+[2026-07-07T07:26:30.751+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '1061', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpq40vjnhm', '--map-index', '1']
+[2026-07-07T07:26:30.751+0000] {standard_task_runner.py:105} INFO - Job 1061: Subtask load_taxi_to_bigquery
+[2026-07-07T07:26:30.769+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 84caac916f2c
+[2026-07-07T07:26:30.892+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-07T07:26:30.892+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-07T07:26:30.899+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-07T07:26:30.900+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-07T07:26:30.900+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-07T07:26:30.923+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-07T07:26:30.923+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-07T07:26:30.924+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_6518dad634becb8c85edef24853cd73b
+[2026-07-07T07:26:53.153+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-07T07:26:53.156+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260707T072630, end_date=20260707T072653
+[2026-07-07T07:26:53.191+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-07T07:26:53.285+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-07T07:26:53.285+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-07T07:30:01.684+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-07T07:30:01.692+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-07T07:30:01.699+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-07T07:30:01.699+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-07T07:30:01.706+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-07T07:30:01.709+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=660) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-07T07:30:01.709+0000] {standard_task_runner.py:72} INFO - Started process 664 to run task
+[2026-07-07T07:30:01.710+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '1074', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpil58hp3g', '--map-index', '1']
+[2026-07-07T07:30:01.712+0000] {standard_task_runner.py:105} INFO - Job 1074: Subtask load_taxi_to_bigquery
+[2026-07-07T07:30:01.732+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 84caac916f2c
+[2026-07-07T07:30:01.863+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-07T07:30:01.863+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-07T07:30:01.869+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-07T07:30:01.870+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-07T07:30:01.870+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-07T07:30:01.892+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-07T07:30:01.892+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-07T07:30:01.892+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_d4decf161309f4927b84986020a3ea06
+[2026-07-07T07:30:20.470+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-07T07:30:20.470+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260707T073001, end_date=20260707T073020
+[2026-07-07T07:30:20.535+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-07T07:30:20.613+0000] {taskinstance.py:3900} INFO - 6 downstream tasks scheduled from follow-on schedule check
+[2026-07-07T07:30:20.613+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-07T07:50:36.962+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-07T07:50:36.968+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-07T07:50:36.971+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-07T07:50:36.971+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-07T07:50:36.975+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-07T07:50:36.977+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=139) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-07T07:50:36.978+0000] {standard_task_runner.py:72} INFO - Started process 143 to run task
+[2026-07-07T07:50:36.978+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '1132', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmpbi_xv4bs', '--map-index', '1']
+[2026-07-07T07:50:36.979+0000] {standard_task_runner.py:105} INFO - Job 1132: Subtask load_taxi_to_bigquery
+[2026-07-07T07:50:36.996+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host ba025bbd0105
+[2026-07-07T07:50:37.138+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-07T07:50:37.138+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-07T07:50:37.146+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-07T07:50:37.147+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-07T07:50:37.147+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-07T07:50:37.170+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-07T07:50:37.170+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-07T07:50:37.170+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_2b4b7c88d2ec2a432533c0304b177ef0
+[2026-07-07T07:50:54.929+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-07T07:50:54.929+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260707T075036, end_date=20260707T075054
+[2026-07-07T07:50:54.958+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-07T07:50:55.037+0000] {taskinstance.py:3900} INFO - 6 downstream tasks scheduled from follow-on schedule check
+[2026-07-07T07:50:55.038+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-07T12:59:50.737+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-07T12:59:50.745+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-07T12:59:50.749+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-07T12:59:50.751+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-07T12:59:50.756+0000] {taskinstance.py:2888} INFO - Executing <Mapped(GCSToBigQueryOperator): load_taxi_to_bigquery> on 2019-01-01 00:00:00+00:00
+[2026-07-07T12:59:50.759+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=832) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-07T12:59:50.760+0000] {standard_task_runner.py:72} INFO - Started process 837 to run task
+[2026-07-07T12:59:50.760+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'gcs_data_extraction_pipeline', 'load_taxi_to_bigquery', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '32', '--raw', '--subdir', 'DAGS_FOLDER/elpipeline.py', '--cfg-path', '/tmp/tmplikc8_c3', '--map-index', '1']
+[2026-07-07T12:59:50.761+0000] {standard_task_runner.py:105} INFO - Job 32: Subtask load_taxi_to_bigquery
+[2026-07-07T12:59:50.776+0000] {task_command.py:467} INFO - Running <TaskInstance: gcs_data_extraction_pipeline.load_taxi_to_bigquery scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 24f78b7772cf
+[2026-07-07T12:59:50.799+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='data_engineering_student' AIRFLOW_CTX_DAG_ID='gcs_data_extraction_pipeline' AIRFLOW_CTX_TASK_ID='load_taxi_to_bigquery' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-07-07T12:59:50.799+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-07T12:59:50.806+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-07T12:59:50.808+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-07T12:59:50.808+0000] {gcs_to_bigquery.py:381} INFO - Using existing BigQuery table for storing data...
+[2026-07-07T12:59:50.829+0000] {gcs_to_bigquery.py:639} INFO - Adding experimental 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']
+[2026-07-07T12:59:50.830+0000] {gcs_to_bigquery.py:385} INFO - Executing: {'load': {'autodetect': True, 'createDisposition': 'CREATE_IF_NEEDED', 'destinationTable': {'projectId': 'elpipeline', 'datasetId': 'ishak_tobbi_dataset', 'tableId': 'yellow_taxi_trips'}, 'sourceFormat': 'PARQUET', 'sourceUris': ['gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=01/data.parquet'], 'writeDisposition': 'WRITE_APPEND', 'ignoreUnknownValues': False, 'schemaUpdateOptions': ['ALLOW_FIELD_ADDITION', 'ALLOW_FIELD_RELAXATION']}}
+[2026-07-07T12:59:50.830+0000] {bigquery.py:1702} INFO - Inserting job ***_gcs_data_extraction_pipeline_load_taxi_to_bigquery_2019_01_01T00_00_00_00_00_e7536546d35c2b29a53b9c5bd1a365f3
+[2026-07-07T13:00:23.603+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-07T13:00:23.603+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=gcs_data_extraction_pipeline, task_id=load_taxi_to_bigquery, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260707T125950, end_date=20260707T130023
+[2026-07-07T13:00:23.713+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-07T13:00:23.774+0000] {taskinstance.py:3900} INFO - 6 downstream tasks scheduled from follow-on schedule check
+[2026-07-07T13:00:23.775+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

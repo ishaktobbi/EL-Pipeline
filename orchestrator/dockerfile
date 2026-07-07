@@ -1,4 +1,7 @@
 FROM apache/airflow:2.10.2
 COPY requirements.txt /requirements.txt
-RUN pip install --no-cache-dir -r /requirements.txt \
---constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.10.0/constraints-3.11.txt"
+RUN pip install --no-cache-dir -r /requirements.txt --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.10.2/constraints-3.11.txt"
+
+# 2. Force-install your exact dbt versions immediately after. 
+# This bypasses the old constraints engine for just these two packages, building instantly!
+# RUN pip install --no-cache-dir dbt-core==1.9.2 dbt-bigquery==1.9.2
