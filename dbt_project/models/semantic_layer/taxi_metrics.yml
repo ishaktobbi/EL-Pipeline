@@ -1,0 +1,60 @@
+version: 2
+
+metrics:
+  # -----------------------------------------------------------
+  # 1. SIMPLE METRICS (Direct business totals)
+  # -----------------------------------------------------------
+  - name: gross_revenue   # name is only to refere it in other files or dashboards
+    description: "Total revenue collected from all completed trips."
+    label: Gross Revenue
+    type: simple    # type of the kpi, simple is direct listing
+    type_params:    # we specify the metrics from sem_fct_ we used in this kpi.
+      measure: total_revenue_amount  # References SUM(total_amount) from sem_fct_
+
+  - name: total_trips
+    description: "Total count of completed trips."
+    label: Total Trips
+    type: simple
+    type_params:
+      measure: trip_count            # References COUNT(1)
+
+  # -----------------------------------------------------------
+  # . CREATE SIMPLE METRICS (Wrapping base measures)
+
+  - name: total_tip_amount
+    description: "Total tip amount in dollars."
+    label: Total Tip Amount
+    type: simple
+    type_params:
+      measure: total_tip_amount     # ◄── References measure in sem_fct_*.yml
+
+  - name: total_fare_amount
+    description: "Total base fare amount in dollars."
+    label: Total Fare Amount
+    type: simple
+    type_params:
+      measure: total_fare_amount    # ◄── References measure in sem_fct_*.yml
+
+  # -----------------------------------------------------------
+  # 2. RATIO METRICS (Standardized division formulas)
+  # -----------------------------------------------------------
+  - name: tip_percentage
+    description: "Overall tipping rate relative to base fares."
+    label: Tip Percentage
+    type: ratio
+    type_params:
+      numerator: total_tip_amount    # References SUM(tip_amount)
+      denominator: total_fare_amount # References SUM(fare_amount)
+
+  # -----------------------------------------------------------
+  # 3. DERIVED METRICS (Combining existing metrics)
+  # -----------------------------------------------------------
+  - name: average_revenue_per_trip
+    description: "Average revenue generated per individual trip."
+    label: Average Revenue Per Trip
+    type: derived   # for complex calculations, derived, then expr : formulas, then we list metrics used.
+    type_params:
+      expr: gross_revenue / total_trips   
+      metrics:
+        - name: gross_revenue
+        - name: total_trips
