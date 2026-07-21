@@ -53,6 +53,8 @@ cleaned as (
         tip_amount,
         total_amount,
         congestion_surcharge,
+
+        year_ingested,
         
         -- Structural Alignment Placeholder (Column only exists in Green taxi data)
         CAST(NULL AS FLOAT64) AS ehail_fee,

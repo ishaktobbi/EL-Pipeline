@@ -22,6 +22,11 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "packages"
 
+# ROOT LEVEL VARS (This must be separate from the models section!)
+vars:
+  run_year: "2021"
+  run_month: "01"
+
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -33,18 +38,24 @@ models:
   dbt_project:              # ◄ Must match the 'name:' at the top of your file
     staging:
       +materialized: view
+      +tags: ["daily"]
       
     # 2. Intermediate Layer: Everything in models/intermediate/ becomes a view
     intermediate:
       +materialized: view
+      +tags: ["daily"]
 
     # 3. Marts Layer: Setting custom rules for folders inside models/marts/
-    marts:
-      core:
-        # We target files based on their exact file name patterns!
-        +materialized: table # Default fallback for the core folder (applies to dim_ models)
+    # marts:
+    #   core:
+    #     # We target files based on their exact file name patterns!
+    #     +materialized: table # Default fallback for the core folder (applies to dim_ models)
         
-        # We override the fact table specifically to make it incremental
-        fct_taxi_trips:
-          +materialized: incremental
+
+        
       # +cluster_by: ['customer_id'] # ◄ Clusters data in BigQuery for faster joins
+
+seeds:
+  dbt_project:
+    +schema: staging  # 🟢 This sends all seeds to your_dataset_staging instead of your public dataset
+    +tags: ["static"]

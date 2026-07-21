@@ -9,13 +9,13 @@ terraform {
   }
 }
 
-# 2. Configure the Google Cloud Provider plugin
+# GCP - Configure the Google Cloud Provider plugin
 provider "google" {
   project = var.project_id
   region  = var.region
 }
 
-# 3. Create the Google Cloud Storage (GCS) Bucket (Our Data Lake)
+# GCP - Create the Google Cloud Storage (GCS) Bucket (Our Data Lake)
 resource "google_storage_bucket" "data_lake" {
   name          = var.bucket_name
   location      = "EU" # Multi-region storage for resiliency (or use "US")
@@ -39,7 +39,7 @@ resource "google_storage_bucket" "data_lake" {
   }
 }
 
-# Create a BigQuery Dataset (The Warehouse Container)
+# BQ - Create a BigQuery Dataset (The Warehouse Container)
 resource "google_bigquery_dataset" "ishak_tobbi_test_dataset" {
   dataset_id                  = var.dataset_name
   project                     = var.project_id
@@ -49,6 +49,44 @@ resource "google_bigquery_dataset" "ishak_tobbi_test_dataset" {
   # Crucial for development: allows Terraform to destroy the dataset later if needed
   delete_contents_on_destroy = true
 }
+
+# DBT - Enable the Artifact Registry API inside your Google Project
+resource "google_project_service" "artifact_registry_api" {
+  project            = var.project_id
+  service            = "artifactregistry.googleapis.com"
+  disable_on_destroy = false  # when terraform destroy is run, the API will not be disabled automatically, only what is created by terraform will be destroyed, not the API itself
+}
+
+# DBT - Create the Docker Artifact Registry Locker
+resource "google_artifact_registry_repository" "dbt_images" {
+  depends_on = [ google_project_service.artifact_registry_api ]
+  location      = var.region
+  repository_id = "dbt-images"
+  description   = "Docker repository for isolated dbt images managed by Airflow"
+  format        = "DOCKER"
+
+  # Optional: Cleanup policies to keep only the latest images and save costs
+  cleanup_policies {
+    id     = "keep-latest-5-versions"
+    action = "KEEP"   # we keep the last 5 imaes built. 
+    most_recent_versions {
+      keep_count = 5
+    }
+  }
+}
+# DBT - Output the Repository URL so you can use it in your build scripts
+output "artifact_registry_repo_url" {
+  value       = "${google_artifact_registry_repository.dbt_images.location}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.dbt_images.repository_id}"
+  description = "The base URL for pushing your dbt Docker images"
+}
+
+# # 2. Grant your Kubernetes/Airflow Service Account permission to pull from this locker
+# resource "google_artifact_registry_repository_iam_member" "viewer" {
+#   location   = google_artifact_registry_repository.dbt_repo.location
+#   repository = google_artifact_registry_repository.dbt_repo.name
+#   role       = "roles/artifactregistry.reader"
+#   member     = "serviceAccount:${var.airflow_gcp_service_account}"
+# }
 
 # #  🔗 Link the GCS Parquet files to BigQuery using an External Table
 # resource "google_bigquery_table" "external_yellow_taxi_table" {

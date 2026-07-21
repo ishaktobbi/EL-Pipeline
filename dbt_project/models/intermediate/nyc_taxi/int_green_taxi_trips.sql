@@ -57,6 +57,8 @@ cleaned as (
         congestion_surcharge,
         ehail_fee,
 
+        year_ingested,
+
 
         -- Standardize Values to a common set of values (Data Standardization)
        

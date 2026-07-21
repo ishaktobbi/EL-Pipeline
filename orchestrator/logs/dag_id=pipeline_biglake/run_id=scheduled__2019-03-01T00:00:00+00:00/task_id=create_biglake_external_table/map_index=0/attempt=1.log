@@ -1,0 +1,1597 @@
+[2026-07-12T09:38:47.272+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-12T09:38:47.280+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-12T09:38:47.283+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-12T09:38:47.284+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-12T09:38:47.287+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-12T09:38:47.290+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=172) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-12T09:38:47.290+0000] {standard_task_runner.py:72} INFO - Started process 178 to run task
+[2026-07-12T09:38:47.291+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '600', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmpj01cczjl', '--map-index', '0']
+[2026-07-12T09:38:47.291+0000] {standard_task_runner.py:105} INFO - Job 600: Subtask create_biglake_external_table
+[2026-07-12T09:38:47.306+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 53ccb988583a
+[2026-07-12T09:38:47.324+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3114, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3533, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 913, in render_template_fields
+    unmapped_task = self.unmap(mapped_kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 824, in unmap
+    op = self.operator_class(**kwargs, _airflow_from_mapped=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 490, in apply_defaults
+    result = func(self, **kwargs, default_args=default_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1811, in __init__
+    super().__init__(**kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 490, in apply_defaults
+    result = func(self, **kwargs, default_args=default_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 938, in __init__
+    raise AirflowException(
+airflow.exceptions.AirflowException: Invalid arguments were passed to BigQueryCreateExternalTableOperator (task_id: create_biglake_external_table). Invalid arguments were:
+**kwargs: {'hivePartitioningOptions': {'mode': 'AUTO', 'sourceUriPrefix': 'gs://ishak-tobbi-data-lake-2026/raw/taxi/green/', 'requirePartitionFilter': False}}
+[2026-07-12T09:38:47.326+0000] {taskinstance.py:3358} ERROR - Unable to unmap task to determine if we need to send an alert email
+[2026-07-12T09:38:47.327+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260712T093847, end_date=20260712T093847
+[2026-07-12T09:38:47.331+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-12T09:38:47.332+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 600 for task create_biglake_external_table (Invalid arguments were passed to BigQueryCreateExternalTableOperator (task_id: create_biglake_external_table). Invalid arguments were:
+**kwargs: {'hivePartitioningOptions': {'mode': 'AUTO', 'sourceUriPrefix': 'gs://ishak-tobbi-data-lake-2026/raw/taxi/green/', 'requirePartitionFilter': False}}; 178)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3114, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3533, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 913, in render_template_fields
+    unmapped_task = self.unmap(mapped_kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 824, in unmap
+    op = self.operator_class(**kwargs, _airflow_from_mapped=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 490, in apply_defaults
+    result = func(self, **kwargs, default_args=default_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1811, in __init__
+    super().__init__(**kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 490, in apply_defaults
+    result = func(self, **kwargs, default_args=default_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 938, in __init__
+    raise AirflowException(
+airflow.exceptions.AirflowException: Invalid arguments were passed to BigQueryCreateExternalTableOperator (task_id: create_biglake_external_table). Invalid arguments were:
+**kwargs: {'hivePartitioningOptions': {'mode': 'AUTO', 'sourceUriPrefix': 'gs://ishak-tobbi-data-lake-2026/raw/taxi/green/', 'requirePartitionFilter': False}}
+[2026-07-12T09:38:47.348+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-12T09:38:47.354+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-12T09:38:47.354+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T04:37:24.854+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T04:37:24.870+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T04:37:24.876+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T04:37:24.876+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T04:37:24.887+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T04:37:24.893+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1118) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T04:37:24.894+0000] {standard_task_runner.py:72} INFO - Started process 1122 to run task
+[2026-07-13T04:37:24.894+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '623', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmpkmxvm0fb', '--map-index', '0']
+[2026-07-13T04:37:24.895+0000] {standard_task_runner.py:105} INFO - Job 623: Subtask create_biglake_external_table
+[2026-07-13T04:37:24.915+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 109797fabaed
+[2026-07-13T04:37:24.936+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3114, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3533, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 913, in render_template_fields
+    unmapped_task = self.unmap(mapped_kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 824, in unmap
+    op = self.operator_class(**kwargs, _airflow_from_mapped=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 490, in apply_defaults
+    result = func(self, **kwargs, default_args=default_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1880, in __init__
+    raise ValueError("You provided both `table_resource` and exclusive keywords arguments.")
+ValueError: You provided both `table_resource` and exclusive keywords arguments.
+[2026-07-13T04:37:24.944+0000] {taskinstance.py:3358} ERROR - Unable to unmap task to determine if we need to send an alert email
+[2026-07-13T04:37:24.946+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T043724, end_date=20260713T043724
+[2026-07-13T04:37:24.950+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T04:37:24.951+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 623 for task create_biglake_external_table (You provided both `table_resource` and exclusive keywords arguments.; 1122)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3114, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3533, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 913, in render_template_fields
+    unmapped_task = self.unmap(mapped_kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 824, in unmap
+    op = self.operator_class(**kwargs, _airflow_from_mapped=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 490, in apply_defaults
+    result = func(self, **kwargs, default_args=default_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1880, in __init__
+    raise ValueError("You provided both `table_resource` and exclusive keywords arguments.")
+ValueError: You provided both `table_resource` and exclusive keywords arguments.
+[2026-07-13T04:37:24.993+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-13T04:37:24.999+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T04:42:45.943+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T04:42:45.952+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T04:42:45.956+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T04:42:45.957+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T04:42:45.964+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T04:42:45.967+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1360) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T04:42:45.967+0000] {standard_task_runner.py:72} INFO - Started process 1365 to run task
+[2026-07-13T04:42:45.968+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '642', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmp13ce2j9d', '--map-index', '0']
+[2026-07-13T04:42:45.968+0000] {standard_task_runner.py:105} INFO - Job 642: Subtask create_biglake_external_table
+[2026-07-13T04:42:45.984+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 109797fabaed
+[2026-07-13T04:42:46.007+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T04:42:46.008+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T04:42:46.013+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T04:42:46.013+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T04:42:46.013+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T04:42:46.504+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: metadataCacheMode provided for non BigLake external table.
+[2026-07-13T04:42:46.509+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T044245, end_date=20260713T044246
+[2026-07-13T04:42:46.514+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T04:42:46.515+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 642 for task create_biglake_external_table (400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: metadataCacheMode provided for non BigLake external table.; 1365)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: metadataCacheMode provided for non BigLake external table.
+[2026-07-13T04:42:46.559+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-13T04:42:46.565+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-13T04:42:46.566+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T04:46:46.875+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T04:46:46.882+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T04:46:46.887+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T04:46:46.887+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T04:46:46.891+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T04:46:46.894+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=193) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T04:46:46.894+0000] {standard_task_runner.py:72} INFO - Started process 198 to run task
+[2026-07-13T04:46:46.894+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '660', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmpv68lck0n', '--map-index', '0']
+[2026-07-13T04:46:46.895+0000] {standard_task_runner.py:105} INFO - Job 660: Subtask create_biglake_external_table
+[2026-07-13T04:46:46.910+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 1219cc357e33
+[2026-07-13T04:46:46.932+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T04:46:46.933+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T04:46:46.937+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T04:46:46.937+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T04:46:46.937+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T04:46:47.388+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: metadataCacheMode provided for non BigLake external table.
+[2026-07-13T04:46:47.398+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T044646, end_date=20260713T044647
+[2026-07-13T04:46:47.405+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T04:46:47.405+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 660 for task create_biglake_external_table (400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: metadataCacheMode provided for non BigLake external table.; 198)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: metadataCacheMode provided for non BigLake external table.
+[2026-07-13T04:46:47.441+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-13T04:46:47.447+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T10:07:41.070+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T10:07:41.079+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T10:07:41.083+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T10:07:41.084+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T10:07:41.088+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T10:07:41.092+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=379) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T10:07:41.092+0000] {standard_task_runner.py:72} INFO - Started process 389 to run task
+[2026-07-13T10:07:41.093+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '681', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmpv5oi8rsm', '--map-index', '0']
+[2026-07-13T10:07:41.094+0000] {standard_task_runner.py:105} INFO - Job 681: Subtask create_biglake_external_table
+[2026-07-13T10:07:41.112+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 9a91856184a2
+[2026-07-13T10:07:41.140+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T10:07:41.142+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T10:07:41.146+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T10:07:41.147+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T10:07:41.147+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T10:07:41.820+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: maxStaleness must be specified when MetadataCacheMode is AUTOMATIC
+[2026-07-13T10:07:41.834+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T100741, end_date=20260713T100741
+[2026-07-13T10:07:41.846+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T10:07:41.846+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 681 for task create_biglake_external_table (400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: maxStaleness must be specified when MetadataCacheMode is AUTOMATIC; 389)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: maxStaleness must be specified when MetadataCacheMode is AUTOMATIC
+[2026-07-13T10:07:41.853+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-13T10:07:41.858+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-13T10:07:41.858+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T10:20:06.691+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T10:20:06.708+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T10:20:06.717+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T10:20:06.718+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T10:20:06.726+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T10:20:06.735+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=818) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T10:20:06.736+0000] {standard_task_runner.py:72} INFO - Started process 822 to run task
+[2026-07-13T10:20:06.738+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '691', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmpb3b7867h', '--map-index', '0']
+[2026-07-13T10:20:06.739+0000] {standard_task_runner.py:105} INFO - Job 691: Subtask create_biglake_external_table
+[2026-07-13T10:20:06.800+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 9a91856184a2
+[2026-07-13T10:20:06.871+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T10:20:06.873+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T10:20:06.887+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T10:20:06.888+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T10:20:06.888+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T10:20:08.394+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Invalid value for max_staleness: 0-0 0:30:0 is not a valid value
+[2026-07-13T10:20:08.412+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T102006, end_date=20260713T102008
+[2026-07-13T10:20:08.430+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T10:20:08.431+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 691 for task create_biglake_external_table (400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Invalid value for max_staleness: 0-0 0:30:0 is not a valid value; 822)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Invalid value for max_staleness: 0-0 0:30:0 is not a valid value
+[2026-07-13T10:20:08.441+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-13T10:20:08.455+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-13T10:20:08.457+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T10:23:23.139+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T10:23:23.158+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T10:23:23.168+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T10:23:23.170+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T10:23:23.180+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T10:23:23.189+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1015) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T10:23:23.191+0000] {standard_task_runner.py:72} INFO - Started process 1019 to run task
+[2026-07-13T10:23:23.191+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '715', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmpcnp52gu6', '--map-index', '0']
+[2026-07-13T10:23:23.192+0000] {standard_task_runner.py:105} INFO - Job 715: Subtask create_biglake_external_table
+[2026-07-13T10:23:23.237+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 9a91856184a2
+[2026-07-13T10:23:23.295+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T10:23:23.298+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T10:23:23.309+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T10:23:23.309+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T10:23:23.310+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T10:23:23.766+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Invalid value for max_staleness: 30m is not a valid value
+[2026-07-13T10:23:23.778+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T102323, end_date=20260713T102323
+[2026-07-13T10:23:23.788+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T10:23:23.789+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 715 for task create_biglake_external_table (400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Invalid value for max_staleness: 30m is not a valid value; 1019)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Invalid value for max_staleness: 30m is not a valid value
+[2026-07-13T10:23:23.827+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-13T10:23:23.839+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-13T10:23:23.840+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T10:31:10.865+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T10:31:10.894+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T10:31:10.904+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T10:31:10.905+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T10:31:10.919+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T10:31:10.927+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1312) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T10:31:10.929+0000] {standard_task_runner.py:72} INFO - Started process 1317 to run task
+[2026-07-13T10:31:10.929+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '730', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmp04l5hnsk', '--map-index', '0']
+[2026-07-13T10:31:10.931+0000] {standard_task_runner.py:105} INFO - Job 730: Subtask create_biglake_external_table
+[2026-07-13T10:31:10.985+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 9a91856184a2
+[2026-07-13T10:31:11.056+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T10:31:11.059+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T10:31:11.075+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T10:31:11.076+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T10:31:11.077+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T10:31:13.670+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T10:31:13.670+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T103110, end_date=20260713T103113
+[2026-07-13T10:31:13.685+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-13T10:31:13.695+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-13T10:31:13.696+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T10:51:28.176+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T10:51:28.190+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T10:51:28.197+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T10:51:28.198+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T10:51:28.207+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T10:51:28.212+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=653) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T10:51:28.213+0000] {standard_task_runner.py:72} INFO - Started process 656 to run task
+[2026-07-13T10:51:28.213+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '749', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmp7d0irs4f', '--map-index', '0']
+[2026-07-13T10:51:28.214+0000] {standard_task_runner.py:105} INFO - Job 749: Subtask create_biglake_external_table
+[2026-07-13T10:51:28.238+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 49ba5187d6ed
+[2026-07-13T10:51:28.276+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T10:51:28.277+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T10:51:28.285+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T10:51:28.285+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T10:51:28.286+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T10:51:28.890+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Cannot parse region from connection projects/elpipeline/locations/None/connections/None.
+[2026-07-13T10:51:28.900+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T105128, end_date=20260713T105128
+[2026-07-13T10:51:28.908+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T10:51:28.909+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 749 for task create_biglake_external_table (400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Cannot parse region from connection projects/elpipeline/locations/None/connections/None.; 656)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.BadRequest: 400 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Cannot parse region from connection projects/elpipeline/locations/None/connections/None.
+[2026-07-13T10:51:28.928+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-13T10:51:28.949+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-13T10:51:28.949+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T11:15:43.889+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T11:15:43.903+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T11:15:43.909+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T11:15:43.909+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T11:15:43.916+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T11:15:43.920+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=435) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T11:15:43.921+0000] {standard_task_runner.py:72} INFO - Started process 480 to run task
+[2026-07-13T11:15:43.922+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '79', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmpriecfrc8', '--map-index', '0']
+[2026-07-13T11:15:43.923+0000] {standard_task_runner.py:105} INFO - Job 79: Subtask create_biglake_external_table
+[2026-07-13T11:15:43.951+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 43e17610caa8
+[2026-07-13T11:15:43.994+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T11:15:43.996+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T11:15:44.009+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T11:15:44.009+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T11:15:44.010+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T11:15:54.369+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T11:15:54.370+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T111543, end_date=20260713T111554
+[2026-07-13T11:15:54.389+0000] {job.py:229} INFO - Heartbeat recovered after 10.52 seconds
+[2026-07-13T11:15:54.423+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-13T11:15:54.435+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T11:26:59.047+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T11:26:59.055+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T11:26:59.058+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T11:26:59.058+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T11:26:59.063+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T11:26:59.067+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=186) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T11:26:59.067+0000] {standard_task_runner.py:72} INFO - Started process 191 to run task
+[2026-07-13T11:26:59.067+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '98', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_skip_biglake.py', '--cfg-path', '/tmp/tmp85162e02', '--map-index', '0']
+[2026-07-13T11:26:59.068+0000] {standard_task_runner.py:105} INFO - Job 98: Subtask create_biglake_external_table
+[2026-07-13T11:26:59.084+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 7e1f2ba4a20d
+[2026-07-13T11:26:59.110+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T11:26:59.111+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T11:26:59.115+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T11:26:59.116+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T11:26:59.116+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T11:27:00.128+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T11:27:00.129+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T112659, end_date=20260713T112700
+[2026-07-13T11:27:00.152+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-13T11:27:00.158+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-13T11:27:00.158+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T14:56:57.730+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T14:56:57.737+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T14:56:57.740+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T14:56:57.740+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T14:56:57.743+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T14:56:57.746+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=198) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T14:56:57.747+0000] {standard_task_runner.py:72} INFO - Started process 204 to run task
+[2026-07-13T14:56:57.747+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '115', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmph6aega9i', '--map-index', '0']
+[2026-07-13T14:56:57.748+0000] {standard_task_runner.py:105} INFO - Job 115: Subtask create_biglake_external_table
+[2026-07-13T14:56:57.764+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 8de21402fd69
+[2026-07-13T14:56:57.787+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T14:56:57.788+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T14:56:57.792+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T14:56:57.792+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T14:56:57.793+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T14:56:58.632+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T14:56:58.632+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T145657, end_date=20260713T145658
+[2026-07-13T14:56:58.668+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-13T14:56:58.676+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-07-13T14:56:58.676+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-13T15:01:21.679+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-13T15:01:21.692+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T15:01:21.697+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-13T15:01:21.697+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-13T15:01:21.703+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-13T15:01:21.706+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=427) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-13T15:01:21.707+0000] {standard_task_runner.py:72} INFO - Started process 435 to run task
+[2026-07-13T15:01:21.707+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '133', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpgz8h3r_6', '--map-index', '0']
+[2026-07-13T15:01:21.708+0000] {standard_task_runner.py:105} INFO - Job 133: Subtask create_biglake_external_table
+[2026-07-13T15:01:21.723+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 8de21402fd69
+[2026-07-13T15:01:21.747+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-13T15:01:21.748+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-13T15:01:21.752+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-13T15:01:21.753+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-13T15:01:21.753+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-13T15:01:22.701+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-13T15:01:22.701+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260713T150121, end_date=20260713T150122
+[2026-07-13T15:01:22.712+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-13T15:01:22.723+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-13T15:01:22.723+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-14T15:36:33.359+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-14T15:36:33.366+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T15:36:33.369+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T15:36:33.369+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-14T15:36:33.373+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-14T15:36:33.376+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=991) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-14T15:36:33.376+0000] {standard_task_runner.py:72} INFO - Started process 995 to run task
+[2026-07-14T15:36:33.377+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '72', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmprzo_jdk0', '--map-index', '0']
+[2026-07-14T15:36:33.377+0000] {standard_task_runner.py:105} INFO - Job 72: Subtask create_biglake_external_table
+[2026-07-14T15:36:33.393+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host b9a3626ab24a
+[2026-07-14T15:36:33.418+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-14T15:36:33.419+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-14T15:36:33.427+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-14T15:36:33.427+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-14T15:36:33.427+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-14T15:36:37.234+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-14T15:36:37.235+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260714T153633, end_date=20260714T153637
+[2026-07-14T15:36:37.255+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-14T15:36:37.274+0000] {taskinstance.py:3900} INFO - 6 downstream tasks scheduled from follow-on schedule check
+[2026-07-14T15:36:37.274+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-14T17:12:07.793+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-14T17:12:07.801+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T17:12:07.805+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T17:12:07.806+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-14T17:12:07.812+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-14T17:12:07.815+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=236) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-14T17:12:07.817+0000] {standard_task_runner.py:72} INFO - Started process 258 to run task
+[2026-07-14T17:12:07.817+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '129', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpavlxcmr6', '--map-index', '0']
+[2026-07-14T17:12:07.818+0000] {standard_task_runner.py:105} INFO - Job 129: Subtask create_biglake_external_table
+[2026-07-14T17:12:07.846+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host b9c63aea70dc
+[2026-07-14T17:12:07.883+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-14T17:12:07.886+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-14T17:12:07.891+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-14T17:12:07.892+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-14T17:12:07.892+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-14T17:12:08.848+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-14T17:12:08.848+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260714T171207, end_date=20260714T171208
+[2026-07-14T17:12:08.861+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-14T17:12:08.880+0000] {taskinstance.py:3900} INFO - 6 downstream tasks scheduled from follow-on schedule check
+[2026-07-14T17:12:08.881+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-14T17:28:40.401+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-14T17:28:40.408+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T17:28:40.410+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T17:28:40.411+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-14T17:28:40.414+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-14T17:28:40.417+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=223) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-14T17:28:40.417+0000] {standard_task_runner.py:72} INFO - Started process 228 to run task
+[2026-07-14T17:28:40.418+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '189', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmp5kc74y0m', '--map-index', '0']
+[2026-07-14T17:28:40.419+0000] {standard_task_runner.py:105} INFO - Job 189: Subtask create_biglake_external_table
+[2026-07-14T17:28:40.435+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 3269af3420a1
+[2026-07-14T17:28:40.460+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-14T17:28:40.461+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-14T17:28:40.466+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-14T17:28:40.466+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-14T17:28:40.466+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-14T17:28:41.970+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-14T17:28:41.970+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260714T172840, end_date=20260714T172841
+[2026-07-14T17:28:42.009+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-14T17:28:42.022+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-14T17:28:42.022+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-14T17:36:27.736+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-14T17:36:27.744+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T17:36:27.748+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T17:36:27.749+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-14T17:36:27.753+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-14T17:36:27.757+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=238) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-14T17:36:27.758+0000] {standard_task_runner.py:72} INFO - Started process 254 to run task
+[2026-07-14T17:36:27.759+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '235', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpvjovy61l', '--map-index', '0']
+[2026-07-14T17:36:27.760+0000] {standard_task_runner.py:105} INFO - Job 235: Subtask create_biglake_external_table
+[2026-07-14T17:36:27.779+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host fccf27c83772
+[2026-07-14T17:36:27.804+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-14T17:36:27.805+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-14T17:36:27.810+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-14T17:36:27.810+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-14T17:36:27.810+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-14T17:36:28.700+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-14T17:36:28.701+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260714T173627, end_date=20260714T173628
+[2026-07-14T17:36:28.763+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-14T17:36:28.778+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-14T17:49:25.479+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-14T17:49:25.495+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T17:49:25.500+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T17:49:25.500+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-14T17:49:25.508+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-14T17:49:25.513+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=817) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-14T17:49:25.514+0000] {standard_task_runner.py:72} INFO - Started process 832 to run task
+[2026-07-14T17:49:25.515+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '283', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpmnjvnr8s', '--map-index', '0']
+[2026-07-14T17:49:25.516+0000] {standard_task_runner.py:105} INFO - Job 283: Subtask create_biglake_external_table
+[2026-07-14T17:49:25.544+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host fccf27c83772
+[2026-07-14T17:49:25.588+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-14T17:49:25.589+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-14T17:49:25.596+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-14T17:49:25.597+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-14T17:49:25.598+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-14T17:49:28.077+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-14T17:49:28.078+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260714T174925, end_date=20260714T174928
+[2026-07-14T17:49:28.144+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-14T17:49:28.182+0000] {taskinstance.py:3900} INFO - 6 downstream tasks scheduled from follow-on schedule check
+[2026-07-14T17:49:28.183+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-14T18:04:22.322+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-14T18:04:22.350+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T18:04:22.371+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-14T18:04:22.372+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-14T18:04:22.385+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-14T18:04:22.393+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=697) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-14T18:04:22.394+0000] {standard_task_runner.py:72} INFO - Started process 749 to run task
+[2026-07-14T18:04:22.395+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '350', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpqf_el6oz', '--map-index', '0']
+[2026-07-14T18:04:22.396+0000] {standard_task_runner.py:105} INFO - Job 350: Subtask create_biglake_external_table
+[2026-07-14T18:04:22.442+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host b1cc19a0d893
+[2026-07-14T18:04:22.525+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-14T18:04:22.526+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-14T18:04:22.548+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-14T18:04:22.548+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-14T18:04:22.549+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-14T18:04:23.470+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-14T18:04:23.472+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260714T180422, end_date=20260714T180423
+[2026-07-14T18:04:23.528+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-14T18:04:23.575+0000] {taskinstance.py:3900} INFO - 6 downstream tasks scheduled from follow-on schedule check
+[2026-07-14T18:04:23.577+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-15T11:45:26.536+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-15T11:45:26.544+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-15T11:45:26.547+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-15T11:45:26.547+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-15T11:45:26.551+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-15T11:45:26.554+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=183) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-15T11:45:26.555+0000] {standard_task_runner.py:72} INFO - Started process 191 to run task
+[2026-07-15T11:45:26.555+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '382', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpa9xsurw4', '--map-index', '0']
+[2026-07-15T11:45:26.555+0000] {standard_task_runner.py:105} INFO - Job 382: Subtask create_biglake_external_table
+[2026-07-15T11:45:26.572+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host d2bc0397fae8
+[2026-07-15T11:45:26.600+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-15T11:45:26.600+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-15T11:45:26.605+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-15T11:45:26.606+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-15T11:45:26.606+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-15T11:45:27.398+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-15T11:45:27.398+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260715T114526, end_date=20260715T114527
+[2026-07-15T11:45:27.433+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-15T11:45:27.444+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-07-15T11:45:27.444+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-15T11:54:56.041+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-15T11:54:56.049+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-15T11:54:56.052+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-15T11:54:56.052+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-15T11:54:56.056+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-15T11:54:56.059+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=468) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-15T11:54:56.060+0000] {standard_task_runner.py:72} INFO - Started process 477 to run task
+[2026-07-15T11:54:56.060+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '398', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmp8p6lse2h', '--map-index', '0']
+[2026-07-15T11:54:56.061+0000] {standard_task_runner.py:105} INFO - Job 398: Subtask create_biglake_external_table
+[2026-07-15T11:54:56.076+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host d2bc0397fae8
+[2026-07-15T11:54:56.099+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-15T11:54:56.100+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-15T11:54:56.104+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-15T11:54:56.105+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-15T11:54:56.105+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-15T11:54:57.004+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-15T11:54:57.004+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260715T115456, end_date=20260715T115457
+[2026-07-15T11:54:57.027+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-15T11:54:57.036+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-07-15T11:54:57.037+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-15T13:19:55.496+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-15T13:19:55.564+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-15T13:19:55.567+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-15T13:19:55.568+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-15T13:19:55.571+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-15T13:19:55.574+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=283) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-15T13:19:55.575+0000] {standard_task_runner.py:72} INFO - Started process 286 to run task
+[2026-07-15T13:19:55.575+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '437', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmprneab2cv', '--map-index', '0']
+[2026-07-15T13:19:55.576+0000] {standard_task_runner.py:105} INFO - Job 437: Subtask create_biglake_external_table
+[2026-07-15T13:19:55.592+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host ca5aecfaf665
+[2026-07-15T13:19:55.615+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-15T13:19:55.616+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-15T13:19:55.620+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-15T13:19:55.620+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-15T13:19:55.620+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-15T13:19:56.432+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-15T13:19:56.432+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260715T131955, end_date=20260715T131956
+[2026-07-15T13:19:56.464+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-15T13:19:56.477+0000] {taskinstance.py:3900} INFO - 3 downstream tasks scheduled from follow-on schedule check
+[2026-07-15T13:19:56.478+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-15T13:32:56.714+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-15T13:32:56.724+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-15T13:32:56.729+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-15T13:32:56.729+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-15T13:32:56.735+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-15T13:32:56.738+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=167) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-15T13:32:56.738+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '14', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpdywvg6_c', '--map-index', '0']
+[2026-07-15T13:32:56.738+0000] {standard_task_runner.py:72} INFO - Started process 170 to run task
+[2026-07-15T13:32:56.739+0000] {standard_task_runner.py:105} INFO - Job 14: Subtask create_biglake_external_table
+[2026-07-15T13:32:56.754+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 2e6d0ad66012
+[2026-07-15T13:32:56.777+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-15T13:32:56.777+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-15T13:32:56.782+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-15T13:32:56.782+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-15T13:32:56.782+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-15T13:32:57.634+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-15T13:32:57.634+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260715T133256, end_date=20260715T133257
+[2026-07-15T13:32:57.658+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-15T13:32:57.672+0000] {taskinstance.py:3900} INFO - 3 downstream tasks scheduled from follow-on schedule check
+[2026-07-15T13:32:57.673+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-16T07:56:21.342+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-16T07:56:21.349+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T07:56:21.352+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T07:56:21.352+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-16T07:56:21.355+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-16T07:56:21.358+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=269) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-16T07:56:21.358+0000] {standard_task_runner.py:72} INFO - Started process 273 to run task
+[2026-07-16T07:56:21.359+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '29', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmp18gsz9e2', '--map-index', '0']
+[2026-07-16T07:56:21.359+0000] {standard_task_runner.py:105} INFO - Job 29: Subtask create_biglake_external_table
+[2026-07-16T07:56:21.375+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host f4a4b107645c
+[2026-07-16T07:56:21.397+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-16T07:56:21.398+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-16T07:56:21.403+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-16T07:56:21.403+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-16T07:56:21.403+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-16T07:56:22.332+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-16T07:56:22.332+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260716T075621, end_date=20260716T075622
+[2026-07-16T07:56:22.368+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-16T07:56:22.380+0000] {taskinstance.py:3900} INFO - 3 downstream tasks scheduled from follow-on schedule check
+[2026-07-16T07:56:22.381+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-16T08:15:01.496+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-16T08:15:01.504+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T08:15:01.508+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T08:15:01.509+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-16T08:15:01.515+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-16T08:15:01.517+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=271) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-16T08:15:01.518+0000] {standard_task_runner.py:72} INFO - Started process 280 to run task
+[2026-07-16T08:15:01.519+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '114', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpwcvl9h8s', '--map-index', '0']
+[2026-07-16T08:15:01.519+0000] {standard_task_runner.py:105} INFO - Job 114: Subtask create_biglake_external_table
+[2026-07-16T08:15:01.539+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 921599109bd7
+[2026-07-16T08:15:01.569+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-16T08:15:01.570+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-16T08:15:01.575+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-16T08:15:01.575+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-16T08:15:01.575+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-16T08:15:03.438+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-16T08:15:03.439+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260716T081501, end_date=20260716T081503
+[2026-07-16T08:15:03.466+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-16T08:15:03.489+0000] {taskinstance.py:3900} INFO - 3 downstream tasks scheduled from follow-on schedule check
+[2026-07-16T08:15:03.490+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-16T10:40:20.654+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-16T10:40:20.661+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T10:40:20.664+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T10:40:20.664+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-16T10:40:20.667+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-16T10:40:20.670+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=166) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-16T10:40:20.670+0000] {standard_task_runner.py:72} INFO - Started process 172 to run task
+[2026-07-16T10:40:20.670+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '786', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmphjfpb_0d', '--map-index', '0']
+[2026-07-16T10:40:20.671+0000] {standard_task_runner.py:105} INFO - Job 786: Subtask create_biglake_external_table
+[2026-07-16T10:40:20.685+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 9ecfccbb65be
+[2026-07-16T10:40:20.707+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-16T10:40:20.708+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-16T10:40:20.712+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-16T10:40:20.712+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-16T10:40:20.713+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-16T10:40:21.787+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-16T10:40:21.787+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260716T104020, end_date=20260716T104021
+[2026-07-16T10:40:21.801+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-16T10:40:21.806+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-16T11:26:34.332+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-16T11:26:34.348+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T11:26:34.354+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T11:26:34.355+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-16T11:26:34.362+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-16T11:26:34.367+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=225) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-16T11:26:34.368+0000] {standard_task_runner.py:72} INFO - Started process 240 to run task
+[2026-07-16T11:26:34.369+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '32', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpf14x6q8k', '--map-index', '0']
+[2026-07-16T11:26:34.370+0000] {standard_task_runner.py:105} INFO - Job 32: Subtask create_biglake_external_table
+[2026-07-16T11:26:34.400+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 05681a1f25f6
+[2026-07-16T11:26:34.440+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-16T11:26:34.440+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-16T11:26:34.450+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-16T11:26:34.450+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-16T11:26:34.450+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-16T11:26:35.134+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-16T11:26:35.134+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260716T112634, end_date=20260716T112635
+[2026-07-16T11:26:35.163+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-16T11:26:35.175+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-16T11:26:35.176+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-16T13:00:22.802+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-16T13:00:22.814+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T13:00:22.820+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T13:00:22.820+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-16T13:00:22.828+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-16T13:00:22.835+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3323) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-16T13:00:22.836+0000] {standard_task_runner.py:72} INFO - Started process 3333 to run task
+[2026-07-16T13:00:22.837+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '506', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmp265jv60z', '--map-index', '0']
+[2026-07-16T13:00:22.838+0000] {standard_task_runner.py:105} INFO - Job 506: Subtask create_biglake_external_table
+[2026-07-16T13:00:22.863+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 05681a1f25f6
+[2026-07-16T13:00:22.908+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-16T13:00:22.909+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-16T13:00:22.917+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-16T13:00:22.917+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-16T13:00:22.918+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-16T13:00:23.906+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-16T13:00:23.906+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260716T130022, end_date=20260716T130023
+[2026-07-16T13:00:23.925+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-16T13:00:23.931+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-16T13:17:18.989+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-16T13:17:19.003+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T13:17:19.010+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T13:17:19.010+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-16T13:17:19.017+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-16T13:17:19.023+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=386) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-16T13:17:19.024+0000] {standard_task_runner.py:72} INFO - Started process 392 to run task
+[2026-07-16T13:17:19.025+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '567', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmp7r6zl4is', '--map-index', '0']
+[2026-07-16T13:17:19.026+0000] {standard_task_runner.py:105} INFO - Job 567: Subtask create_biglake_external_table
+[2026-07-16T13:17:19.064+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 4abc79b11285
+[2026-07-16T13:17:19.113+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-16T13:17:19.114+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-16T13:17:19.124+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-16T13:17:19.125+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-16T13:17:19.126+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-16T13:17:19.709+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-16T13:17:19.709+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260716T131719, end_date=20260716T131719
+[2026-07-16T13:17:19.777+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-16T13:17:19.811+0000] {taskinstance.py:3900} INFO - 3 downstream tasks scheduled from follow-on schedule check
+[2026-07-16T13:17:19.812+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-16T14:02:00.084+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-16T14:02:00.096+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T14:02:00.103+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-16T14:02:00.103+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-16T14:02:00.109+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-16T14:02:00.113+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=227) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-16T14:02:00.114+0000] {standard_task_runner.py:72} INFO - Started process 241 to run task
+[2026-07-16T14:02:00.115+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '29', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpypyeb774', '--map-index', '0']
+[2026-07-16T14:02:00.116+0000] {standard_task_runner.py:105} INFO - Job 29: Subtask create_biglake_external_table
+[2026-07-16T14:02:00.141+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 0d99453ea292
+[2026-07-16T14:02:00.174+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-16T14:02:00.175+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-16T14:02:00.181+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-16T14:02:00.181+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-16T14:02:00.181+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-16T14:02:01.062+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-16T14:02:01.063+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260716T140200, end_date=20260716T140201
+[2026-07-16T14:02:01.073+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-16T14:02:01.088+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-16T14:02:01.089+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-17T09:49:59.481+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-17T09:49:59.490+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-17T09:49:59.493+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-17T09:49:59.494+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-17T09:49:59.498+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-17T09:49:59.501+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=6086) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-17T09:49:59.502+0000] {standard_task_runner.py:72} INFO - Started process 6094 to run task
+[2026-07-17T09:49:59.503+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '1250', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmp5ho7qdqg', '--map-index', '0']
+[2026-07-17T09:49:59.504+0000] {standard_task_runner.py:105} INFO - Job 1250: Subtask create_biglake_external_table
+[2026-07-17T09:49:59.531+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 3522be55eddb
+[2026-07-17T09:49:59.565+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-17T09:49:59.566+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-17T09:49:59.572+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-17T09:49:59.572+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-17T09:49:59.572+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-17T09:50:00.355+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-17T09:50:00.356+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260717T094959, end_date=20260717T095000
+[2026-07-17T09:50:00.381+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-17T09:50:00.396+0000] {taskinstance.py:3900} INFO - 3 downstream tasks scheduled from follow-on schedule check
+[2026-07-17T09:50:00.397+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-17T10:05:45.088+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-17T10:05:45.099+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-17T10:05:45.103+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-17T10:05:45.105+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-17T10:05:45.117+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-17T10:05:45.121+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=6571) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-17T10:05:45.122+0000] {standard_task_runner.py:72} INFO - Started process 6589 to run task
+[2026-07-17T10:05:45.123+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '1311', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpwne4vtk5', '--map-index', '0']
+[2026-07-17T10:05:45.124+0000] {standard_task_runner.py:105} INFO - Job 1311: Subtask create_biglake_external_table
+[2026-07-17T10:05:45.157+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 3522be55eddb
+[2026-07-17T10:05:45.207+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-17T10:05:45.208+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-17T10:05:45.215+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-17T10:05:45.215+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-17T10:05:45.215+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-17T10:05:45.925+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-17T10:05:45.925+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260717T100545, end_date=20260717T100545
+[2026-07-17T10:05:45.960+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-17T10:05:45.973+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-17T10:05:45.973+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-19T09:29:03.458+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-19T09:29:03.464+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-19T09:29:03.467+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-19T09:29:03.467+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-19T09:29:03.471+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-19T09:29:03.473+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=169) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-19T09:29:03.473+0000] {standard_task_runner.py:72} INFO - Started process 182 to run task
+[2026-07-19T09:29:03.474+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '1349', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpzy6bp8sf', '--map-index', '0']
+[2026-07-19T09:29:03.474+0000] {standard_task_runner.py:105} INFO - Job 1349: Subtask create_biglake_external_table
+[2026-07-19T09:29:03.488+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 5467821d6394
+[2026-07-19T09:29:03.509+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-19T09:29:03.509+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-19T09:29:03.513+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-19T09:29:03.514+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-19T09:29:03.514+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-19T09:29:04.229+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-19T09:29:04.229+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260719T092903, end_date=20260719T092904
+[2026-07-19T09:29:04.273+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-19T09:29:04.287+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-07-19T09:29:04.288+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-19T10:14:09.228+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-19T10:14:09.235+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-19T10:14:09.238+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-19T10:14:09.238+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-19T10:14:09.242+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-19T10:14:09.244+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=152) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-19T10:14:09.245+0000] {standard_task_runner.py:72} INFO - Started process 157 to run task
+[2026-07-19T10:14:09.246+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '23', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpdesk66se', '--map-index', '0']
+[2026-07-19T10:14:09.246+0000] {standard_task_runner.py:105} INFO - Job 23: Subtask create_biglake_external_table
+[2026-07-19T10:14:09.262+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host 2dd0fa6f4867
+[2026-07-19T10:14:09.284+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-19T10:14:09.285+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-19T10:14:09.290+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-19T10:14:09.290+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-19T10:14:09.290+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-19T10:14:09.979+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-19T10:14:09.979+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260719T101409, end_date=20260719T101409
+[2026-07-19T10:14:10.003+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-19T10:14:10.021+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-07-19T10:14:10.022+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-21T05:05:16.351+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-21T05:05:16.362+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-21T05:05:16.368+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-07-21T05:05:16.368+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-21T05:05:16.374+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-03-01 00:00:00+00:00
+[2026-07-21T05:05:16.377+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=176) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-21T05:05:16.378+0000] {standard_task_runner.py:72} INFO - Started process 185 to run task
+[2026-07-21T05:05:16.378+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'create_biglake_external_table', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '20', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpvveiroxy', '--map-index', '0']
+[2026-07-21T05:05:16.379+0000] {standard_task_runner.py:105} INFO - Job 20: Subtask create_biglake_external_table
+[2026-07-21T05:05:16.401+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.create_biglake_external_table scheduled__2019-03-01T00:00:00+00:00 map_index=0 [running]> on host ffa253bbd8d0
+[2026-07-21T05:05:16.438+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-21T05:05:16.439+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-21T05:05:16.444+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-07-21T05:05:16.445+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-07-21T05:05:16.445+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-07-21T05:05:17.344+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-21T05:05:17.345+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=create_biglake_external_table, run_id=scheduled__2019-03-01T00:00:00+00:00, map_index=0, execution_date=20190301T000000, start_date=20260721T050516, end_date=20260721T050517
+[2026-07-21T05:05:17.392+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-21T05:05:17.401+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

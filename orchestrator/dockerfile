@@ -1,7 +1,25 @@
 FROM apache/airflow:2.10.2
-COPY requirements.txt /requirements.txt
+COPY orchestrator/requirements.txt /requirements.txt
 RUN pip install --no-cache-dir -r /requirements.txt --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.10.2/constraints-3.11.txt"
+
 
 # 2. Force-install your exact dbt versions immediately after. 
 # This bypasses the old constraints engine for just these two packages, building instantly!
 # RUN pip install --no-cache-dir dbt-core==1.9.2 dbt-bigquery==1.9.2
+
+# USER root
+# RUN apt-get update && apt-get install -y --no-install-recommends git && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+USER airflow
+# 1. Create a permanent virtual environment inside the Airflow image
+# 2. Install dbt-bigquery cleanly once during build time
+RUN python -m venv /home/airflow/dbt_venv \
+    && /home/airflow/dbt_venv/bin/pip install --no-cache-dir dbt-core==1.9.2 dbt-bigquery==1.9.2
+
+COPY --chown=airflow:root ./dbt_project /opt/airflow/dbt_project
+# --chown=airflow:root let any user inside airflow to work with this file
+
+
+# 4. PRE-INSTALL THE DEPENDENCIES DURING BUILD TIME
+# This runs 'dbt deps', downloads packages, and saves them in /usr/app/dbt_project/dbt_packages/
+RUN /home/airflow/dbt_venv/bin/dbt deps --project-dir /opt/airflow/dbt_project

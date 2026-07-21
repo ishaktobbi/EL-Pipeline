@@ -1,0 +1,182 @@
+[2026-07-14T15:40:23.561+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-14T15:40:23.600+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.dim_vendors_run scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-14T15:40:23.623+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.dim_vendors_run scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-14T15:40:23.624+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-14T15:40:23.656+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtRunDockerOperator): dbt_transformations.dim_vendors_run> on 2019-03-01 00:00:00+00:00
+[2026-07-14T15:40:23.672+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1079) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-14T15:40:23.676+0000] {standard_task_runner.py:72} INFO - Started process 1112 to run task
+[2026-07-14T15:40:23.678+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'dbt_transformations.dim_vendors_run', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '86', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpntmusvb_']
+[2026-07-14T15:40:23.685+0000] {standard_task_runner.py:105} INFO - Job 86: Subtask dbt_transformations.dim_vendors_run
+[2026-07-14T15:40:23.788+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.dbt_transformations.dim_vendors_run scheduled__2019-03-01T00:00:00+00:00 [running]> on host b9a3626ab24a
+[2026-07-14T15:40:23.888+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='dbt_transformations.dim_vendors_run' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-14T15:40:23.892+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-14T15:40:23.897+0000] {docker.py:106} INFO - Running command: ['dbt', 'run', '--models', 'dim_vendors']
+[2026-07-14T15:40:23.927+0000] {baseoperator.py:405} WARNING - DbtRunDockerOperator.execute cannot be called outside TaskInstance!
+[2026-07-14T15:40:24.175+0000] {docker.py:367} INFO - Starting docker container from image europe-west3-docker.pkg.dev/elpipeline/dbt-images/dbt-k8s:v1
+[2026-07-14T15:40:40.435+0000] {docker.py:438} INFO - [0m15:40:40  Running with dbt=1.9.2
+[2026-07-14T15:41:07.821+0000] {job.py:229} INFO - Heartbeat recovered after 26.71 seconds
+[2026-07-14T15:42:20.990+0000] {job.py:229} INFO - Heartbeat recovered after 65.32 seconds
+[2026-07-14T15:42:53.520+0000] {job.py:229} INFO - Heartbeat recovered after 32.81 seconds
+[2026-07-14T15:43:45.576+0000] {job.py:229} INFO - Heartbeat recovered after 52.06 seconds
+[2026-07-14T15:43:48.518+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/base.py", line 310, in execute
+    self.build_and_run_cmd(context=context, cmd_flags=self.add_cmd_flags())
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/docker.py", line 107, in build_and_run_cmd
+    result = DockerOperator.execute(self, context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 137}
+[2026-07-14T15:43:48.551+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=dbt_transformations.dim_vendors_run, run_id=scheduled__2019-03-01T00:00:00+00:00, execution_date=20190301T000000, start_date=20260714T154023, end_date=20260714T154348
+[2026-07-14T15:43:48.658+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-14T15:43:48.696+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 86 for task dbt_transformations.dim_vendors_run (Docker container failed: {'StatusCode': 137}; 1112)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/base.py", line 310, in execute
+    self.build_and_run_cmd(context=context, cmd_flags=self.add_cmd_flags())
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/docker.py", line 107, in build_and_run_cmd
+    result = DockerOperator.execute(self, context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 137}
+[2026-07-14T15:43:48.770+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-14T15:43:49.020+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-14T15:43:49.041+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-14T15:43:50.592+0000] {standard_task_runner.py:217} INFO - Process not found (most likely exited), stop collecting metrics
+[2026-07-14T18:00:27.426+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-14T18:00:27.441+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.dim_vendors_run scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-14T18:00:27.454+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.dim_vendors_run scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-14T18:00:27.455+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-14T18:00:27.468+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtRunLocalOperator): dbt_transformations.dim_vendors_run> on 2019-03-01 00:00:00+00:00
+[2026-07-14T18:00:27.475+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=318) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-14T18:00:27.476+0000] {standard_task_runner.py:72} INFO - Started process 328 to run task
+[2026-07-14T18:00:27.476+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'dbt_transformations.dim_vendors_run', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '326', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmp_sv87a57']
+[2026-07-14T18:00:27.477+0000] {standard_task_runner.py:105} INFO - Job 326: Subtask dbt_transformations.dim_vendors_run
+[2026-07-14T18:00:27.522+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.dbt_transformations.dim_vendors_run scheduled__2019-03-01T00:00:00+00:00 [running]> on host b1cc19a0d893
+[2026-07-14T18:00:27.602+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='dbt_transformations.dim_vendors_run' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-14T18:00:27.619+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-14T18:00:27.626+0000] {graph.py:880} INFO - Trying to parse the dbt project `dbt_project` using a dbt manifest...
+[2026-07-14T18:00:27.635+0000] {graph.py:560} INFO - Total nodes: 43
+[2026-07-14T18:00:27.636+0000] {graph.py:561} INFO - Total filtered nodes: 43
+[2026-07-14T18:00:27.636+0000] {converter.py:290} INFO - Cosmos performance (Transform__dbt_transformations) -  [b1cc19a0d893|328]: It took 0.0102s to parse the dbt project for DAG using LoadMode.DBT_MANIFEST
+[2026-07-14T18:00:27.651+0000] {converter.py:334} INFO - Cosmos performance (Transform__dbt_transformations) - [b1cc19a0d893|328]: It took 0.0149s to build the Airflow DAG.
+[2026-07-14T18:00:27.651+0000] {local.py:233} INFO - Could not import dbtRunner. Falling back to subprocess for invoking dbt.
+[2026-07-14T18:00:27.652+0000] {local.py:440} INFO - Cloning project to writable temp directory /tmp/tmpljcg9t6w from /opt/airflow/dbt_project
+[2026-07-14T18:00:27.655+0000] {local.py:458} INFO - Partial parse is enabled and the latest partial parse file is /tmp/cosmos/pipeline_biglake__dbt_transformations/target/partial_parse.msgpack
+[2026-07-14T18:00:27.664+0000] {config.py:364} INFO - Profile caching is enable.
+[2026-07-14T18:00:27.665+0000] {config.py:344} INFO - Profile found in cache using profile: /tmp/cosmos/profile/07a6c85fb2d4e3d1f3678d3cc0c1e7a83fdddd260cbe37543c728a2503c99e7c/profiles.yml.
+[2026-07-14T18:00:27.668+0000] {local.py:404} INFO - Trying to run the command:
+ ['/home/***/dbt_venv/bin/dbt', 'deps', '--project-dir', '/tmp/tmpljcg9t6w', '--profiles-dir', '/tmp/cosmos/profile/07a6c85fb2d4e3d1f3678d3cc0c1e7a83fdddd260cbe37543c728a2503c99e7c', '--profile', 'dbt_project', '--target', 'dev']
+From /tmp/tmpljcg9t6w
+[2026-07-14T18:00:27.668+0000] {subprocess.py:56} INFO - Tmp dir root location: 
+ /tmp
+[2026-07-14T18:00:27.669+0000] {subprocess.py:69} INFO - Running command: ['/home/***/dbt_venv/bin/dbt', 'deps', '--project-dir', '/tmp/tmpljcg9t6w', '--profiles-dir', '/tmp/cosmos/profile/07a6c85fb2d4e3d1f3678d3cc0c1e7a83fdddd260cbe37543c728a2503c99e7c', '--profile', 'dbt_project', '--target', 'dev']
+[2026-07-14T18:00:27.678+0000] {subprocess.py:80} INFO - Command output:
+[2026-07-14T18:00:29.345+0000] {subprocess.py:90} INFO - [0m18:00:29  Running with dbt=1.9.2
+[2026-07-14T18:00:29.561+0000] {subprocess.py:90} INFO - [0m18:00:29  Installing dbt-labs/dbt_utils
+[2026-07-14T18:00:29.830+0000] {subprocess.py:90} INFO - [0m18:00:29  Installed from version 1.4.1
+[2026-07-14T18:00:29.830+0000] {subprocess.py:90} INFO - [0m18:00:29  Up to date!
+[2026-07-14T18:00:30.477+0000] {subprocess.py:94} INFO - Command exited with return code 0
+[2026-07-14T18:00:30.478+0000] {local.py:411} INFO - [0m18:00:29  Up to date!
+[2026-07-14T18:00:30.478+0000] {local.py:404} INFO - Trying to run the command:
+ ['/home/***/dbt_venv/bin/dbt', 'run', '--models', 'dim_vendors', '--project-dir', '/tmp/tmpljcg9t6w', '--profiles-dir', '/tmp/cosmos/profile/07a6c85fb2d4e3d1f3678d3cc0c1e7a83fdddd260cbe37543c728a2503c99e7c', '--profile', 'dbt_project', '--target', 'dev']
+From /tmp/tmpljcg9t6w
+[2026-07-14T18:00:30.479+0000] {subprocess.py:56} INFO - Tmp dir root location: 
+ /tmp
+[2026-07-14T18:00:30.479+0000] {subprocess.py:69} INFO - Running command: ['/home/***/dbt_venv/bin/dbt', 'run', '--models', 'dim_vendors', '--project-dir', '/tmp/tmpljcg9t6w', '--profiles-dir', '/tmp/cosmos/profile/07a6c85fb2d4e3d1f3678d3cc0c1e7a83fdddd260cbe37543c728a2503c99e7c', '--profile', 'dbt_project', '--target', 'dev']
+[2026-07-14T18:00:30.490+0000] {subprocess.py:80} INFO - Command output:
+[2026-07-14T18:00:31.844+0000] {subprocess.py:90} INFO - [0m18:00:31  Running with dbt=1.9.2
+[2026-07-14T18:00:34.068+0000] {subprocess.py:90} INFO - [0m18:00:34  Registered adapter: bigquery=1.9.2
+[2026-07-14T18:00:34.648+0000] {subprocess.py:90} INFO - [0m18:00:34  Found 9 models, 4 seeds, 28 data tests, 2 sources, 612 macros
+[2026-07-14T18:00:34.649+0000] {subprocess.py:90} INFO - [0m18:00:34
+[2026-07-14T18:00:34.650+0000] {subprocess.py:90} INFO - [0m18:00:34  Concurrency: 1 threads (target='dev')
+[2026-07-14T18:00:34.650+0000] {subprocess.py:90} INFO - [0m18:00:34
+[2026-07-14T18:00:35.819+0000] {subprocess.py:90} INFO - [0m18:00:35  1 of 1 START sql table model ishak_tobbi_dataset.dim_vendors ................... [RUN]
+[2026-07-14T18:00:37.968+0000] {subprocess.py:90} INFO - [0m18:00:37  1 of 1 OK created sql table model ishak_tobbi_dataset.dim_vendors .............. [[32mCREATE TABLE (5.0 rows, 117.0 Bytes processed)[0m in 2.15s]
+[2026-07-14T18:00:37.970+0000] {subprocess.py:90} INFO - [0m18:00:37
+[2026-07-14T18:00:37.970+0000] {subprocess.py:90} INFO - [0m18:00:37  Finished running 1 table model in 0 hours 0 minutes and 3.32 seconds (3.32s).
+[2026-07-14T18:00:37.990+0000] {subprocess.py:90} INFO - [0m18:00:37
+[2026-07-14T18:00:37.990+0000] {subprocess.py:90} INFO - [0m18:00:37  [32mCompleted successfully[0m
+[2026-07-14T18:00:37.990+0000] {subprocess.py:90} INFO - [0m18:00:37
+[2026-07-14T18:00:37.991+0000] {subprocess.py:90} INFO - [0m18:00:37  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
+[2026-07-14T18:00:39.094+0000] {subprocess.py:94} INFO - Command exited with return code 0
+[2026-07-14T18:00:39.094+0000] {local.py:411} INFO - [0m18:00:37  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
+[2026-07-14T18:00:39.104+0000] {local.py:196} WARNING - Artifact schema version: https://schemas.getdbt.com/dbt/manifest/v12.json is above dbt-ol supported version 7. This might cause errors.
+[2026-07-14T18:00:39.132+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-14T18:00:39.133+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=dbt_transformations.dim_vendors_run, run_id=scheduled__2019-03-01T00:00:00+00:00, execution_date=20190301T000000, start_date=20260714T180027, end_date=20260714T180039
+[2026-07-14T18:00:39.148+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-14T18:00:39.161+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-14T18:00:39.162+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

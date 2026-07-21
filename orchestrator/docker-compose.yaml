@@ -50,7 +50,9 @@ x-airflow-common:
   # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
   # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
   # image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.10.2}
-  build: .
+  build: 
+    context: ..                          # ◄ Tells Docker to go up to the parent directory
+    dockerfile: orchestrator/Dockerfile  # ◄ Tells Docker where to find the Dockerfile starting from that parent folder
   # env_file:
   #     - ../configs/.env     # added by me, it points the docker to the .env file, later docker extract the env variables automaticaly.
   environment:
@@ -65,10 +67,18 @@ x-airflow-common:
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
     GCP_PROJECT_ID: ${GCP_PROJECT_ID}   # added by me, to pass the project id to the container, so we can use it in the script
     GCS_BUCKET_NAME: ${GCS_BUCKET_NAME} # added by me, to pass the bucket name to the container, so we can use it in the script
+    GCP_REGION: ${GCP_REGION}   # added by me, to pass the region to the container, so BQ use it in connection.
+    BQ_CONNECTION_ID: ${BQ_CONNECTION_ID} # added by me, to pass the connection id to the container, so BQ use it in connection.
     BIGQUERY_DATASET: ${BIGQUERY_DATASET} # added by me, to pass the BigQuery dataset name to the container, so we can use it in the script
     BIGQUERY_TABLE_NAME: ${BIGQUERY_TABLE_NAME} # added by me, to pass the BigQuery table name to the container, so we can use it in the script
     GCS_FILE_PATH: ${GCS_FILE_PATH} # added by me, to pass the GCS file path to the container, so we can use it in the script
     TAXI_COLOR: ${TAXI_COLOR}       # added by me, 
+    AIRFLOW_CONN_GOOGLE_CLOUD_DEFAULT: ${AIRFLOW_CONN_GOOGLE_CLOUD_DEFAULT} # added by me, to pass the GCP connection to the container, so we can use it in the script
+    GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS} # added by me, to pass the GCP credentials path to the container, so we can use it in the script
+    GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT} # added by me, to pass the GCP project id to the container, so we can use it in the script
+    DBT_IMAGE_URL: ${DBT_IMAGE_URL}
+    AIRFLOW__COSMOS__CACHE_DIR: "/tmp/cosmos" # added by me, where cosmos should save its runtime tmp cache files.
+    OPENLINEAGE_DISABLED: "true"    # let cosmos use it under the hood, but make it sleep elsewhere.
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server
@@ -88,7 +98,7 @@ x-airflow-common:
     - /var/run/docker.sock:/var/run/docker.sock # Required to run docker in docker
     - gcp-creds:/opt/airflow/secrets # shared named volume for GCP credentials
     - ../gcloud:/opt/airflow/gcloud # shared named volume for GCP credentials
-    - ../dbt_project:/opt/airflow/dbt # shared named volume for dbt project
+    # - ../dbt_project/target/manifest.json:/opt/airflow/dbt_project/target/manifest.json # shared named volume for dbt project
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -248,7 +258,15 @@ services:
         fi
         mkdir -p /sources/logs /sources/dags /sources/plugins
         chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
+
+        # --- MY CODE TO CREATE POOLS FOR DAG TASKS ---
+        echo '---- Creating Custom Airflow Pools ----'
+        /entrypoint airflow pools set ingestion_pool 3 'Pool for limiting ingestion concurrency'
+        /entrypoint airflow pools set dbt_pool 2 'Pool for limiting dbt concurrency'
+        # ---------------------------------------------------------------
+
         exec /entrypoint airflow version
+
     # yamllint enable rule:line-length
     environment:
       <<: *airflow-common-env

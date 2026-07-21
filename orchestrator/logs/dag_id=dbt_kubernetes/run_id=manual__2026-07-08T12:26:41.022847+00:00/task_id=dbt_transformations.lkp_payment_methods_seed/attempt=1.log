@@ -1,0 +1,184 @@
+[2026-07-08T12:26:41.813+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-08T12:26:41.820+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: dbt_kubernetes.dbt_transformations.lkp_payment_methods_seed manual__2026-07-08T12:26:41.022847+00:00 [queued]>
+[2026-07-08T12:26:41.824+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: dbt_kubernetes.dbt_transformations.lkp_payment_methods_seed manual__2026-07-08T12:26:41.022847+00:00 [queued]>
+[2026-07-08T12:26:41.824+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 1
+[2026-07-08T12:26:41.829+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtSeedKubernetesOperator): dbt_transformations.lkp_payment_methods_seed> on 2026-07-08 12:26:41.022847+00:00
+[2026-07-08T12:26:41.832+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=350) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-08T12:26:41.834+0000] {standard_task_runner.py:72} INFO - Started process 356 to run task
+[2026-07-08T12:26:41.834+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'dbt_kubernetes', 'dbt_transformations.lkp_payment_methods_seed', 'manual__2026-07-08T12:26:41.022847+00:00', '--job-id', '526', '--raw', '--subdir', 'DAGS_FOLDER/dbt_kubernete.py', '--cfg-path', '/tmp/tmp4mhrq6f8']
+[2026-07-08T12:26:41.837+0000] {standard_task_runner.py:105} INFO - Job 526: Subtask dbt_transformations.lkp_payment_methods_seed
+[2026-07-08T12:26:41.869+0000] {task_command.py:467} INFO - Running <TaskInstance: dbt_kubernetes.dbt_transformations.lkp_payment_methods_seed manual__2026-07-08T12:26:41.022847+00:00 [running]> on host 1c6cd39e0a18
+[2026-07-08T12:26:41.904+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_ID='dbt_kubernetes' AIRFLOW_CTX_TASK_ID='dbt_transformations.lkp_payment_methods_seed' AIRFLOW_CTX_EXECUTION_DATE='2026-07-08T12:26:41.022847+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-07-08T12:26:41.022847+00:00'
+[2026-07-08T12:26:41.904+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-08T12:26:41.911+0000] {kubernetes.py:72} INFO - Running command: ['dbt', 'seed', '--models', 'lkp_payment_methods', '--profile', 'dbt_project', '--target', 'dev', '--project-dir', '/opt/***/dbt']
+[2026-07-08T12:26:41.912+0000] {baseoperator.py:405} WARNING - DbtSeedKubernetesOperator.execute cannot be called outside TaskInstance!
+[2026-07-08T12:26:41.915+0000] {pod.py:1133} INFO - Building pod dbt-transformations-lkp-payment-methods-seed-7vrwc25f with labels: {'dag_id': 'dbt_kubernetes', 'task_id': 'dbt_transformations.lkp_payment_methods_seed', 'run_id': 'manual__2026-07-08T122641.0228470000-0ec1f7ffb', 'kubernetes_pod_operator': 'True', 'try_number': '1'}
+[2026-07-08T12:26:42.165+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/hooks/kubernetes.py", line 271, in _get_default_client
+    config.load_incluster_config(client_configuration=self.client_configuration)
+  File "/home/airflow/.local/lib/python3.12/site-packages/kubernetes/config/incluster_config.py", line 121, in load_incluster_config
+    try_refresh_token=try_refresh_token).load_and_set(client_configuration)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/kubernetes/config/incluster_config.py", line 54, in load_and_set
+    self._load_config()
+  File "/home/airflow/.local/lib/python3.12/site-packages/kubernetes/config/incluster_config.py", line 62, in _load_config
+    raise ConfigException("Service host/port is not set.")
+kubernetes.config.config_exception.ConfigException: Service host/port is not set.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/base.py", line 267, in execute
+    self.build_and_run_cmd(context=context, cmd_flags=self.add_cmd_flags())
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/kubernetes.py", line 73, in build_and_run_cmd
+    result = KubernetesPodOperator.execute(self, context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/operators/pod.py", line 593, in execute
+    return self.execute_sync(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/operators/pod.py", line 601, in execute_sync
+    self.pod_request_obj = self.build_pod_request_obj(context)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/operators/pod.py", line 1142, in build_pod_request_obj
+    "airflow_kpo_in_cluster": str(self.hook.is_in_cluster),
+                                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/hooks/kubernetes.py", line 287, in is_in_cluster
+    self.api_client  # so we can determine if we are in_cluster or not
+    ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/functools.py", line 993, in __get__
+    val = self.func(instance)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/hooks/kubernetes.py", line 295, in api_client
+    return self.get_conn()
+           ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/hooks/kubernetes.py", line 263, in get_conn
+    return self._get_default_client(cluster_context=cluster_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/hooks/kubernetes.py", line 276, in _get_default_client
+    config.load_kube_config(
+  File "/home/airflow/.local/lib/python3.12/site-packages/kubernetes/config/kube_config.py", line 819, in load_kube_config
+    loader = _get_kube_config_loader(
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/kubernetes/config/kube_config.py", line 776, in _get_kube_config_loader
+    raise ConfigException(
+kubernetes.config.config_exception.ConfigException: Invalid kube-config file. No configuration found.
+[2026-07-08T12:26:42.170+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=dbt_kubernetes, task_id=dbt_transformations.lkp_payment_methods_seed, run_id=manual__2026-07-08T12:26:41.022847+00:00, execution_date=20260708T122641, start_date=20260708T122641, end_date=20260708T122642
+[2026-07-08T12:26:42.175+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-08T12:26:42.176+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 526 for task dbt_transformations.lkp_payment_methods_seed (Invalid kube-config file. No configuration found.; 356)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/hooks/kubernetes.py", line 271, in _get_default_client
+    config.load_incluster_config(client_configuration=self.client_configuration)
+  File "/home/airflow/.local/lib/python3.12/site-packages/kubernetes/config/incluster_config.py", line 121, in load_incluster_config
+    try_refresh_token=try_refresh_token).load_and_set(client_configuration)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/kubernetes/config/incluster_config.py", line 54, in load_and_set
+    self._load_config()
+  File "/home/airflow/.local/lib/python3.12/site-packages/kubernetes/config/incluster_config.py", line 62, in _load_config
+    raise ConfigException("Service host/port is not set.")
+kubernetes.config.config_exception.ConfigException: Service host/port is not set.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/base.py", line 267, in execute
+    self.build_and_run_cmd(context=context, cmd_flags=self.add_cmd_flags())
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/kubernetes.py", line 73, in build_and_run_cmd
+    result = KubernetesPodOperator.execute(self, context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/operators/pod.py", line 593, in execute
+    return self.execute_sync(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/operators/pod.py", line 601, in execute_sync
+    self.pod_request_obj = self.build_pod_request_obj(context)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/operators/pod.py", line 1142, in build_pod_request_obj
+    "airflow_kpo_in_cluster": str(self.hook.is_in_cluster),
+                                  ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/hooks/kubernetes.py", line 287, in is_in_cluster
+    self.api_client  # so we can determine if we are in_cluster or not
+    ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/functools.py", line 993, in __get__
+    val = self.func(instance)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/hooks/kubernetes.py", line 295, in api_client
+    return self.get_conn()
+           ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/hooks/kubernetes.py", line 263, in get_conn
+    return self._get_default_client(cluster_context=cluster_context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/cncf/kubernetes/hooks/kubernetes.py", line 276, in _get_default_client
+    config.load_kube_config(
+  File "/home/airflow/.local/lib/python3.12/site-packages/kubernetes/config/kube_config.py", line 819, in load_kube_config
+    loader = _get_kube_config_loader(
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/kubernetes/config/kube_config.py", line 776, in _get_kube_config_loader
+    raise ConfigException(
+kubernetes.config.config_exception.ConfigException: Invalid kube-config file. No configuration found.
+[2026-07-08T12:26:42.222+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-08T12:26:42.236+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-08T12:26:42.238+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

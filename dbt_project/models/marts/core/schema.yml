@@ -1,0 +1,22 @@
+# models/marts/core/core.yml
+version: 2
+
+models:
+  - name: fct_taxi_trips
+    description: "The central fact table containing all clean NYC taxi rides."
+    columns:
+      - name: total_amount
+        description: "The total amount charged to passengers. Must always be positive."
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns:
+                - vendor_id
+                - pickup_datetime
+                - service_type
+
+      - name: service_type
+        description: "Whether the trip was a Yellow or Green taxi."
+        tests:
+          # 🟢 Metric Guardrail: Ensure no weird categories were invented
+          - accepted_values:
+              values: ['yellow', 'green']

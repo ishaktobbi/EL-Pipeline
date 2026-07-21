@@ -2,6 +2,8 @@ with source as (
 
     select * from {{ source('raw_nyc_taxi', 'green_taxi_trips') }}
 
+    -- BigQuery uses these variables to prune the GCS bucket *before* executing any cleaning logic.
+    where year = CAST('{{ var("run_year") }}' AS INT64) and month = CAST('{{ var("run_month") }}' AS INT64)   -- we need to add a default values in yaml dbt_project
 ),
 
 staged as (
@@ -34,7 +36,10 @@ staged as (
         safe_cast(tolls_amount as float64) as tolls_amount,
         safe_cast(improvement_surcharge as float64) as improvement_surcharge,
         safe_cast(total_amount as float64) as total_amount,
-        safe_cast(congestion_surcharge as float64) as congestion_surcharge
+        safe_cast(congestion_surcharge as float64) as congestion_surcharge,
+
+        safe_cast('{{ var("run_year") }}' as INT64) as year_ingested,
+
 
     from source
 
