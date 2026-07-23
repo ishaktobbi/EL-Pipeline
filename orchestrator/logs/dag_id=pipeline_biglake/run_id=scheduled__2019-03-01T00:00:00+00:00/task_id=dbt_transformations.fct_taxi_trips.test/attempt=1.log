@@ -195,3 +195,323 @@
 [2026-07-21T05:10:41.187+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
 [2026-07-21T05:10:41.199+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
 [2026-07-21T05:10:41.200+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-21T17:06:15.729+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-21T17:06:15.736+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-21T17:06:15.738+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-21T17:06:15.739+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-21T17:06:15.742+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtTestWatcherOperator): dbt_transformations.fct_taxi_trips.test> on 2019-03-01 00:00:00+00:00
+[2026-07-21T17:06:15.745+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=577) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-21T17:06:15.745+0000] {standard_task_runner.py:72} INFO - Started process 579 to run task
+[2026-07-21T17:06:15.746+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'dbt_transformations.fct_taxi_trips.test', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '85', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmprx39egmu']
+[2026-07-21T17:06:15.746+0000] {standard_task_runner.py:105} INFO - Job 85: Subtask dbt_transformations.fct_taxi_trips.test
+[2026-07-21T17:06:15.760+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [running]> on host 5fd13f5f6d8a
+[2026-07-21T17:06:15.784+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='dbt_transformations.fct_taxi_trips.test' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-21T17:06:15.784+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-21T17:06:15.788+0000] {baseoperator.py:405} WARNING - DbtTestWatcherOperator.execute cannot be called outside TaskInstance!
+[2026-07-21T17:06:15.788+0000] {base.py:745} INFO - Try number #1, poke attempt #0: Pulling status from task_id 'dbt_transformations.dbt_producer_watcher' via XCom key 'model__dbt_project__fct_taxi_trips_tests_status' for tests for model 'model.dbt_project.fct_taxi_trips'
+[2026-07-21T17:06:15.802+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/watcher.py", line 560, in execute
+    super().execute(context, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 601, in execute
+    self._execute_core(context)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 561, in _execute_core
+    elif not self.poke(context):
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 789, in poke
+    raise AirflowException(f"{self._resource_label} '{self.model_unique_id}' finished with status '{status}'")
+airflow.exceptions.AirflowException: Tests for model 'model.dbt_project.fct_taxi_trips' finished with status 'fail'
+[2026-07-21T17:06:15.890+0000] {_client.py:1026} INFO - HTTP Request: GET https://astronomer.gateway.scarf.sh/astronomer-cosmos/v3/task_instance?cosmos_version=1.15.0&airflow_version=2.10.2&python_version=3.12.6&platform_system=Linux&platform_machine=aarch64&status=failed&operator_name=DbtTestWatcherOperator&is_cosmos_operator_subclass=False&invocation_mode=None&execution_mode=watcher&profile_strategy=mapping&profile_mapping_class=GoogleCloudOauthProfileMapping&database=bigquery&is_mapped_task=False&dbt_command=test&install_deps=False&has_callback=False&duration=0.069471 "HTTP/1.1 200 OK"
+[2026-07-21T17:06:15.890+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=dbt_transformations.fct_taxi_trips.test, run_id=scheduled__2019-03-01T00:00:00+00:00, execution_date=20190301T000000, start_date=20260721T170615, end_date=20260721T170615
+[2026-07-21T17:06:15.898+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-21T17:06:15.899+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 85 for task dbt_transformations.fct_taxi_trips.test (Tests for model 'model.dbt_project.fct_taxi_trips' finished with status 'fail'; 579)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/watcher.py", line 560, in execute
+    super().execute(context, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 601, in execute
+    self._execute_core(context)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 561, in _execute_core
+    elif not self.poke(context):
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 789, in poke
+    raise AirflowException(f"{self._resource_label} '{self.model_unique_id}' finished with status '{status}'")
+airflow.exceptions.AirflowException: Tests for model 'model.dbt_project.fct_taxi_trips' finished with status 'fail'
+[2026-07-21T17:06:15.928+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-21T17:06:15.936+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-21T17:06:15.937+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-22T03:37:51.046+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-22T03:37:51.052+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-22T03:37:51.055+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-22T03:37:51.055+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-22T03:37:51.059+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtTestWatcherOperator): dbt_transformations.fct_taxi_trips.test> on 2019-03-01 00:00:00+00:00
+[2026-07-22T03:37:51.061+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=594) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-22T03:37:51.062+0000] {standard_task_runner.py:72} INFO - Started process 596 to run task
+[2026-07-22T03:37:51.062+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'dbt_transformations.fct_taxi_trips.test', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '80', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpll93m1ms']
+[2026-07-22T03:37:51.063+0000] {standard_task_runner.py:105} INFO - Job 80: Subtask dbt_transformations.fct_taxi_trips.test
+[2026-07-22T03:37:51.076+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [running]> on host b42713adb158
+[2026-07-22T03:37:51.098+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='dbt_transformations.fct_taxi_trips.test' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-22T03:37:51.099+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-22T03:37:51.103+0000] {baseoperator.py:405} WARNING - DbtTestWatcherOperator.execute cannot be called outside TaskInstance!
+[2026-07-22T03:37:51.103+0000] {base.py:745} INFO - Try number #1, poke attempt #0: Pulling status from task_id 'dbt_transformations.dbt_producer_watcher' via XCom key 'model__dbt_project__fct_taxi_trips_tests_status' for tests for model 'model.dbt_project.fct_taxi_trips'
+[2026-07-22T03:37:51.116+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/watcher.py", line 560, in execute
+    super().execute(context, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 601, in execute
+    self._execute_core(context)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 561, in _execute_core
+    elif not self.poke(context):
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 789, in poke
+    raise AirflowException(f"{self._resource_label} '{self.model_unique_id}' finished with status '{status}'")
+airflow.exceptions.AirflowException: Tests for model 'model.dbt_project.fct_taxi_trips' finished with status 'fail'
+[2026-07-22T03:37:51.199+0000] {_client.py:1026} INFO - HTTP Request: GET https://astronomer.gateway.scarf.sh/astronomer-cosmos/v3/task_instance?cosmos_version=1.15.0&airflow_version=2.10.2&python_version=3.12.6&platform_system=Linux&platform_machine=aarch64&status=failed&operator_name=DbtTestWatcherOperator&is_cosmos_operator_subclass=False&invocation_mode=None&execution_mode=watcher&profile_strategy=mapping&profile_mapping_class=GoogleCloudOauthProfileMapping&database=bigquery&is_mapped_task=False&dbt_command=test&install_deps=False&has_callback=False&duration=0.065516 "HTTP/1.1 200 OK"
+[2026-07-22T03:37:51.200+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake, task_id=dbt_transformations.fct_taxi_trips.test, run_id=scheduled__2019-03-01T00:00:00+00:00, execution_date=20190301T000000, start_date=20260722T033751, end_date=20260722T033751
+[2026-07-22T03:37:51.205+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-22T03:37:51.206+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 80 for task dbt_transformations.fct_taxi_trips.test (Tests for model 'model.dbt_project.fct_taxi_trips' finished with status 'fail'; 596)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/watcher.py", line 560, in execute
+    super().execute(context, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 601, in execute
+    self._execute_core(context)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 561, in _execute_core
+    elif not self.poke(context):
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 789, in poke
+    raise AirflowException(f"{self._resource_label} '{self.model_unique_id}' finished with status '{status}'")
+airflow.exceptions.AirflowException: Tests for model 'model.dbt_project.fct_taxi_trips' finished with status 'fail'
+[2026-07-22T03:37:51.245+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-22T03:37:51.253+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-22T03:37:51.254+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-22T12:30:55.107+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-22T12:30:55.113+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-22T12:30:55.116+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-22T12:30:55.116+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-22T12:30:55.119+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtTestWatcherOperator): dbt_transformations.fct_taxi_trips.test> on 2019-03-01 00:00:00+00:00
+[2026-07-22T12:30:55.121+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=531) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-22T12:30:55.122+0000] {standard_task_runner.py:72} INFO - Started process 533 to run task
+[2026-07-22T12:30:55.122+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'dbt_transformations.fct_taxi_trips.test', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '79', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpvpf57jwg']
+[2026-07-22T12:30:55.123+0000] {standard_task_runner.py:105} INFO - Job 79: Subtask dbt_transformations.fct_taxi_trips.test
+[2026-07-22T12:30:55.136+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [running]> on host beddc59a6ca8
+[2026-07-22T12:30:55.158+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='dbt_transformations.fct_taxi_trips.test' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-22T12:30:55.158+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-22T12:30:55.162+0000] {baseoperator.py:405} WARNING - DbtTestWatcherOperator.execute cannot be called outside TaskInstance!
+[2026-07-22T12:30:55.162+0000] {base.py:745} INFO - Try number #1, poke attempt #0: Pulling status from task_id 'dbt_transformations.dbt_producer_watcher' via XCom key 'model__dbt_project__fct_taxi_trips_tests_status' for tests for model 'model.dbt_project.fct_taxi_trips'
+[2026-07-22T12:30:55.167+0000] {base.py:567} INFO - Deferring tests for model 'model.dbt_project.fct_taxi_trips'. The trigger will poll XCom key 'model__dbt_project__fct_taxi_trips_tests_status' from producer task 'dbt_transformations.dbt_producer_watcher'.
+[2026-07-22T12:30:55.167+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2026-07-22T12:30:55.171+0000] {taskinstance.py:288} INFO - Pausing task as DEFERRED. dag_id=pipeline_biglake, task_id=dbt_transformations.fct_taxi_trips.test, run_id=scheduled__2019-03-01T00:00:00+00:00, execution_date=20190301T000000, start_date=20260722T123055
+[2026-07-22T12:30:55.171+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-22T12:30:55.181+0000] {local_task_job_runner.py:260} INFO - Task exited with return code 100 (task deferral)
+[2026-07-22T12:30:55.182+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-22T12:31:08.160+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-22T12:31:08.166+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-22T12:31:08.169+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-22T12:31:08.169+0000] {taskinstance.py:2863} INFO - Resuming after deferral
+[2026-07-22T12:31:08.172+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtTestWatcherOperator): dbt_transformations.fct_taxi_trips.test> on 2019-03-01 00:00:00+00:00
+[2026-07-22T12:31:08.174+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=535) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-22T12:31:08.175+0000] {standard_task_runner.py:72} INFO - Started process 537 to run task
+[2026-07-22T12:31:08.175+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'dbt_transformations.fct_taxi_trips.test', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '80', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpkdkfik_e']
+[2026-07-22T12:31:08.176+0000] {standard_task_runner.py:105} INFO - Job 80: Subtask dbt_transformations.fct_taxi_trips.test
+[2026-07-22T12:31:08.191+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [running]> on host beddc59a6ca8
+[2026-07-22T12:31:08.212+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-22T12:31:08.217+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-22T12:31:08.217+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=dbt_transformations.fct_taxi_trips.test, run_id=scheduled__2019-03-01T00:00:00+00:00, execution_date=20190301T000000, start_date=20260722T123055, end_date=20260722T123108
+[2026-07-22T12:31:08.306+0000] {_client.py:1026} INFO - HTTP Request: GET https://astronomer.gateway.scarf.sh/astronomer-cosmos/v3/task_instance?cosmos_version=1.15.0&airflow_version=2.10.2&python_version=3.12.6&platform_system=Linux&platform_machine=aarch64&status=success&operator_name=DbtTestWatcherOperator&is_cosmos_operator_subclass=False&invocation_mode=None&execution_mode=watcher&profile_strategy=mapping&profile_mapping_class=GoogleCloudOauthProfileMapping&database=bigquery&is_mapped_task=False&dbt_command=test&install_deps=False&has_callback=False&duration=13.104228 "HTTP/1.1 200 OK"
+[2026-07-22T12:31:08.314+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-22T12:31:08.324+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-22T12:31:08.325+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-22T14:44:32.984+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-22T14:44:32.994+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-22T14:44:32.998+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-22T14:44:32.998+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-22T14:44:33.003+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtTestWatcherOperator): dbt_transformations.fct_taxi_trips.test> on 2019-03-01 00:00:00+00:00
+[2026-07-22T14:44:33.007+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=719) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-22T14:44:33.007+0000] {standard_task_runner.py:72} INFO - Started process 723 to run task
+[2026-07-22T14:44:33.008+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'dbt_transformations.fct_taxi_trips.test', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '105', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpcd54ijqs']
+[2026-07-22T14:44:33.009+0000] {standard_task_runner.py:105} INFO - Job 105: Subtask dbt_transformations.fct_taxi_trips.test
+[2026-07-22T14:44:33.030+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [running]> on host d6c754cfab01
+[2026-07-22T14:44:33.066+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='dbt_transformations.fct_taxi_trips.test' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-22T14:44:33.067+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-22T14:44:33.073+0000] {baseoperator.py:405} WARNING - DbtTestWatcherOperator.execute cannot be called outside TaskInstance!
+[2026-07-22T14:44:33.073+0000] {base.py:745} INFO - Try number #1, poke attempt #0: Pulling status from task_id 'dbt_transformations.dbt_producer_watcher' via XCom key 'model__dbt_project__fct_taxi_trips_tests_status' for tests for model 'model.dbt_project.fct_taxi_trips'
+[2026-07-22T14:44:33.081+0000] {base.py:567} INFO - Deferring tests for model 'model.dbt_project.fct_taxi_trips'. The trigger will poll XCom key 'model__dbt_project__fct_taxi_trips_tests_status' from producer task 'dbt_transformations.dbt_producer_watcher'.
+[2026-07-22T14:44:33.081+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2026-07-22T14:44:33.088+0000] {taskinstance.py:288} INFO - Pausing task as DEFERRED. dag_id=pipeline_biglake, task_id=dbt_transformations.fct_taxi_trips.test, run_id=scheduled__2019-03-01T00:00:00+00:00, execution_date=20190301T000000, start_date=20260722T144432
+[2026-07-22T14:44:33.088+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-22T14:44:33.106+0000] {local_task_job_runner.py:260} INFO - Task exited with return code 100 (task deferral)
+[2026-07-22T14:44:33.106+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-22T14:44:45.875+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-22T14:44:45.883+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-22T14:44:45.886+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-22T14:44:45.886+0000] {taskinstance.py:2863} INFO - Resuming after deferral
+[2026-07-22T14:44:45.891+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtTestWatcherOperator): dbt_transformations.fct_taxi_trips.test> on 2019-03-01 00:00:00+00:00
+[2026-07-22T14:44:45.894+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=767) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-22T14:44:45.895+0000] {standard_task_runner.py:72} INFO - Started process 769 to run task
+[2026-07-22T14:44:45.895+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'dbt_transformations.fct_taxi_trips.test', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '110', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmphc8b_zx8']
+[2026-07-22T14:44:45.896+0000] {standard_task_runner.py:105} INFO - Job 110: Subtask dbt_transformations.fct_taxi_trips.test
+[2026-07-22T14:44:45.914+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [running]> on host d6c754cfab01
+[2026-07-22T14:44:45.940+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-22T14:44:45.947+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-22T14:44:45.947+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=dbt_transformations.fct_taxi_trips.test, run_id=scheduled__2019-03-01T00:00:00+00:00, execution_date=20190301T000000, start_date=20260722T144432, end_date=20260722T144445
+[2026-07-22T14:44:46.030+0000] {_client.py:1026} INFO - HTTP Request: GET https://astronomer.gateway.scarf.sh/astronomer-cosmos/v3/task_instance?cosmos_version=1.15.0&airflow_version=2.10.2&python_version=3.12.6&platform_system=Linux&platform_machine=aarch64&status=success&operator_name=DbtTestWatcherOperator&is_cosmos_operator_subclass=False&invocation_mode=None&execution_mode=watcher&profile_strategy=mapping&profile_mapping_class=GoogleCloudOauthProfileMapping&database=bigquery&is_mapped_task=False&dbt_command=test&install_deps=False&has_callback=False&duration=12.952954 "HTTP/1.1 200 OK"
+[2026-07-22T14:44:46.034+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-22T14:44:46.043+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-22T14:44:46.044+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-23T08:42:47.448+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-23T08:42:47.456+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-23T08:42:47.460+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-23T08:42:47.460+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-07-23T08:42:47.464+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtTestWatcherOperator): dbt_transformations.fct_taxi_trips.test> on 2019-03-01 00:00:00+00:00
+[2026-07-23T08:42:47.467+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1160) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-23T08:42:47.468+0000] {standard_task_runner.py:72} INFO - Started process 1162 to run task
+[2026-07-23T08:42:47.469+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'dbt_transformations.fct_taxi_trips.test', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '303', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpjhvk0k8k']
+[2026-07-23T08:42:47.469+0000] {standard_task_runner.py:105} INFO - Job 303: Subtask dbt_transformations.fct_taxi_trips.test
+[2026-07-23T08:42:47.488+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.dbt_transformations.fct_taxi_trips.test scheduled__2019-03-01T00:00:00+00:00 [running]> on host ceabc52be252
+[2026-07-23T08:42:47.527+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='dbt_transformations.fct_taxi_trips.test' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-23T08:42:47.528+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-23T08:42:47.533+0000] {baseoperator.py:405} WARNING - DbtTestWatcherOperator.execute cannot be called outside TaskInstance!
+[2026-07-23T08:42:47.533+0000] {base.py:745} INFO - Try number #1, poke attempt #0: Pulling status from task_id 'dbt_transformations.dbt_producer_watcher' via XCom key 'model__dbt_project__fct_taxi_trips_tests_status' for tests for model 'model.dbt_project.fct_taxi_trips'
+[2026-07-23T08:42:47.563+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-23T08:42:47.564+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake, task_id=dbt_transformations.fct_taxi_trips.test, run_id=scheduled__2019-03-01T00:00:00+00:00, execution_date=20190301T000000, start_date=20260723T084247, end_date=20260723T084247
+[2026-07-23T08:42:47.660+0000] {_client.py:1026} INFO - HTTP Request: GET https://astronomer.gateway.scarf.sh/astronomer-cosmos/v3/task_instance?cosmos_version=1.15.0&airflow_version=2.10.2&python_version=3.12.6&platform_system=Linux&platform_machine=aarch64&status=success&operator_name=DbtTestWatcherOperator&is_cosmos_operator_subclass=False&invocation_mode=None&execution_mode=watcher&profile_strategy=mapping&profile_mapping_class=GoogleCloudOauthProfileMapping&database=bigquery&is_mapped_task=False&dbt_command=test&install_deps=False&has_callback=False&duration=0.107331 "HTTP/1.1 200 OK"
+[2026-07-23T08:42:47.689+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-23T08:42:47.697+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-23T08:42:47.698+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

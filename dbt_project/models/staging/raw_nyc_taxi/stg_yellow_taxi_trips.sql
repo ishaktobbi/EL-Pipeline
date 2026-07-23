@@ -3,8 +3,9 @@ with source as (
     select * from {{ source('raw_nyc_taxi', 'yellow_taxi_trips') }}
 
     -- BigQuery uses these variables to prune the GCS bucket *before* executing any cleaning logic.
-    where year = CAST('{{ var("run_year") }}' AS INT64) and month = CAST('{{ var("run_month") }}' AS INT64)   -- we need to add a default values in yaml dbt_project
-
+    where 
+        year = CAST('{{ var("run_year") }}' AS INT64) and 
+        month = CAST('{{ var("run_month") }}' AS INT64)  -- we need to add a default values in yaml dbt_project
 ),
 
 staged as (
@@ -18,8 +19,8 @@ staged as (
         safe_cast(payment_type as int64) as payment_type_id,
         
         -- Timestamps (Convert raw strings into actual BigQuery Timestamps)
-        safe_cast(tpep_pickup_datetime as timestamp) as pickup_datetime,
-        safe_cast(tpep_dropoff_datetime as timestamp) as dropoff_datetime,
+        safe_cast(tpep_pickup_datetime as datetime) as pickup_datetime,
+        safe_cast(tpep_dropoff_datetime as datetime) as dropoff_datetime,
         
         -- Trip Info
         safe_cast(passenger_count as int64) as passenger_count,

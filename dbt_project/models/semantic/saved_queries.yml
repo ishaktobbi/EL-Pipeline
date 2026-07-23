@@ -1,0 +1,50 @@
+saved_queries:
+  - name: monthly_revenue_by_service
+    label: "Monthly Revenue by Service Type"
+    query_params:
+      metrics:
+        - gross_revenue
+      group_by:
+        - "Dimension('trip_id__service_type')"
+        - "Dimension('metric_time__month')"
+
+    # EXPORT CONFIGURATION (Where to save in BigQuery)
+    exports:
+      - name: monthly_revenue_by_service_table  # Table name created in BigQuery
+        config:
+          export_as: table                   # Options: table or view
+          schema: analytics_marts            # Dataset name in BigQuery
+
+  - name: monthly_revenue_by_vendor
+    label: "Monthly Revenue by vendor Type"
+    query_params:
+      metrics:
+        - gross_revenue
+      group_by:
+        - "Dimension('vendor__vendor_name')"
+        - "Dimension('metric_time__month')"
+
+    # EXPORT CONFIGURATION (Where to save in BigQuery)
+    exports:
+      - name: monthly_revenue_by_service_table  # Table name created in BigQuery
+        config:
+          export_as: table                   # Options: table or view
+          schema: analytics_marts            # Dataset name in BigQuery
+
+  - name: completed_long_trips_monthly_revenue_by_service
+    label: "Monthly Revenue by Service Type for Long Trips > 10 km"
+    query_params:
+      metrics:
+        - gross_revenue
+      group_by:
+        - " Dimension('trip_id__service_type') "
+        - " Dimension('metric_time__month')"
+      where:
+        - "Dimension('trip_id__is_long_trip') = 'Long Trip'"
+
+    # EXPORT CONFIGURATION (Where to save in BigQuery)
+    exports:
+      - name: monthly_revenue_by_service_table  # Table name created in BigQuery
+        config:
+          export_as: table                   # Options: table or view
+          schema: analytics_marts            # Dataset name in BigQuery

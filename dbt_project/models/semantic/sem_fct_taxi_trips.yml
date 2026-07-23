@@ -1,0 +1,78 @@
+semantic_models:
+  - name: sem_fct_taxi_trips
+    model: ref('fct_taxi_trips')
+    description: "Fact model for individual taxi trips."
+    defaults:
+      agg_time_dimension: pickup_datetime     # we use it from dimensions bellow as a default time based metric here.
+
+    # -----------------------------------------------------------
+    # ENTITIES: Keys used for joining and defining grain
+    # -----------------------------------------------------------
+    entities:
+      - name: trip_id   # name can be anything, it just has to match to what we need to connect with (dim_)
+        type: primary                 # Primary key of this fact table
+      - name: vendor
+        type: foreign
+        expr: vendor_id               # Foreign key -> dim_vendors.vendor_id , the foreign key in fct_ to connect to its mirrored primary in dim_
+      - name: pickup_location
+        type: foreign
+        expr: pickup_location_id      # Foreign key -> dim_locations.location_id
+      - name: dropoff_location
+        type: foreign
+        expr: dropoff_location_id     # Foreign key -> dim_locations.location_id
+      - name: payment_type
+        type: foreign
+        expr: payment_type_id         # Foreign key -> dim_payment_methods.payment_type_id
+
+    # -----------------------------------------------------------
+    # DIMENSIONS: Categorical attributes and timestamps to group by or filter in currect fct_
+    # -----------------------------------------------------------
+    dimensions:
+      - name: pickup_datetime
+        type: time
+        type_params:
+          time_granularity: day
+
+      - name: dropoff_datetime
+        type: time
+        type_params:
+          time_granularity: day
+
+      - name: service_type
+        type: categorical            # Allows filtering/grouping by 'green' or 'yellow'
+
+      - name: year_ingested
+        type: categorical
+
+        # 3. Categorical Dimension built using a SQL expression in expr!
+      - name: is_long_trip
+        type: categorical
+        expr: "case when trip_distance > 10 then 'Long Trip' else 'Short Trip' end"
+
+    # -----------------------------------------------------------
+    # MEASURES: Numeric columns to aggregate
+    # -----------------------------------------------------------
+    measures:
+      - name: trip_count
+        agg: count
+        expr: 1
+
+      - name: total_passengers
+        agg: sum
+        expr: passenger_count
+
+      - name: total_distance_miles
+        agg: sum
+        expr: trip_distance
+
+      - name: total_revenue_amount
+        agg: sum
+        expr: total_amount
+
+      - name: total_fare_amount
+        agg: sum
+        expr: fare_amount
+
+      - name: total_tip_amount
+        agg: sum
+        expr: tip_amount

@@ -2,16 +2,28 @@ with staging_data as (
 
     select * from {{ ref('stg_yellow_taxi_trips') }}
 
+
+
     WHERE 
     pickup_datetime IS NOT NULL 
     AND 
     dropoff_datetime IS NOT NULL
     AND
     total_amount IS NOT NULL
+    AND
+    total_amount > 0
     AND 
     passenger_count IS NOT NULL
+    AND 
+    passenger_count > 0
     AND
     trip_distance IS NOT NULL
+    AND
+    trip_distance > 0
+    AND
+    pickup_datetime >= DATE_SUB('{{ var("run_date") }}', INTERVAL 1 MONTH)
+    AND
+    dropoff_datetime <= DATE_ADD('{{ var("run_date") }}', INTERVAL 2 MONTH)
     
     -- 🟢 Purges the record from entering the marts
 

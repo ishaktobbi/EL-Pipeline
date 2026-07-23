@@ -24,8 +24,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 # ROOT LEVEL VARS (This must be separate from the models section!)
 vars:
-  run_year: "2021"
-  run_month: "01"
+  run_date: "2019-02-01"
+  run_year: "2019"
+  run_month: "02"
 
 
 # Configuring models
@@ -50,7 +51,11 @@ models:
     #   core:
     #     # We target files based on their exact file name patterns!
     #     +materialized: table # Default fallback for the core folder (applies to dim_ models)
-        
+    
+    saved_queries:
+      +materialized: table
+      +schema: analytics
+      +tags: ["saved_query"]
 
         
       # +cluster_by: ['customer_id'] # ◄ Clusters data in BigQuery for faster joins

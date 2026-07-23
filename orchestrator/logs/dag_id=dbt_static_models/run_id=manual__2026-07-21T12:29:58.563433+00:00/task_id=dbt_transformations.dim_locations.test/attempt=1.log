@@ -1,0 +1,107 @@
+[2026-07-21T12:30:47.431+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-21T12:30:47.438+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: dbt_static_models.dbt_transformations.dim_locations.test manual__2026-07-21T12:29:58.563433+00:00 [queued]>
+[2026-07-21T12:30:47.441+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: dbt_static_models.dbt_transformations.dim_locations.test manual__2026-07-21T12:29:58.563433+00:00 [queued]>
+[2026-07-21T12:30:47.441+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 1
+[2026-07-21T12:30:47.446+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtTestWatcherOperator): dbt_transformations.dim_locations.test> on 2026-07-21 12:29:58.563433+00:00
+[2026-07-21T12:30:47.449+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=221) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-21T12:30:47.450+0000] {standard_task_runner.py:72} INFO - Started process 223 to run task
+[2026-07-21T12:30:47.450+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'dbt_static_models', 'dbt_transformations.dim_locations.test', 'manual__2026-07-21T12:29:58.563433+00:00', '--job-id', '24', '--raw', '--subdir', 'DAGS_FOLDER/dbt_static.py', '--cfg-path', '/tmp/tmp1y353ml9']
+[2026-07-21T12:30:47.451+0000] {standard_task_runner.py:105} INFO - Job 24: Subtask dbt_transformations.dim_locations.test
+[2026-07-21T12:30:47.467+0000] {task_command.py:467} INFO - Running <TaskInstance: dbt_static_models.dbt_transformations.dim_locations.test manual__2026-07-21T12:29:58.563433+00:00 [running]> on host a36d1179447e
+[2026-07-21T12:30:47.490+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='dbt_static_models' AIRFLOW_CTX_TASK_ID='dbt_transformations.dim_locations.test' AIRFLOW_CTX_EXECUTION_DATE='2026-07-21T12:29:58.563433+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-07-21T12:29:58.563433+00:00'
+[2026-07-21T12:30:47.491+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-21T12:30:47.496+0000] {baseoperator.py:405} WARNING - DbtTestWatcherOperator.execute cannot be called outside TaskInstance!
+[2026-07-21T12:30:47.496+0000] {base.py:745} INFO - Try number #1, poke attempt #0: Pulling status from task_id 'dbt_transformations.dbt_producer_watcher' via XCom key 'model__dbt_project__dim_locations_tests_status' for tests for model 'model.dbt_project.dim_locations'
+[2026-07-21T12:30:47.512+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/watcher.py", line 560, in execute
+    super().execute(context, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 601, in execute
+    self._execute_core(context)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 561, in _execute_core
+    elif not self.poke(context):
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 789, in poke
+    raise AirflowException(f"{self._resource_label} '{self.model_unique_id}' finished with status '{status}'")
+airflow.exceptions.AirflowException: Tests for model 'model.dbt_project.dim_locations' finished with status 'fail'
+[2026-07-21T12:30:47.595+0000] {_client.py:1026} INFO - HTTP Request: GET https://astronomer.gateway.scarf.sh/astronomer-cosmos/v3/task_instance?cosmos_version=1.15.0&airflow_version=2.10.2&python_version=3.12.6&platform_system=Linux&platform_machine=aarch64&status=failed&operator_name=DbtTestWatcherOperator&is_cosmos_operator_subclass=False&invocation_mode=None&execution_mode=watcher&profile_strategy=mapping&profile_mapping_class=GoogleCloudOauthProfileMapping&database=bigquery&is_mapped_task=False&dbt_command=test&install_deps=False&has_callback=False&duration=0.075715 "HTTP/1.1 200 OK"
+[2026-07-21T12:30:47.596+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=dbt_static_models, task_id=dbt_transformations.dim_locations.test, run_id=manual__2026-07-21T12:29:58.563433+00:00, execution_date=20260721T122958, start_date=20260721T123047, end_date=20260721T123047
+[2026-07-21T12:30:47.602+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-21T12:30:47.602+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 24 for task dbt_transformations.dim_locations.test (Tests for model 'model.dbt_project.dim_locations' finished with status 'fail'; 223)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/watcher.py", line 560, in execute
+    super().execute(context, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 601, in execute
+    self._execute_core(context)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 561, in _execute_core
+    elif not self.poke(context):
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 789, in poke
+    raise AirflowException(f"{self._resource_label} '{self.model_unique_id}' finished with status '{status}'")
+airflow.exceptions.AirflowException: Tests for model 'model.dbt_project.dim_locations' finished with status 'fail'
+[2026-07-21T12:30:47.632+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-21T12:30:47.636+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

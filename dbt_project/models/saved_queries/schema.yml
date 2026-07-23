@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: monthly_revenue_by_service
+    description: "Pre-baked summary table for monthly revenue by service type."
+    columns:
+      - name: metric_time__month
+        tests:
+          - not_null
+      - name: trip_id__service_type
+        tests:
+          - not_null
+      - name: gross_revenue
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "> 0"
+
+  - name: monthly_revenue_by_vendor
+    description: "Pre-baked summary table for monthly revenue by vendor name."
+    columns:
+      - name: metric_time__month
+        tests:
+          - not_null
+      - name: vendor__vendor_name
+        tests:
+          - not_null
+      - name: gross_revenue
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "> 0"
+
+  - name: long_trips_monthly_revenue_by_service
+    description: "Pre-baked summary table for monthly revenue by service for long trips > 10 km."
+    columns:
+      - name: metric_time__month
+        tests:
+          - not_null
+      - name: trip_id__service_type
+        tests:
+          - not_null
+      - name: gross_revenue
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "> 0"

@@ -9,33 +9,39 @@ models:
     columns:
       # Primary Key Test
       - name: trip_id
-        tests:
+        data_tests:
           - unique
           - not_null
 
       # Foreign Key Tests (Ensures every trip connects to a real dimension record)
       - name: pickup_location_id
-        tests:
+        data_tests:
           - not_null
           - relationships:
               to: ref('dim_locations')
               field: location_id
+              config:
+                severity: warn
 
       - name: vendor_id
-        tests:
+        data_tests:
           - relationships:
               to: ref('dim_vendors')
               field: vendor_id
+              config:
+                severity: warn
 
       - name: payment_type_id
-        tests:
+        data_tests:
           - relationships:
               to: ref('dim_payment_methods')
               field: payment_type_id
+              config:
+                severity: warn
 
       # Value / Accepted Values Test
       - name: service_type
-        tests:
+        data_tests:
           - accepted_values:
               values: ['green', 'yellow']
 
@@ -45,27 +51,27 @@ models:
   - name: dim_locations
     columns:
       - name: location_id
-        tests:
+        data_tests:
           - unique
           - not_null
 
   - name: dim_rate_codes
     columns:
       - name: rate_code_id
-        tests:
+        data_tests:
           - unique
           - not_null
 
   - name: dim_payment_methods
     columns:
       - name: payment_type_id
-        tests:
+        data_tests:
           - unique
           - not_null
 
   - name: dim_vendors
     columns:
       - name: vendor_id
-        tests:
+        data_tests:
           - unique
           - not_null

@@ -226,6 +226,7 @@ with DAG(
             install_dbt_deps=False,
 
             dbt_vars={
+                "run_date": "{{ logical_date.strftime('%Y-%m-%d') }}",
                 "run_year": "{{ logical_date.strftime('%Y') }}",
                 "run_month": "{{ logical_date.strftime('%m') }}"
             }

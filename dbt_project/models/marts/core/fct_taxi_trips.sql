@@ -35,7 +35,7 @@
     
     cluster_by=['service_type', 'year_ingested', 'dropoff_datetime'],
     tags=['daily']
-) }} 
+) }}
 
 
 
@@ -50,7 +50,15 @@ green_taxi as (
 -- Combine both datasets seamlessly
 combined_trips as (
     select 
-        {{ dbt_utils.generate_surrogate_key(['vendor_id', 'pickup_datetime', 'pickup_location_id']) }} as trip_id,
+        {{ dbt_utils.generate_surrogate_key(['vendor_id',
+                                            'pickup_datetime',
+                                            'dropoff_datetime',
+                                            'pickup_location_id',
+                                            'dropoff_location_id',     
+                                            'passenger_count',
+                                            'trip_distance',
+                                            'year_ingested',
+                                            '"yellow"']) }} as trip_id,
         pickup_location_id,
         dropoff_location_id,
         payment_type_id,
@@ -70,7 +78,16 @@ combined_trips as (
     union all
 
     select 
-        {{ dbt_utils.generate_surrogate_key(['vendor_id', 'pickup_datetime', 'pickup_location_id']) }} as trip_id,
+        {{ dbt_utils.generate_surrogate_key(['vendor_id',
+                                            'pickup_datetime',
+                                            'dropoff_datetime',       
+                                            'pickup_location_id',
+                                            'dropoff_location_id',    
+                                            'passenger_count',
+                                            'trip_distance',
+                                            'year_ingested',
+                                            '"green"']) }} as trip_id,
+
         pickup_location_id,
         dropoff_location_id,
         payment_type_id,
