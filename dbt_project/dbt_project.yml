@@ -24,8 +24,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 # ROOT LEVEL VARS (This must be separate from the models section!)
 vars:
-  run_date: "2019-02-01"
-  run_year: "2019"
+  run_date: "2020-02-01"
+  run_year: "2020"
   run_month: "02"
 
 
@@ -37,6 +37,11 @@ vars:
 # files using the `{{ config(...) }}` macro.
 models:
   dbt_project:              # ◄ Must match the 'name:' at the top of your file
+   
+    # +persist_docs:
+    #   relation: true
+    #   columns: true
+
     staging:
       +materialized: view
       +tags: ["daily"]
@@ -47,10 +52,13 @@ models:
       +tags: ["daily"]
 
     # 3. Marts Layer: Setting custom rules for folders inside models/marts/
-    # marts:
-    #   core:
-    #     # We target files based on their exact file name patterns!
-    #     +materialized: table # Default fallback for the core folder (applies to dim_ models)
+    marts:
+      core:
+        +persist_docs:
+          relation: true
+          columns: true
+        # We target files based on their exact file name patterns!
+        # +materialized: table # Default fallback for the core folder (applies to dim_ models)
     
     saved_queries:
       +materialized: table

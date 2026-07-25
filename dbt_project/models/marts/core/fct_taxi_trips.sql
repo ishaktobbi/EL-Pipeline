@@ -23,7 +23,7 @@
 {{config(
     materialized='incremental',
 
-    unique_key=['vendor_id', 'pickup_datetime', 'dropoff_datetime', 'service_type'], 
+    unique_key=['vendor_id', 'pickup_datetime', 'dropoff_datetime', 'passenger_count', 'service_type'], 
     
     incremental_strategy='merge',                                
     
@@ -49,15 +49,12 @@ green_taxi as (
 
 -- Combine both datasets seamlessly
 combined_trips as (
+    -- the hash id created based on what we filtered duplicates in int_ model windowing + extra current run date and service.
     select 
         {{ dbt_utils.generate_surrogate_key(['vendor_id',
                                             'pickup_datetime',
                                             'dropoff_datetime',
-                                            'pickup_location_id',
-                                            'dropoff_location_id',     
                                             'passenger_count',
-                                            'trip_distance',
-                                            'year_ingested',
                                             '"yellow"']) }} as trip_id,
         pickup_location_id,
         dropoff_location_id,
@@ -72,20 +69,17 @@ combined_trips as (
         trip_distance,
         total_amount,
         year_ingested,
+        month_ingested,
         'yellow' as service_type -- Tag the source for analysts
     from yellow_taxi
 
     union all
 
-    select 
+    select  
         {{ dbt_utils.generate_surrogate_key(['vendor_id',
                                             'pickup_datetime',
-                                            'dropoff_datetime',       
-                                            'pickup_location_id',
-                                            'dropoff_location_id',    
+                                            'dropoff_datetime',
                                             'passenger_count',
-                                            'trip_distance',
-                                            'year_ingested',
                                             '"green"']) }} as trip_id,
 
         pickup_location_id,
@@ -101,6 +95,7 @@ combined_trips as (
         trip_distance,
         total_amount,
         year_ingested,
+        month_ingested,
         'green' as service_type
     from green_taxi
 )

@@ -11,7 +11,7 @@ from airflow.exceptions import AirflowSkipException
 from airflow.providers.google.cloud.operators.bigquery import BigQueryCreateExternalTableOperator, BigQueryInsertJobOperator
 from cosmos import DbtTaskGroup,ProjectConfig,ProfileConfig,RenderConfig,LoadMode,ExecutionConfig,ExecutionMode
 from cosmos.profiles import GoogleCloudServiceAccountFileProfileMapping,GoogleCloudOauthProfileMapping
-
+from cosmos.constants import TestBehavior
 
 
 # 0. Read your local Mac/Docker environment variables
@@ -43,8 +43,8 @@ default_args = {
     'retry_delay': timedelta(seconds=5),
 }
 
-START_DATE = datetime(2019, 1, 1)
-END_DATE = datetime(2019, 3, 1)
+START_DATE = datetime(2020, 1, 1)
+END_DATE = datetime(2020, 3, 1)
 
 # 1. Define the guard function that checks the Airflow execution context
 def skip_historical_months(context):
@@ -208,6 +208,7 @@ with DAG(
             load_method=LoadMode.DBT_MANIFEST, # <-- This tells Cosmos to use the dbt manifest.json file to determine which models to run
             emit_datasets=False,  # this is a flag to tell cosmos to not emit datasets in the dbt_project, it is useful when we don't want to create datasets in the dbt_project, we just want to run the models and not create datasets.
             select=["tag:daily"],    # specify which models to run based on a tag defined in dbt_project yaml    
+            should_detach_multiple_parents_tests=True,        
         ),
 
 

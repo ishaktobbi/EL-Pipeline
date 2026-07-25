@@ -7,24 +7,20 @@ with staging_data as (
     pickup_datetime IS NOT NULL 
     AND 
     dropoff_datetime IS NOT NULL
+    AND 
+    vendor_id IS NOT NULL
     AND
     total_amount IS NOT NULL
-    AND
-    total_amount > 0
     AND 
     passenger_count IS NOT NULL
-    AND 
-    passenger_count > 0
     AND
     trip_distance IS NOT NULL
-    AND
-    trip_distance > 0
     AND
     pickup_datetime >= DATE_SUB('{{ var("run_date") }}', INTERVAL 1 MONTH)
     AND
     dropoff_datetime <= DATE_ADD('{{ var("run_date") }}', INTERVAL 2 MONTH)
     
-    -- 🟢 Purges the record from entering the marts
+    -- 🟢 Purges the record from entering the int_
 
 ),
 
@@ -35,7 +31,7 @@ deduplicated as (
         -- 🟢 Identify duplicates: if two rows have identical vendor, pickup, and dropoff, 
         -- the second one gets a row_num of 2.
         row_number() over (
-            partition by vendor_id, pickup_datetime, dropoff_datetime 
+            partition by pickup_datetime, dropoff_datetime, passenger_count, vendor_id
             order by total_amount desc
         ) as row_num
 
@@ -69,6 +65,7 @@ cleaned as (
         ehail_fee,
 
         year_ingested,
+        month_ingested,
 
 
         -- Standardize Values to a common set of values (Data Standardization)

@@ -1,6 +1,6 @@
 version: 2
 
-__shared_specs:
+anchors:
   - &shared_tests
     - name: vendor_id
       description: "Primary key component. Combined with pickup/dropoff, this must be unique."
@@ -19,13 +19,15 @@ __shared_specs:
       data_tests:
         - not_null
         - dbt_utils.expression_is_true:
-            expression: ">= 0"
+            arguments:
+              expression: ">= 0"
     - name: passenger_count
       description: "The number of passengers in the vehicle. Must always be positive."
       data_tests:
         - not_null
         - dbt_utils.expression_is_true:
-            expression: "> 0"
+            arguments:
+              expression: "> 0"
 
 models:
   - name: int_yellow_taxi_trips

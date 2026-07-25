@@ -188,3 +188,199 @@ airflow.exceptions.AirflowException: dbt command failed. The command returned a 
 [2026-07-22T03:21:19.482+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
 [2026-07-22T03:21:19.496+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
 [2026-07-22T03:21:19.497+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-23T13:34:36.043+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-23T13:34:36.053+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.int_green_taxi_trips.run scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-23T13:34:36.057+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake.dbt_transformations.int_green_taxi_trips.run scheduled__2019-03-01T00:00:00+00:00 [queued]>
+[2026-07-23T13:34:36.057+0000] {taskinstance.py:2865} INFO - Starting attempt 2 of 2
+[2026-07-23T13:34:36.062+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtRunWatcherOperator): dbt_transformations.int_green_taxi_trips.run> on 2019-03-01 00:00:00+00:00
+[2026-07-23T13:34:36.065+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=531) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-23T13:34:36.066+0000] {standard_task_runner.py:72} INFO - Started process 535 to run task
+[2026-07-23T13:34:36.066+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake', 'dbt_transformations.int_green_taxi_trips.run', 'scheduled__2019-03-01T00:00:00+00:00', '--job-id', '63', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake.py', '--cfg-path', '/tmp/tmpdnr4y32d']
+[2026-07-23T13:34:36.067+0000] {standard_task_runner.py:105} INFO - Job 63: Subtask dbt_transformations.int_green_taxi_trips.run
+[2026-07-23T13:34:36.082+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake.dbt_transformations.int_green_taxi_trips.run scheduled__2019-03-01T00:00:00+00:00 [running]> on host bb0313f3e2d9
+[2026-07-23T13:34:36.106+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake' AIRFLOW_CTX_TASK_ID='dbt_transformations.int_green_taxi_trips.run' AIRFLOW_CTX_EXECUTION_DATE='2019-03-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-03-01T00:00:00+00:00'
+[2026-07-23T13:34:36.106+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-23T13:34:36.110+0000] {baseoperator.py:405} WARNING - DbtRunWatcherOperator.execute cannot be called outside TaskInstance!
+[2026-07-23T13:34:36.111+0000] {base.py:745} INFO - Try number #2, poke attempt #0: Pulling status from task_id 'dbt_transformations.dbt_producer_watcher' via XCom key 'model__dbt_project__int_green_taxi_trips_status' for model 'model.dbt_project.int_green_taxi_trips'
+[2026-07-23T13:34:36.114+0000] {base.py:505} INFO - Retry attempt #1 – Running model 'model.dbt_project.int_green_taxi_trips' from project '/opt/airflow/dbt_project' using DbtRunWatcherOperator
+[2026-07-23T13:34:36.115+0000] {local.py:297} INFO - Could not import dbtRunner. Falling back to subprocess for invoking dbt.
+[2026-07-23T13:34:36.115+0000] {local.py:518} INFO - Cloning project to writable temp directory /tmp/tmppdhml9nl from /opt/airflow/dbt_project
+[2026-07-23T13:34:36.115+0000] {project.py:129} INFO - Copying the manifest from /opt/***/dbt_project/target/manifest.json...
+[2026-07-23T13:34:36.116+0000] {local.py:538} INFO - Partial parse is enabled and the latest partial parse file is /tmp/cosmos/pipeline_biglake__dbt_transformations/target/partial_parse.msgpack
+[2026-07-23T13:34:36.123+0000] {config.py:399} INFO - Profile caching is enable.
+[2026-07-23T13:34:36.123+0000] {config.py:379} INFO - Profile found in cache using profile: /tmp/cosmos/profile/20fe3100c69ae4710834cf3c8e9e108f6262971f53fbd4833f5dfc489bc17744/profiles.yml.
+[2026-07-23T13:34:36.124+0000] {local.py:481} INFO - Trying to run the command:
+ ['/home/***/dbt_venv/bin/dbt', 'run', '--select', 'fqn:dbt_project.intermediate.nyc_taxi.int_green_taxi_trips', '--vars', "run_date: '2019-03-01'\nrun_month: '03'\nrun_year: '2019'\n", '--select', 'int_green_taxi_trips', '--project-dir', '/tmp/tmppdhml9nl', '--profiles-dir', '/tmp/cosmos/profile/20fe3100c69ae4710834cf3c8e9e108f6262971f53fbd4833f5dfc489bc17744', '--profile', 'dbt_project', '--target', 'dev']
+From /tmp/tmppdhml9nl
+[2026-07-23T13:34:36.124+0000] {subprocess.py:69} INFO - Tmp dir root location: 
+ /tmp
+[2026-07-23T13:34:36.125+0000] {subprocess.py:82} INFO - Running command: ['/home/***/dbt_venv/bin/dbt', 'run', '--select', 'fqn:dbt_project.intermediate.nyc_taxi.int_green_taxi_trips', '--vars', "run_date: '2019-03-01'\nrun_month: '03'\nrun_year: '2019'\n", '--select', 'int_green_taxi_trips', '--project-dir', '/tmp/tmppdhml9nl', '--profiles-dir', '/tmp/cosmos/profile/20fe3100c69ae4710834cf3c8e9e108f6262971f53fbd4833f5dfc489bc17744', '--profile', 'dbt_project', '--target', 'dev']
+[2026-07-23T13:34:36.130+0000] {subprocess.py:100} INFO - Command output:
+[2026-07-23T13:34:36.844+0000] {subprocess.py:114} INFO - [0m13:34:36  Running with dbt=1.11.12
+[2026-07-23T13:34:37.203+0000] {subprocess.py:114} INFO - [0m13:34:37  Registered adapter: bigquery=1.12.0
+[2026-07-23T13:34:37.445+0000] {subprocess.py:114} INFO - [0m13:34:37  Found 14 models, 5 seeds, 53 data tests, 2 sources, 6 metrics, 680 macros, 4 semantic models, 3 saved queries
+[2026-07-23T13:34:37.446+0000] {subprocess.py:114} INFO - [0m13:34:37  
+[2026-07-23T13:34:37.446+0000] {subprocess.py:114} INFO - [0m13:34:37  Concurrency: 1 threads (target='dev')
+[2026-07-23T13:34:37.447+0000] {subprocess.py:114} INFO - [0m13:34:37  
+[2026-07-23T13:34:38.875+0000] {subprocess.py:114} INFO - [0m13:34:38  1 of 1 START sql view model ishak_tobbi_dataset.int_green_taxi_trips ........... [RUN]
+[2026-07-23T13:34:39.632+0000] {subprocess.py:114} INFO - [0m13:34:39  BigQuery adapter: https://console.cloud.google.com/bigquery?project=elpipeline&j=bq:europe-west3:e2f7fc37-27e5-412d-a838-2238e8a48341&page=queryresults
+[2026-07-23T13:34:39.638+0000] {subprocess.py:114} INFO - [0m13:34:39  1 of 1 ERROR creating sql view model ishak_tobbi_dataset.int_green_taxi_trips .. [[31mERROR[0m in 0.76s]
+[2026-07-23T13:34:39.641+0000] {subprocess.py:114} INFO - [0m13:34:39  
+[2026-07-23T13:34:39.641+0000] {subprocess.py:114} INFO - [0m13:34:39  Finished running 1 view model in 0 hours 0 minutes and 2.19 seconds (2.19s).
+[2026-07-23T13:34:39.671+0000] {subprocess.py:114} INFO - [0m13:34:39  
+[2026-07-23T13:34:39.671+0000] {subprocess.py:114} INFO - [0m13:34:39  [31mCompleted with 1 error, 0 partial successes, and 0 warnings:[0m
+[2026-07-23T13:34:39.671+0000] {subprocess.py:114} INFO - [0m13:34:39  
+[2026-07-23T13:34:39.671+0000] {subprocess.py:114} INFO - [0m13:34:39  [31mFailure in model int_green_taxi_trips (models/intermediate/nyc_taxi/int_green_taxi_trips.sql)[0m
+[2026-07-23T13:34:39.671+0000] {subprocess.py:114} INFO - [0m13:34:39    Database Error in model int_green_taxi_trips (models/intermediate/nyc_taxi/int_green_taxi_trips.sql)
+[2026-07-23T13:34:39.671+0000] {subprocess.py:114} INFO -   Partitioning by expressions of type FLOAT64 is not allowed at [37:78]
+[2026-07-23T13:34:39.671+0000] {subprocess.py:114} INFO -   compiled code at target/run/dbt_project/models/intermediate/nyc_taxi/int_green_taxi_trips.sql
+[2026-07-23T13:34:39.672+0000] {subprocess.py:114} INFO - [0m13:34:39  
+[2026-07-23T13:34:39.672+0000] {subprocess.py:114} INFO - [0m13:34:39    compiled code at target/compiled/dbt_project/models/intermediate/nyc_taxi/int_green_taxi_trips.sql
+[2026-07-23T13:34:39.672+0000] {subprocess.py:114} INFO - [0m13:34:39  
+[2026-07-23T13:34:39.672+0000] {subprocess.py:114} INFO - [0m13:34:39  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 NO-OP=0 TOTAL=1
+[2026-07-23T13:34:40.433+0000] {subprocess.py:119} INFO - Command exited with return code 1
+[2026-07-23T13:34:40.442+0000] {local.py:196} WARNING - Artifact schema version: https://schemas.getdbt.com/dbt/manifest/v12.json is above dbt-ol supported version 7. This might cause errors.
+[2026-07-23T13:34:40.452+0000] {local.py:303} ERROR - [0m13:34:36  Running with dbt=1.11.12
+[0m13:34:37  Registered adapter: bigquery=1.12.0
+[0m13:34:37  Found 14 models, 5 seeds, 53 data tests, 2 sources, 6 metrics, 680 macros, 4 semantic models, 3 saved queries
+[0m13:34:37  
+[0m13:34:37  Concurrency: 1 threads (target='dev')
+[0m13:34:37  
+[0m13:34:38  1 of 1 START sql view model ishak_tobbi_dataset.int_green_taxi_trips ........... [RUN]
+[0m13:34:39  BigQuery adapter: https://console.cloud.google.com/bigquery?project=elpipeline&j=bq:europe-west3:e2f7fc37-27e5-412d-a838-2238e8a48341&page=queryresults
+[0m13:34:39  1 of 1 ERROR creating sql view model ishak_tobbi_dataset.int_green_taxi_trips .. [[31mERROR[0m in 0.76s]
+[0m13:34:39  
+[0m13:34:39  Finished running 1 view model in 0 hours 0 minutes and 2.19 seconds (2.19s).
+[0m13:34:39  
+[0m13:34:39  [31mCompleted with 1 error, 0 partial successes, and 0 warnings:[0m
+[0m13:34:39  
+[0m13:34:39  [31mFailure in model int_green_taxi_trips (models/intermediate/nyc_taxi/int_green_taxi_trips.sql)[0m
+[0m13:34:39    Database Error in model int_green_taxi_trips (models/intermediate/nyc_taxi/int_green_taxi_trips.sql)
+  Partitioning by expressions of type FLOAT64 is not allowed at [37:78]
+  compiled code at target/run/dbt_project/models/intermediate/nyc_taxi/int_green_taxi_trips.sql
+[0m13:34:39  
+[0m13:34:39    compiled code at target/compiled/dbt_project/models/intermediate/nyc_taxi/int_green_taxi_trips.sql
+[0m13:34:39  
+[0m13:34:39  Done. PASS=0 WARN=0 ERROR=1 SKIP=0 NO-OP=0 TOTAL=1
+[2026-07-23T13:34:40.456+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/watcher.py", line 560, in execute
+    super().execute(context, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 601, in execute
+    self._execute_core(context)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 561, in _execute_core
+    elif not self.poke(context):
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 758, in poke
+    retry_result = self._handle_retry(try_number, producer_task_state, context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 703, in _handle_retry
+    return self._fallback_to_non_watcher_run(try_number, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 530, in _fallback_to_non_watcher_run
+    self.build_and_run_cmd(context, cmd_flags=cmd_flags)  # type: ignore[attr-defined]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/local.py", line 968, in build_and_run_cmd
+    result = self.run_command(
+             ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/local.py", line 743, in run_command
+    self.handle_exception(result)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/local.py", line 304, in handle_exception_subprocess
+    raise AirflowException(f"dbt command failed. The command returned a non-zero exit code {result.exit_code}.")
+airflow.exceptions.AirflowException: dbt command failed. The command returned a non-zero exit code 1.
+[2026-07-23T13:34:40.547+0000] {_client.py:1026} INFO - HTTP Request: GET https://astronomer.gateway.scarf.sh/astronomer-cosmos/v3/task_instance?cosmos_version=1.15.0&airflow_version=2.10.2&python_version=3.12.6&platform_system=Linux&platform_machine=aarch64&status=failed&operator_name=DbtRunWatcherOperator&is_cosmos_operator_subclass=False&invocation_mode=subprocess&execution_mode=watcher&profile_strategy=mapping&profile_mapping_class=GoogleCloudOauthProfileMapping&database=bigquery&is_mapped_task=False&dbt_command=run&install_deps=False&has_callback=False&duration=4.40414 "HTTP/1.1 200 OK"
+[2026-07-23T13:34:40.548+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=pipeline_biglake, task_id=dbt_transformations.int_green_taxi_trips.run, run_id=scheduled__2019-03-01T00:00:00+00:00, execution_date=20190301T000000, start_date=20260723T133436, end_date=20260723T133440
+[2026-07-23T13:34:40.556+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-23T13:34:40.556+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 63 for task dbt_transformations.int_green_taxi_trips.run (dbt command failed. The command returned a non-zero exit code 1.; 535)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/watcher.py", line 560, in execute
+    super().execute(context, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 601, in execute
+    self._execute_core(context)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 561, in _execute_core
+    elif not self.poke(context):
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 758, in poke
+    retry_result = self._handle_retry(try_number, producer_task_state, context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 703, in _handle_retry
+    return self._fallback_to_non_watcher_run(try_number, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 530, in _fallback_to_non_watcher_run
+    self.build_and_run_cmd(context, cmd_flags=cmd_flags)  # type: ignore[attr-defined]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/local.py", line 968, in build_and_run_cmd
+    result = self.run_command(
+             ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/local.py", line 743, in run_command
+    self.handle_exception(result)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/local.py", line 304, in handle_exception_subprocess
+    raise AirflowException(f"dbt command failed. The command returned a non-zero exit code {result.exit_code}.")
+airflow.exceptions.AirflowException: dbt command failed. The command returned a non-zero exit code 1.
+[2026-07-23T13:34:40.564+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-23T13:34:40.579+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-23T13:34:40.580+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

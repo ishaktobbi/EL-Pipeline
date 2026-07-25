@@ -7,25 +7,21 @@ with staging_data as (
     WHERE 
     pickup_datetime IS NOT NULL 
     AND 
+    vendor_id IS NOT NULL
+    AND
     dropoff_datetime IS NOT NULL
     AND
     total_amount IS NOT NULL
-    AND
-    total_amount > 0
     AND 
     passenger_count IS NOT NULL
-    AND 
-    passenger_count > 0
     AND
     trip_distance IS NOT NULL
-    AND
-    trip_distance > 0
     AND
     pickup_datetime >= DATE_SUB('{{ var("run_date") }}', INTERVAL 1 MONTH)
     AND
     dropoff_datetime <= DATE_ADD('{{ var("run_date") }}', INTERVAL 2 MONTH)
     
-    -- 🟢 Purges the record from entering the marts
+    -- 🟢 Purges the record from entering the int_
 
 ),
 
@@ -36,7 +32,7 @@ deduplicated as (
         -- 🟢 Identify duplicates: if two rows have identical vendor, pickup, and dropoff, 
         -- the second one gets a row_num of 2.
         row_number() over (
-            partition by vendor_id, pickup_datetime, dropoff_datetime 
+            partition by  pickup_datetime, dropoff_datetime, passenger_count, vendor_id
             order by total_amount desc
         ) as row_num
 
@@ -50,7 +46,7 @@ cleaned as (
         
 
         -- Handle missing business keys gracefully (Null Resolution)
-        COALESCE(vendor_id, -1) AS vendor_id,
+        -- COALESCE(vendor_id, -1) AS vendor_id,
         COALESCE(rate_code_id, -1) AS rate_code_id,
         COALESCE(pickup_location_id, -1) AS pickup_location_id,
         COALESCE(dropoff_location_id, -1) AS dropoff_location_id,
@@ -59,6 +55,7 @@ cleaned as (
         dropoff_datetime,
         
         -- Clean structural dimensions
+        vendor_id,
         passenger_count,
         trip_distance,
         fare_amount,
@@ -67,6 +64,7 @@ cleaned as (
         congestion_surcharge,
 
         year_ingested,
+        month_ingested,
         
         -- Structural Alignment Placeholder (Column only exists in Green taxi data)
         CAST(NULL AS FLOAT64) AS ehail_fee,

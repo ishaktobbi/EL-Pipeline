@@ -2,27 +2,28 @@ version: 2
 
 # schema.yml checks the data after your code runs before passing it to the marts model (Testing your SQL Logic from the staging model).
 
-__shared_specs:
+
+anchors:
   - &shared_tests
     - name: vendor_id
-      tests:
+      data_tests:
         - not_null:
             config:
               severity: warn
 
     # Category B: Critical Business Timestamps
     - name: pickup_datetime
-      tests:
+      data_tests:
         - not_null:
             config:
               severity: warn
     - name: dropoff_datetime
-      tests:
+      data_tests:
         - not_null:
             config:
               severity: warn
     - name: total_amount
-      tests:
+      data_tests:
         - not_null:
             config:
               severity: warn
@@ -30,11 +31,12 @@ __shared_specs:
     # Category C: Categorical Codes (Enumerations)
     # Ensures the source hasn't introduced a wild new payment code like '99'
     - name: payment_type_id
-      tests:
+      data_tests:
         # - dbt_utils.expression_is_true:
         #     expression: "cast(payment_type_id as string) in ('1','2','3','4','5','6')"
           - accepted_int_values:
-              values: [1, 2, 3, 4, 5, 6]            
+              arguments:
+                values: [1, 2, 3, 4, 5, 6]            
               config:
                 severity: warn
 

@@ -42,6 +42,7 @@ staged as (
         safe_cast(congestion_surcharge as float64) as congestion_surcharge,
 
         safe_cast('{{ var("run_year") }}' as INT64) as year_ingested,
+        safe_cast('{{ var("run_month") }}' as INT64) as month_ingested,
 
 
     from source
