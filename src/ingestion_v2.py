@@ -1,172 +1,290 @@
 import os
-import requests
+import re
+from datetime import datetime
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
+import requests
+from requests.adapters import HTTPAdapter
+from requests.exceptions import ConnectTimeout, ReadTimeout
+
+from urllib3.util.retry import Retry
 from google.cloud import storage
+from google.cloud.exceptions import NotFound, Forbidden
 from tqdm import tqdm
 
-from datetime import datetime
-# from pathlib import Path
-# from dotenv import load_dotenv
+from src.utils import parse_date, validate_color
 
-class GCSDataPipeline:
-    def __init__(self, project_id: str, bucket_name: str):
-        self.project_id = project_id
-        self.bucket_name = bucket_name
+# from airflow.exceptions import AirflowSkipException
+
+# Handle running standalone vs. running inside Airflow environment
+try:
+    from airflow.exceptions import AirflowSkipException
+except ImportError:
+    class AirflowSkipException(Exception):
+        """Fallback custom exception when running script outside Airflow."""
+        pass
+
+class NYCDataIngestor:
+    """Handles streaming extract and local parquet conversion of NYC Taxi data."""
+
+
+    def __init__(self, execution_date: str, taxi_color: str, chunksize: int = 100000):
+        # 1. Validate inputs immediately on init
+        if chunksize <= 0:
+            raise ValueError(f"❌ Invalid chunksize '{chunksize}'. Must be > 0.")
         
-        # Connects using your active authenticated gcloud session
-        self.storage_client = storage.Client(project=self.project_id)
-        self.bucket = self.storage_client.get_bucket(self.bucket_name)
+        self.chunksize = chunksize
+        self.taxi_color = validate_color(taxi_color)
+        self.year, self.month = parse_date(execution_date)
 
-    def extract_and_convert_stream(self,execution_date: str , taxi_color: str):
+        # 2. Assign core derived attributes early
+        self.url = (
+            f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/"
+            f"{self.taxi_color}/{self.taxi_color}_tripdata_{self.year}-{self.month}.csv.gz"
+        )
+        self.local_parquet_path = f"{self.taxi_color}_tripdata_{self.year}-{self.month}.parquet"
         
+        self.session = self._create_retry_session()
 
-        # Set up your explicit schema schemas
-        # dtype = {
-        #         "VendorID": "Int64",
-        #         "passenger_count": "Int64",
-        #         "trip_distance": "float64",
-        #         "RatecodeID": "Int64",
-        #         "store_and_fwd_flag": "string",
-        #         "PULocationID": "Int64",
-        #         "DOLocationID": "Int64",
-        #         "payment_type": "Int64",
-        #         "fare_amount": "float64",
-        #         "extra": "float64",
-        #         "mta_tax": "float64",
-        #         "tip_amount": "float64",
-        #         "tolls_amount": "float64",
-        #         "improvement_surcharge": "float64",
-        #         "total_amount": "float64",
-        #         "congestion_surcharge": "float64"
-        # }
+    # @staticmethod   # the function can be called in different classes with name.func
+    # def validate_color(taxi_color: str) -> str:
+    #     color = taxi_color.lower().strip()
+    #     if color not in NYCDataIngestor.VALID_TAXI_COLORS:
+    #         raise ValueError(f"❌ Invalid taxi color '{taxi_color}'. Allowed: {NYCDataIngestor.VALID_TAXI_COLORS}")
+    #     return color
 
-        # parse_dates = ["tpep_pickup_datetime", "tpep_dropoff_datetime"] if taxi_color == "yellow" else ["lpep_pickup_datetime", "lpep_dropoff_datetime"]
+    # @staticmethod
+    # def parse_date(execution_date: str) -> tuple[str, str]:
+    #     if not re.match(r"^\d{4}-\d{2}-\d{2}$", execution_date):
+    #         raise ValueError(f"❌ Invalid date format: '{execution_date}'. Expected 'YYYY-MM-DD'.")
+    #     try:
+    #         date_obj = datetime.strptime(execution_date, "%Y-%m-%d")
+    #         return date_obj.strftime("%Y"), date_obj.strftime("%m")
+    #     except ValueError as e:
+    #         raise ValueError(f"❌ Invalid calendar date '{execution_date}': {e}") from e
 
-        date_obj = datetime.strptime(execution_date, "%Y-%m-%d")
-        year = date_obj.strftime("%Y")
-        month = date_obj.strftime("%m")
-        url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{taxi_color}/{taxi_color}_tripdata_{year}-{month}.csv.gz"
+    @staticmethod
+    def _create_retry_session(retries: int = 3, backoff_factor: float = 2.0) -> requests.Session:
+        session = requests.Session()
+        retry = Retry(
+            total=retries,
+            read=retries,
+            connect=retries,
+            backoff_factor=backoff_factor,
+            status_forcelist=[429, 500, 502, 503, 504],
+        )
+        adapter = HTTPAdapter(max_retries=retry)
+        session.mount("https://", adapter)
+        session.mount("http://", adapter)
+        return session
 
-        print(f"📡 Stream-ingesting and converting data from: {url}")
+    # def extract_and_convert(self) -> str:
+    #     """Streams raw compressed CSV from self.url and writes to self.local_parquet_path."""
+    #     print(f"📡 Stream-ingesting from: {self.url}")
 
-        local_parquet_path = f"{taxi_color}_tripdata_{year}-{month}.parquet"
+    def extract_and_convert(self) -> str:
+        """ - 1 - Main orchestrator: fetches stream and triggers stream processing."""
+        """Streams raw compressed CSV from self.url and writes to self.local_parquet_path."""
+        print(f"📡 Stream-ingesting from: {self.url}")
+        success = False
+        try:
+            self._fetch_stream()
+            # self._process_csv_stream_to_parquet(response.raw)
+            print(f"🚀 Saved Parquet locally: {self.local_parquet_path}")
+            success = True
+            return self.local_parquet_path
 
-        # Step 1: Open a streaming HTTP network pipe (No full file download!)
-        print("📥 Downloading compressed data...")
-        with requests.get(url, stream=True, timeout=60) as response:
+        except AirflowSkipException:
+            # Let Airflow handle skip exceptions natively
+            raise
+        except ConnectTimeout:
+                raise RuntimeError("Connection timed out")
+        except ReadTimeout:
+                raise RuntimeError("Connection timed out middle way")
+        
+        except Exception as e:
+            raise RuntimeError(f"💥 Failed processing {self.taxi_color} data for {self.year}-{self.month}: {e}")
+        finally:
+            # Cleanup partial/corrupt file ONLY if execution failed!
+            if not success and os.path.exists(self.local_parquet_path):
+                os.remove(self.local_parquet_path)
+
+    def _fetch_stream(self):
+        """- 2 - Handles HTTP connection and 404/status check."""
+        with self.session.get(self.url, stream=True, timeout=(10, 60)) as response:
             
-            # 🟢 INDUSTRY SAFEGUARD: Handle missing files gracefully
             if response.status_code == 404:
-                print(f"⚠️ Warning: File not found for {year}-{month} (404). It might not be published yet.")
-                # Return None so the downstream load step knows to do nothing
-                return None
-            
-            response.raise_for_status()     # raise an error if the request failed (e.g., 404, 500, etc.)
+                print(f"⚠️ File not found for {self.year}-{self.month} (404).")
+                raise AirflowSkipException(f"No source data published for {self.year}-{self.month}")
 
-    
-            # Step 2: Pass the raw network stream directly into pandas using chunksize
-            # This returns an iterator engine instead of loading a static DataFrame (act as a valve that waits for data to be extracted when called in an iteration)
+            response.raise_for_status()
+            # return response
+
+            self._process_csv_stream_to_parquet(response.raw)
+        
+
+    def _process_csv_stream_to_parquet(self, stream_source) -> None:
+        """- 3 - Handles CSV streaming and Parquet conversion with writer cleanup."""
+        print("reading file with pandas starting")
+        try:
             csv_stream_iterator = pd.read_csv(
-                response.raw,  # Directly reads raw bytes from the network pipe
-                dtype=str,  # Read all columns as strings to avoid dtype inference issues
-                # parse_dates=parse_dates,
-                chunksize=100000,  # Process exactly 100,000 rows at a time in RAM / we are safe from getting half row, so we can parse by a chunk safely.
+                stream_source,
+                dtype=str,
+                chunksize=self.chunksize,
                 low_memory=False,
-                compression='gzip'  # Assuming the CSV is compressed with gzip; adjust if needed
+                compression="gzip",
             )
+            self._write_chunks_to_parquet(csv_stream_iterator)
 
+        except pd.errors.EmptyDataError:
+            print(f"⚠️ File at {self.url} is empty.")
+            raise AirflowSkipException(f"Empty file encountered for {self.year}-{self.month}")
+            
 
-            parquet_writer = None
+    def _write_chunks_to_parquet(self, csv_stream_iterator) -> None:
+        """- 4 - Writes dataframe chunks to a Parquet file using context/finally guarantee."""
+        parquet_writer = None
+        rows_written = 0
+        try:
+            for chunk_df in tqdm(csv_stream_iterator, desc="Processing Chunks"):
+                if not chunk_df.empty:
+                    rows_written += 1
 
-            # Step 3: Loop through the file block-by-block (here the read_csv start reading data from the network)
-            for chunk_df in tqdm(csv_stream_iterator):
+                    arrow_table = pa.Table.from_pandas(chunk_df)
 
-                # print(f"check data while processing: {chunk_df.isnull().sum()}")  # Optional: Print summary statistics for each chunk (for debugging)
+                    if parquet_writer is None:
+                        parquet_writer = pq.ParquetWriter(
+                            self.local_parquet_path,
+                            arrow_table.schema,
+                            compression="snappy",
+                        )
 
-                # Convert the small pandas chunk into a PyArrow Table block
-                arrow_table = pa.Table.from_pandas(chunk_df)
+                    parquet_writer.write_table(arrow_table)
 
-                # Initialize the Parquet file schema on disk using the first chunk (then waiting for data to append)
-                if parquet_writer is None:
-                    parquet_writer = pq.ParquetWriter(local_parquet_path, arrow_table.schema, compression='snappy')
-
-                # Append the chunk directly to the final Parquet file
-                parquet_writer.write_table(arrow_table)
-
-            # Close the file pointer safely
+            # 🔑 Handle empty CSVs that have headers but 0 data rows
+            if rows_written == 0:
+                raise AirflowSkipException(
+                    f"Empty dataset: No data rows found for {self.year}-{self.month}"
+                )
+        finally:
             if parquet_writer:
                 parquet_writer.close()
 
-        print(f"🚀 Perfect streaming extraction complete. Saved directly to: {local_parquet_path}")
-        return local_parquet_path
 
-    def load_to_gcs(self, local_file_path: str, execution_date: str, taxi_color: str):
-        """
-        Streams data into a strictly partitioned folder structure.
-        execution_date format: '2026-06-30'
-        """
+class GCSUploader:
+    """Handles idempotent uploads to Google Cloud Storage with bucket validation."""
 
+    def __init__(self, project_id: str, bucket_name: str, execution_date: str, taxi_color: str, client: storage.Client = None):
+        # 1. Validate environment strings
 
-        # 1. Parse the date string to extract year, month, and day chunks
-        date_obj = datetime.strptime(execution_date, "%Y-%m-%d")    # Y is Maj, not like m and d
-        year = date_obj.strftime("%Y")
-        month = date_obj.strftime("%m")
-        # day = date_obj.strftime("%d")
-
-        if local_file_path == None:
-            print(f"data not found to load for the date {year}-{month} !")
-            return
-
-        # 2. Build Hive-style partitioning paths (the gold standard in data lakes)
-        # Result path: raw/taxi/year=2026/month=06/day=30/data.parquet
-        destination_blob_name = f"raw/taxi/{taxi_color}/year={year}/month={month}/data.parquet"
-
-        print(f"🚀 Uploading to GCS Data Lake as: '{destination_blob_name}'...")
-
-        blob = self.bucket.blob(destination_blob_name)
-
-        # check if blob already exists, if yes, delete it to ensure idempotency
-        if blob.exists():
-            print(f"⚠️ Blob already exists at gs://{self.bucket_name}/{destination_blob_name}. Overwriting for idempotency...")
+        self.project_id = self._validate_non_empty_string(project_id, "project_id")
+        self.bucket_name = self._validate_non_empty_string(bucket_name, "bucket_name")
         
-        # 3. Stream upload (Overwrites if it exists, ensuring idempotency)
-        blob.upload_from_filename(local_file_path)
+        self.taxi_color = validate_color(taxi_color)
 
+        self.year, self.month = parse_date(execution_date)
+
+        self.destination_blob_name = (
+            f"raw/taxi/{self.taxi_color}/year={self.year}/month={self.month}/data.parquet"
+        )
+
+        # 3. Authenticate & Verify Bucket Access
+        # Passing client allows easily injecting a mock storage client during unit testing
+        self.storage_client = client or storage.Client(project=self.project_id)
+        self.bucket = self._verify_bucket()
+
+    @staticmethod
+    def _validate_non_empty_string(value: str, param_name: str) -> str:
+        """Helper method to ensure a parameter is a non-empty string."""
+        if not isinstance(value, str):
+            raise TypeError(
+                f"❌ {param_name} must be a string, got {type(value).__name__}."
+            )
         
-        os.remove(local_file_path)
+        cleaned_value = value.strip()
+        if not cleaned_value:
+            raise ValueError(f"❌ {param_name} cannot be empty.")
+        
+        return cleaned_value
 
-        print(f"✅ Idempotent upload finished: gs://{self.bucket_name}/{destination_blob_name}")
+    def _verify_bucket(self):
+        """Validates bucket existence and permissions upon class initialization."""
+        
+        try:
+            return self.storage_client.get_bucket(self.bucket_name)
+        except NotFound:
+            raise ValueError(
+                f"❌ Bucket '{self.bucket_name}' (or project '{self.project_id}') does not exist."
+            )
+        except Forbidden:
+            raise PermissionError(
+                f"❌ Access denied to project/bucket. Check Service Account IAM roles for '{self.project_id}'."
+            )
+        except Exception as e:
+            raise RuntimeError(f"💥 Failed to access GCS bucket '{self.bucket_name}' with GCP project id '{self.project_id}' : {e}") from e
+
+    def upload_file(self, local_file_path: str) -> None:
+        """Uploads a local Parquet file to Hive-partitioned GCS path and guarantees local cleanup."""
+        if not local_file_path or not os.path.exists(local_file_path):
+            raise FileNotFoundError(f"❌ Local file not found for upload: '{local_file_path}'")
+
+        target_blob = self.bucket.blob(self.destination_blob_name)
+
+        if target_blob.exists():
+            print(f"⚠️ Blob gs://{self.bucket_name}/{self.destination_blob_name} exists. Overwriting...")
+
+        try:
+            print(f"🚀 Uploading to GCS: gs://{self.bucket_name}/{self.destination_blob_name}")
+            target_blob.upload_from_filename(local_file_path)
+            print("✅ Upload complete.")
+        except :
+            raise Exception("GCS Connection Interrupted")
+        finally:
+            # 🟢 CRITICAL GUARANTEE: Remove the local file even if target_blob.upload_from_filename raises an exception!
+            if os.path.exists(local_file_path):
+                os.remove(local_file_path)
+                print(f"🧹 Local file removed: {local_file_path}")
+
 
 if __name__ == "__main__":
-
-    # EXTRACTED_PARQUET_FILE = "data_extracted.parquet"
-    # DATA_URL = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
-
-    # -> Point to the .env file 
-    # ENV_PATH = Path(__file__).resolve().parent / "../orchestrator/.env"
-    # -> Load the .env file to the environment
-    # load_dotenv(dotenv_path=ENV_PATH)
-
-    # -> fetch configurations from the environment
+    # 1. Fetch environment variables
     PROJECT_ID = os.environ.get("GCP_PROJECT_ID")
     BUCKET_NAME = os.environ.get("GCS_BUCKET_NAME")
     EXECUTION_DATE = os.environ.get("EXECUTION_DATE")
     TAXI_COLOR = os.environ.get("TAXI_COLOR")
 
-    
-    # -> Validation step to ensure your container crashes early if you forgot to set them
-    if not PROJECT_ID or not BUCKET_NAME or not EXECUTION_DATE or not TAXI_COLOR:
-        raise ValueError("❌ Missing required environment variables: GCP_PROJECT_ID, GCS_BUCKET_NAME, EXECUTION_DATE, or TAXI_COLOR")
+    # 2. Crash fast if any required variables are missing
+    if not all([PROJECT_ID, BUCKET_NAME, EXECUTION_DATE, TAXI_COLOR]):
+        missing = [
+            var
+            for var, val in [
+                ("GCP_PROJECT_ID", PROJECT_ID),
+                ("GCS_BUCKET_NAME", BUCKET_NAME),
+                ("EXECUTION_DATE", EXECUTION_DATE),
+                ("TAXI_COLOR", TAXI_COLOR),
+            ]
+            if not val
+        ]
+        raise ValueError(f"❌ Missing required environment variables: {missing}")
 
-    # -> Execute Pipeline
-    pipeline = GCSDataPipeline(project_id=PROJECT_ID, bucket_name=BUCKET_NAME)
-    
+    # 3. Instantiate objects (Inputs get validated immediately on init)
+    ingestor = NYCDataIngestor(execution_date=EXECUTION_DATE, taxi_color=TAXI_COLOR)
+    uploader = GCSUploader(
+        project_id=PROJECT_ID,
+        bucket_name=BUCKET_NAME,
+        execution_date=EXECUTION_DATE,
+        taxi_color=TAXI_COLOR,
+    )
+
+    # 4. Pipeline Execution Pipeline
     try:
-        print(f"🚀 Starting {PROJECT_ID} pipeline for {TAXI_COLOR} taxi data on {EXECUTION_DATE}...")
-        local_file = pipeline.extract_and_convert_stream(EXECUTION_DATE, TAXI_COLOR)
-        print(f"local file name : {local_file}")
-        pipeline.load_to_gcs(local_file, EXECUTION_DATE, TAXI_COLOR)
+        print(f"🚀 Pipeline starting for {TAXI_COLOR} taxi data on {EXECUTION_DATE}...")
+        parquet_file = ingestor.extract_and_convert()
+        uploader.upload_file(parquet_file)
+    except AirflowSkipException as e:
+        print(f"🌸 Task skipped gracefully: {e}")
+        raise e
     except Exception as e:
         print(f"💥 Pipeline execution failed: {e}")
+        raise e

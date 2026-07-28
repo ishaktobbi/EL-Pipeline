@@ -20,7 +20,7 @@ with staging_data as (
     AND
     dropoff_datetime <= DATE_ADD('{{ var("run_date") }}', INTERVAL 2 MONTH)
     
-    -- 🟢 Purges the record from entering the int_
+    -- Purges the record from entering the int_
 
 ),
 
@@ -28,7 +28,7 @@ deduplicated as (
 
     select
         *,
-        -- 🟢 Identify duplicates: if two rows have identical vendor, pickup, and dropoff, 
+        -- Identify duplicates: if two rows have identical vendor, pickup, and dropoff, 
         -- the second one gets a row_num of 2.
         row_number() over (
             partition by pickup_datetime, dropoff_datetime, passenger_count, vendor_id
@@ -45,7 +45,6 @@ cleaned as (
         
 
         -- Handle missing business keys gracefully (Null Resolution)
-        COALESCE(vendor_id, -1) AS vendor_id,
         COALESCE(rate_code_id, -1) AS rate_code_id,
         COALESCE(pickup_location_id, -1) AS pickup_location_id,
         COALESCE(dropoff_location_id, -1) AS dropoff_location_id,
@@ -56,6 +55,7 @@ cleaned as (
         dropoff_datetime,
         
         -- Clean structural dimensions
+        vendor_id,
         passenger_count,
         trip_distance,
         fare_amount,

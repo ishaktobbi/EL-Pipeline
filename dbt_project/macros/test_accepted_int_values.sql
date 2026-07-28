@@ -19,4 +19,3 @@ where not (     {# 🟢 test is to grab the opposite : for values that are NOT i
 )
 
 {% endmacro %}
-{# {% if not loop.last %}, {% endif %}  this is only to print comma , if the item is not the last one. #}

@@ -121,8 +121,17 @@ select * from combined_trips
 {% if is_incremental() %}
  
 
+  where 
+
 -- Restrict the incremental scan strictly to the YEAR Airflow is currently processing, if a row exists, update it.
-  where year_ingested = CAST('{{ var("run_year") }}' AS INT64)
+--  year_ingested = CAST('{{ var("run_year") }}' AS INT64)
+
+-- Restrict the incremental scan strictly to >= +1 month OR <= +2 months of the Date Airflow is currently processing, if a row exists, update it.
+
+    pickup_datetime >= DATE_SUB('{{ var("run_date") }}', INTERVAL 1 MONTH)
+    AND
+    dropoff_datetime <= DATE_ADD('{{ var("run_date") }}', INTERVAL 2 MONTH)
+   
 
 
 -- NOT USING IT : CHRONOLOGICAL FILTERING NOT USEFULL FOR DATA OUT OF ORDERS (2019 IN 2021, 0R 2021 IN 2019) SOME DATA LL BE LOST FOREVER.

@@ -21,7 +21,7 @@ with staging_data as (
     AND
     dropoff_datetime <= DATE_ADD('{{ var("run_date") }}', INTERVAL 2 MONTH)
     
-    -- 🟢 Purges the record from entering the int_
+    -- Purges the record from entering the int_
 
 ),
 
@@ -29,7 +29,7 @@ deduplicated as (
 
     select
         *,
-        -- 🟢 Identify duplicates: if two rows have identical vendor, pickup, and dropoff, 
+        -- Identify duplicates: if two rows have identical vendor, pickup, passenger_count, and dropoff, 
         -- the second one gets a row_num of 2.
         row_number() over (
             partition by  pickup_datetime, dropoff_datetime, passenger_count, vendor_id
