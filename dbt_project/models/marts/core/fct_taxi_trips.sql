@@ -25,26 +25,45 @@
 
     unique_key=['vendor_id', 'pickup_datetime', 'dropoff_datetime', 'passenger_count', 'service_type'], 
     
-    incremental_strategy='merge',                                
-    
+    incremental_strategy='merge',  
+
+    post_hook="""
+        MERGE INTO {{ source('partition_control', 'ingestion_partition_control') }} target
+        USING (
+            SELECT DISTINCT partition_key 
+            FROM {{ this }}
+        ) src
+        ON target.partition_key = src.partition_key
+        WHEN MATCHED AND target.status = 'LOADED' THEN
+            UPDATE SET 
+                status = 'TRANSFORMED',
+                updated_at = CURRENT_TIMESTAMP()
+    """,
+
     partition_by={
       "field": "pickup_datetime",
       "data_type": "timestamp",
       "granularity": "day"
     },
     
-    cluster_by=['service_type', 'year_ingested', 'dropoff_datetime'],
-    tags=['daily']
+    cluster_by=['service_type', 'partition_date', 'dropoff_datetime'],
+    tags=['daily'],
+
+    
 ) }}
 
 
 
 with yellow_taxi as (
-    select * from {{ ref('int_yellow_taxi_trips') }}
+    select *,
+    'yellow' as service_type -- Tag the source for analysts
+    from {{ ref('int_yellow_taxi_trips') }}
 ),
 
 green_taxi as (
-    select * from {{ ref('int_green_taxi_trips') }}
+    select *,
+    'green' as service_type -- Tag the source for analysts
+     from {{ ref('int_green_taxi_trips') }}
 ),
 
 -- Combine both datasets seamlessly
@@ -55,7 +74,7 @@ combined_trips as (
                                             'pickup_datetime',
                                             'dropoff_datetime',
                                             'passenger_count',
-                                            '"yellow"']) }} as trip_id,
+                                            'service_type']) }} as trip_id,
         pickup_location_id,
         dropoff_location_id,
         payment_type_id,
@@ -68,9 +87,10 @@ combined_trips as (
         passenger_count,
         trip_distance,
         total_amount,
-        year_ingested,
-        month_ingested,
-        'yellow' as service_type -- Tag the source for analysts
+        partition_date,
+        partition_key,
+        service_type
+
     from yellow_taxi
 
     union all
@@ -80,7 +100,7 @@ combined_trips as (
                                             'pickup_datetime',
                                             'dropoff_datetime',
                                             'passenger_count',
-                                            '"green"']) }} as trip_id,
+                                            'service_type']) }} as trip_id,
 
         pickup_location_id,
         dropoff_location_id,
@@ -94,9 +114,10 @@ combined_trips as (
         passenger_count,
         trip_distance,
         total_amount,
-        year_ingested,
-        month_ingested,
-        'green' as service_type
+        partition_date,
+        partition_key,
+        service_type
+        
     from green_taxi
 )
 -- WE DONT NEED TO DEDUPLICATE HERE : IF OUR FCT_ DATA UNIQUE, AND INCOMING DATA HAS BEEN HANDLED IN STG_ AND IT IS UNIQUE, MERGE WILL ALWAYS WORKS.
@@ -128,17 +149,19 @@ select * from combined_trips
 
 -- Restrict the incremental scan strictly to >= +1 month OR <= +2 months of the Date Airflow is currently processing, if a row exists, update it.
 
-    pickup_datetime >= DATE_SUB('{{ var("run_date") }}', INTERVAL 1 MONTH)
-    AND
-    dropoff_datetime <= DATE_ADD('{{ var("run_date") }}', INTERVAL 2 MONTH)
+    dropoff_datetime >= DATE_SUB((select max(dropoff_datetime) from {{ this }}), INTERVAL 1 MONTH)
+    -- AND
+    -- pickup_datetime <= DATE_SUB((select max(pickup_datetime) from {{ this }}), INTERVAL 2 MONTH)
    
 
 
 -- NOT USING IT : CHRONOLOGICAL FILTERING NOT USEFULL FOR DATA OUT OF ORDERS (2019 IN 2021, 0R 2021 IN 2019) SOME DATA LL BE LOST FOREVER.
 --  -- 🟢 Only scan and grab rows newer than the max date already in the warehouse
 --   where dropoff_datetime > coalesce(
---     -- we check if already exists current dropoff year, if yes, we ingest data right after its bigest year
---     (select max(dropoff_datetime) from {{ this }} where EXTRACT(year from dropoff_datetime) = CAST('{{ var("run_year") }}' AS INT64)),
---     -- if not, we select the min dropoff ear from our data = run year, and ingest from it.
+-- --     -- we check if already exists current dropoff year, if yes, we ingest data right after its bigest year
+--     (select max(dropoff_datetime) from {{ this }} 
+--         where 
+--             EXTRACT(year from dropoff_datetime) = CAST('{{ var("run_year") }}' AS INT64)),
+-- --     -- if not, we select the min dropoff ear from our data = run year, and ingest from it.
 --     (select min(dropoff_datetime) from combined_trips where EXTRACT(year from dropoff_datetime) = CAST('{{ var("run_year") }}' AS INT64)))
 {% endif %}

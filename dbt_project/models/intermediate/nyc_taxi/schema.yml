@@ -37,3 +37,180 @@ models:
   - name: int_green_taxi_trips
     description: "Deduplicated and cleaned green taxi trips. Aligned structurally with yellow."
     columns: *shared_tests
+
+
+
+unit_tests:
+  # ============================================================================
+  # 1. UNIT TEST FOR INT_GREEN_TAXI_TRIPS
+  # ============================================================================
+  - name: test_int_green_taxi_trips_cleaning_and_deduplication
+    description: "Verifies deduplication (highest total_amount kept), COALESCE null keys to -1, and filtering out invalid rows (0 passengers, negative fare, duplicate rows)."
+    model: int_green_taxi_trips
+    given:
+      - input: ref('stg_green_taxi_trips')
+        rows:
+          # Row 1 (Valid): Should pass through with NULL keys coalesced to -1
+          - {
+              vendor_id: 1,
+              pickup_datetime: "2024-03-01 10:00:00",
+              dropoff_datetime: "2024-03-01 10:15:00",
+              passenger_count: 1,
+              trip_distance: 2.5,
+              total_amount: 15.0,
+              fare_amount: 12.0,
+              tip_amount: 3.0,
+              congestion_surcharge: 0.0,
+              ehail_fee: 0.0,
+              rate_code_id: null,       # Should coalesce to -1
+              pickup_location_id: 100,
+              dropoff_location_id: null, # Should coalesce to -1
+              payment_type_id: null,    # Should coalesce to -1
+              trip_type_id: 1,
+              partition_key: "2024-03",
+              partition_date: "2024-03-01"
+            }
+
+          # Row 2 (Duplicate of Row 1 but lower total_amount): Should be dropped by window function
+          - {
+              vendor_id: 1,
+              pickup_datetime: "2024-03-01 10:00:00",
+              dropoff_datetime: "2024-03-01 10:15:00",
+              passenger_count: 1,
+              trip_distance: 2.5,
+              total_amount: 10.0,        # Lower total_amount -> row_num = 2 -> dropped
+              fare_amount: 10.0,
+              tip_amount: 0.0,
+              congestion_surcharge: 0.0,
+              ehail_fee: 0.0,
+              rate_code_id: 1,
+              pickup_location_id: 100,
+              dropoff_location_id: 200,
+              payment_type_id: 1,
+              trip_type_id: 1,
+              partition_key: "2024-03",
+              partition_date: "2024-03-01"
+            }
+
+          # Row 3 (Invalid Data): passenger_count = 0 -> Should be filtered out
+          - {
+              vendor_id: 2,
+              pickup_datetime: "2024-03-01 11:00:00",
+              dropoff_datetime: "2024-03-01 11:15:00",
+              passenger_count: 0,        # Invalid
+              trip_distance: 3.0,
+              total_amount: 20.0,
+              partition_key: "2024-03",
+              partition_date: "2024-03-01"
+            }
+
+          # Row 4 (Invalid Data): Out-of-bounds pickup date (difference > 1 year vs partition_date) -> Filtered out
+          - {
+              vendor_id: 2,
+              pickup_datetime: "2020-03-01 11:00:00", # 4 years apart -> Filtered out
+              dropoff_datetime: "2020-03-01 11:15:00",
+              passenger_count: 2,
+              trip_distance: 3.0,
+              total_amount: 20.0,
+              partition_key: "2024-03",
+              partition_date: "2024-03-01"
+            }
+
+    expect:
+      rows:
+        # Only Row 1 should survive with COALESCE applied
+        - {
+            vendor_id: 1,
+            pickup_datetime: "2024-03-01 10:00:00",
+            dropoff_datetime: "2024-03-01 10:15:00",
+            passenger_count: 1,
+            trip_distance: 2.5,
+            total_amount: 15.0,
+            fare_amount: 12.0,
+            tip_amount: 3.0,
+            congestion_surcharge: 0.0,
+            ehail_fee: 0.0,
+            rate_code_id: -1,          # Coalesced from NULL
+            pickup_location_id: 100,
+            dropoff_location_id: -1,   # Coalesced from NULL
+            payment_type_id: -1,       # Coalesced from NULL
+            trip_type_id: 1,
+            partition_key: "2024-03",
+            partition_date: "2024-03-01"
+          }
+
+  # ============================================================================
+  # 2. UNIT TEST FOR INT_YELLOW_TAXI_TRIPS
+  # ============================================================================
+  - name: test_int_yellow_taxi_trips_cleaning_and_deduplication
+    description: "Verifies deduplication, COALESCE logic, and filtering of zero trip distance or negative total_amount for Yellow Taxi trips."
+    model: int_yellow_taxi_trips
+    given:
+      - input: ref('stg_yellow_taxi_trips')
+        rows:
+          # Row 1 (Valid)
+          - {
+              vendor_id: 1,
+              pickup_datetime: "2024-03-02 14:00:00",
+              dropoff_datetime: "2024-03-02 14:20:00",
+              passenger_count: 2,
+              trip_distance: 4.1,
+              total_amount: 22.5,
+              fare_amount: 18.0,
+              tip_amount: 4.5,
+              congestion_surcharge: 2.5,
+              ehail_fee: null,
+              rate_code_id: 1,
+              pickup_location_id: 140,
+              dropoff_location_id: 230,
+              payment_type_id: 1,
+              trip_type_id: null,       # Should coalesce to -1
+              partition_key: "2024-03",
+              partition_date: "2024-03-01"
+            }
+
+          # Row 2 (Invalid Data): Negative total_amount -> Filtered out
+          - {
+              vendor_id: 1,
+              pickup_datetime: "2024-03-02 15:00:00",
+              dropoff_datetime: "2024-03-02 15:10:00",
+              passenger_count: 1,
+              trip_distance: 1.0,
+              total_amount: -5.0,       # Invalid negative fare
+              partition_key: "2024-03",
+              partition_date: "2024-03-01"
+            }
+
+          # Row 3 (Invalid Data): trip_distance = 0 -> Filtered out
+          - {
+              vendor_id: 2,
+              pickup_datetime: "2024-03-02 16:00:00",
+              dropoff_datetime: "2024-03-02 16:10:00",
+              passenger_count: 1,
+              trip_distance: 0.0,       # Invalid zero distance
+              total_amount: 10.0,
+              partition_key: "2024-03",
+              partition_date: "2024-03-01"
+            }
+
+    expect:
+      rows:
+        - {
+            vendor_id: 1,
+            pickup_datetime: "2024-03-02 14:00:00",
+            dropoff_datetime: "2024-03-02 14:20:00",
+            passenger_count: 2,
+            trip_distance: 4.1,
+            total_amount: 22.5,
+            fare_amount: 18.0,
+            tip_amount: 4.5,
+            congestion_surcharge: 2.5,
+            ehail_fee: null,
+            rate_code_id: 1,
+            pickup_location_id: 140,
+            dropoff_location_id: 230,
+            payment_type_id: 1,
+            trip_type_id: -1,          # Coalesced from NULL
+            partition_key: "2024-03",
+            partition_date: "2024-03-01"
+          }

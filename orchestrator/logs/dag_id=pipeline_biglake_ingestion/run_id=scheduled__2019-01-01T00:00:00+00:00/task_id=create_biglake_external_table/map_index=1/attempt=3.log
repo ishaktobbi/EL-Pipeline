@@ -1,0 +1,275 @@
+[2026-08-01T13:00:20.878+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-01T13:00:20.887+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.create_biglake_external_table scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T13:00:20.890+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.create_biglake_external_table scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T13:00:20.890+0000] {taskinstance.py:2865} INFO - Starting attempt 3 of 3
+[2026-08-01T13:00:20.896+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-01-01 00:00:00+00:00
+[2026-08-01T13:00:20.898+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=264) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-01T13:00:20.899+0000] {standard_task_runner.py:72} INFO - Started process 267 to run task
+[2026-08-01T13:00:20.899+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'create_biglake_external_table', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '44', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmp5rgyje2j', '--map-index', '1']
+[2026-08-01T13:00:20.900+0000] {standard_task_runner.py:105} INFO - Job 44: Subtask create_biglake_external_table
+[2026-08-01T13:00:20.914+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.create_biglake_external_table scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 54f55037d82a
+[2026-08-01T13:00:21.029+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-08-01T13:00:21.029+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-01T13:00:21.030+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-01T13:00:21.030+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-01T13:00:21.030+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-01T13:00:22.181+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.Forbidden: 403 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Access Denied: BigQuery BigQuery: Permission denied while globbing file pattern. bqcx-413363780264-6cu7@gcp-sa-bigquery-condel.iam.gserviceaccount.com does not have storage.objects.list access to the Google Cloud Storage bucket. Permission 'storage.objects.list' denied on resource '//storage.googleapis.com/projects/_/buckets/ishak-tobbi-data-lake-2026' (or it may not exist). Remediate access with this Troubleshooter URL or share it with your administrator - https://console.cloud.google.com/iam-admin/troubleshooter/summary;errorId=CiQwMTlmYmQ2OS00YWNiLTc5NDctYTFmOS02MDUxYTZhOTlhZjISLXByb2plY3RzL18vYnVja2V0cy9pc2hhay10b2JiaS1kYXRhLWxha2UtMjAyNg%3D%3D . Please make sure gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/* is accessible via appropriate IAM roles, e.g. Storage Object Viewer or Storage Object Creator.
+[2026-08-01T13:00:22.189+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=pipeline_biglake_ingestion, task_id=create_biglake_external_table, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260801T130020, end_date=20260801T130022
+[2026-08-01T13:00:22.203+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-01T13:00:22.203+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 44 for task create_biglake_external_table (403 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Access Denied: BigQuery BigQuery: Permission denied while globbing file pattern. bqcx-413363780264-6cu7@gcp-sa-bigquery-condel.iam.gserviceaccount.com does not have storage.objects.list access to the Google Cloud Storage bucket. Permission 'storage.objects.list' denied on resource '//storage.googleapis.com/projects/_/buckets/ishak-tobbi-data-lake-2026' (or it may not exist). Remediate access with this Troubleshooter URL or share it with your administrator - https://console.cloud.google.com/iam-admin/troubleshooter/summary;errorId=CiQwMTlmYmQ2OS00YWNiLTc5NDctYTFmOS02MDUxYTZhOTlhZjISLXByb2plY3RzL18vYnVja2V0cy9pc2hhay10b2JiaS1kYXRhLWxha2UtMjAyNg%3D%3D . Please make sure gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/* is accessible via appropriate IAM roles, e.g. Storage Object Viewer or Storage Object Creator.; 267)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.Forbidden: 403 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Access Denied: BigQuery BigQuery: Permission denied while globbing file pattern. bqcx-413363780264-6cu7@gcp-sa-bigquery-condel.iam.gserviceaccount.com does not have storage.objects.list access to the Google Cloud Storage bucket. Permission 'storage.objects.list' denied on resource '//storage.googleapis.com/projects/_/buckets/ishak-tobbi-data-lake-2026' (or it may not exist). Remediate access with this Troubleshooter URL or share it with your administrator - https://console.cloud.google.com/iam-admin/troubleshooter/summary;errorId=CiQwMTlmYmQ2OS00YWNiLTc5NDctYTFmOS02MDUxYTZhOTlhZjISLXByb2plY3RzL18vYnVja2V0cy9pc2hhay10b2JiaS1kYXRhLWxha2UtMjAyNg%3D%3D . Please make sure gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/* is accessible via appropriate IAM roles, e.g. Storage Object Viewer or Storage Object Creator.
+[2026-08-01T13:00:22.229+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-08-01T13:00:22.237+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-01T13:06:37.248+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-01T13:06:37.254+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.create_biglake_external_table scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T13:06:37.256+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.create_biglake_external_table scheduled__2019-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T13:06:37.256+0000] {taskinstance.py:2865} INFO - Starting attempt 3 of 3
+[2026-08-01T13:06:37.259+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryCreateExternalTableOperator): create_biglake_external_table> on 2019-01-01 00:00:00+00:00
+[2026-08-01T13:06:37.262+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=411) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-01T13:06:37.262+0000] {standard_task_runner.py:72} INFO - Started process 413 to run task
+[2026-08-01T13:06:37.262+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'create_biglake_external_table', 'scheduled__2019-01-01T00:00:00+00:00', '--job-id', '60', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpnrl_9f9r', '--map-index', '1']
+[2026-08-01T13:06:37.263+0000] {standard_task_runner.py:105} INFO - Job 60: Subtask create_biglake_external_table
+[2026-08-01T13:06:37.276+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.create_biglake_external_table scheduled__2019-01-01T00:00:00+00:00 map_index=1 [running]> on host 54f55037d82a
+[2026-08-01T13:06:37.390+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='create_biglake_external_table' AIRFLOW_CTX_EXECUTION_DATE='2019-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-01-01T00:00:00+00:00'
+[2026-08-01T13:06:37.391+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-01T13:06:37.391+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-01T13:06:37.392+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-01T13:06:37.392+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-01T13:06:38.352+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.Forbidden: 403 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Access Denied: BigQuery BigQuery: Permission denied while opening file. bqcx-413363780264-6cu7@gcp-sa-bigquery-condel.iam.gserviceaccount.com does not have storage.objects.get access to the Google Cloud Storage object. Permission 'storage.objects.get' denied on resource '//storage.googleapis.com/projects/_/buckets/ishak-tobbi-data-lake-2026/objects/raw/taxi/yellow/year=2019/month=02/data.parquet' (or it may not exist). Remediate access with this Troubleshooter URL or share it with your administrator - https://console.cloud.google.com/iam-admin/troubleshooter/summary;errorId=CiQwMTlmYmQ2Zi0wODUzLTdjYjgtOTAyNS1jYTMzZGNkMDI4NzMSZXByb2plY3RzL18vYnVja2V0cy9pc2hhay10b2JiaS1kYXRhLWxha2UtMjAyNi9vYmplY3RzL3Jhdy90YXhpL3llbGxvdy95ZWFyPTIwMTkvbW9udGg9MDIvZGF0YS5wYXJxdWV0 . Please make sure gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=02/data.parquet is accessible via appropriate IAM roles, e.g. Storage Object Viewer or Storage Object Creator.
+[2026-08-01T13:06:38.356+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=pipeline_biglake_ingestion, task_id=create_biglake_external_table, run_id=scheduled__2019-01-01T00:00:00+00:00, map_index=1, execution_date=20190101T000000, start_date=20260801T130637, end_date=20260801T130638
+[2026-08-01T13:06:38.360+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-01T13:06:38.360+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 60 for task create_biglake_external_table (403 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Access Denied: BigQuery BigQuery: Permission denied while opening file. bqcx-413363780264-6cu7@gcp-sa-bigquery-condel.iam.gserviceaccount.com does not have storage.objects.get access to the Google Cloud Storage object. Permission 'storage.objects.get' denied on resource '//storage.googleapis.com/projects/_/buckets/ishak-tobbi-data-lake-2026/objects/raw/taxi/yellow/year=2019/month=02/data.parquet' (or it may not exist). Remediate access with this Troubleshooter URL or share it with your administrator - https://console.cloud.google.com/iam-admin/troubleshooter/summary;errorId=CiQwMTlmYmQ2Zi0wODUzLTdjYjgtOTAyNS1jYTMzZGNkMDI4NzMSZXByb2plY3RzL18vYnVja2V0cy9pc2hhay10b2JiaS1kYXRhLWxha2UtMjAyNi9vYmplY3RzL3Jhdy90YXhpL3llbGxvdy95ZWFyPTIwMTkvbW9udGg9MDIvZGF0YS5wYXJxdWV0 . Please make sure gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=02/data.parquet is accessible via appropriate IAM roles, e.g. Storage Object Viewer or Storage Object Creator.; 413)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 1903, in execute
+    table = bq_hook.create_empty_table(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/common/hooks/base_google.py", line 559, in inner_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/hooks/bigquery.py", line 484, in create_empty_table
+    return self.get_client(project_id=project_id, location=location).create_table(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 797, in create_table
+    api_response = self._call_api(
+                   ^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/client.py", line 831, in _call_api
+    return call()
+           ^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 293, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 153, in retry_target
+    _retry_error_helper(
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_base.py", line 212, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 144, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/_http/__init__.py", line 494, in api_request
+    raise exceptions.from_http_response(response)
+google.api_core.exceptions.Forbidden: 403 POST https://bigquery.googleapis.com/bigquery/v2/projects/elpipeline/datasets/ishak_tobbi_dataset/tables?prettyPrint=false: Access Denied: BigQuery BigQuery: Permission denied while opening file. bqcx-413363780264-6cu7@gcp-sa-bigquery-condel.iam.gserviceaccount.com does not have storage.objects.get access to the Google Cloud Storage object. Permission 'storage.objects.get' denied on resource '//storage.googleapis.com/projects/_/buckets/ishak-tobbi-data-lake-2026/objects/raw/taxi/yellow/year=2019/month=02/data.parquet' (or it may not exist). Remediate access with this Troubleshooter URL or share it with your administrator - https://console.cloud.google.com/iam-admin/troubleshooter/summary;errorId=CiQwMTlmYmQ2Zi0wODUzLTdjYjgtOTAyNS1jYTMzZGNkMDI4NzMSZXByb2plY3RzL18vYnVja2V0cy9pc2hhay10b2JiaS1kYXRhLWxha2UtMjAyNi9vYmplY3RzL3Jhdy90YXhpL3llbGxvdy95ZWFyPTIwMTkvbW9udGg9MDIvZGF0YS5wYXJxdWV0 . Please make sure gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=02/data.parquet is accessible via appropriate IAM roles, e.g. Storage Object Viewer or Storage Object Creator.
+[2026-08-01T13:06:38.389+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-08-01T13:06:38.399+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-01T13:06:38.401+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

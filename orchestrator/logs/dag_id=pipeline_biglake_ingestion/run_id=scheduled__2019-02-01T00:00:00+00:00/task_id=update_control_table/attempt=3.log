@@ -1,0 +1,240 @@
+[2026-08-01T14:46:14.861+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-01T14:46:14.868+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.update_control_table scheduled__2019-02-01T00:00:00+00:00 [queued]>
+[2026-08-01T14:46:14.871+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.update_control_table scheduled__2019-02-01T00:00:00+00:00 [queued]>
+[2026-08-01T14:46:14.871+0000] {taskinstance.py:2865} INFO - Starting attempt 3 of 3
+[2026-08-01T14:46:14.877+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2019-02-01 00:00:00+00:00
+[2026-08-01T14:46:14.880+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1495) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-01T14:46:14.881+0000] {standard_task_runner.py:72} INFO - Started process 1500 to run task
+[2026-08-01T14:46:14.881+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'update_control_table', 'scheduled__2019-02-01T00:00:00+00:00', '--job-id', '107', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpze0a6tuf']
+[2026-08-01T14:46:14.881+0000] {standard_task_runner.py:105} INFO - Job 107: Subtask update_control_table
+[2026-08-01T14:46:14.895+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.update_control_table scheduled__2019-02-01T00:00:00+00:00 [running]> on host 54f55037d82a
+[2026-08-01T14:46:15.012+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2019-02-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-02-01T00:00:00+00:00'
+[2026-08-01T14:46:15.013+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-01T14:46:15.013+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-01T14:46:15.014+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-01T14:46:15.014+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-01T14:46:15.016+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2019 AS STRING), '-', LPAD(CAST(02 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at,\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-01T14:46:15.016+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_biglake_ingestion_update_control_table_2019_02_01T00_00_00_00_00_fe2aac61a8f1aa1b627f4a88d8ad9d68
+[2026-08-01T14:46:15.829+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 3023, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1590, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1579, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Syntax error: Expected "(" but got keyword WHEN at [14:21]; reason: invalidQuery, location: query, message: Syntax error: Expected "(" but got keyword WHEN at [14:21]
+
+Location: US
+Job ID: airflow_pipeline_biglake_ingestion_update_control_table_2019_02_01T00_00_00_00_00_fe2aac61a8f1aa1b627f4a88d8ad9d68
+
+[2026-08-01T14:46:15.836+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=pipeline_biglake_ingestion, task_id=update_control_table, run_id=scheduled__2019-02-01T00:00:00+00:00, execution_date=20190201T000000, start_date=20260801T144614, end_date=20260801T144615
+[2026-08-01T14:46:15.845+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-01T14:46:15.846+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 107 for task update_control_table (400 Syntax error: Expected "(" but got keyword WHEN at [14:21]; reason: invalidQuery, location: query, message: Syntax error: Expected "(" but got keyword WHEN at [14:21]
+
+Location: US
+Job ID: airflow_pipeline_biglake_ingestion_update_control_table_2019_02_01T00_00_00_00_00_fe2aac61a8f1aa1b627f4a88d8ad9d68
+; 1500)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 3023, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1590, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1579, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Syntax error: Expected "(" but got keyword WHEN at [14:21]; reason: invalidQuery, location: query, message: Syntax error: Expected "(" but got keyword WHEN at [14:21]
+
+Location: US
+Job ID: airflow_pipeline_biglake_ingestion_update_control_table_2019_02_01T00_00_00_00_00_fe2aac61a8f1aa1b627f4a88d8ad9d68
+
+[2026-08-01T14:46:15.879+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-08-01T14:46:15.892+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-01T14:46:15.895+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-01T14:58:10.265+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-01T14:58:10.270+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.update_control_table scheduled__2019-02-01T00:00:00+00:00 [queued]>
+[2026-08-01T14:58:10.272+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.update_control_table scheduled__2019-02-01T00:00:00+00:00 [queued]>
+[2026-08-01T14:58:10.273+0000] {taskinstance.py:2865} INFO - Starting attempt 3 of 3
+[2026-08-01T14:58:10.276+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2019-02-01 00:00:00+00:00
+[2026-08-01T14:58:10.278+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1731) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-01T14:58:10.278+0000] {standard_task_runner.py:72} INFO - Started process 1733 to run task
+[2026-08-01T14:58:10.279+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'update_control_table', 'scheduled__2019-02-01T00:00:00+00:00', '--job-id', '125', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmplbkqm276']
+[2026-08-01T14:58:10.279+0000] {standard_task_runner.py:105} INFO - Job 125: Subtask update_control_table
+[2026-08-01T14:58:10.292+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.update_control_table scheduled__2019-02-01T00:00:00+00:00 [running]> on host 54f55037d82a
+[2026-08-01T14:58:10.395+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2019-02-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-02-01T00:00:00+00:00'
+[2026-08-01T14:58:10.395+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-01T14:58:10.396+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-01T14:58:10.396+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-01T14:58:10.396+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-01T14:58:10.398+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2019 AS STRING), '-', LPAD(CAST(02 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at,\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-01T14:58:10.398+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_biglake_ingestion_update_control_table_2019_02_01T00_00_00_00_00_7d78e7f5b8020d415b9142e1d89a187a
+[2026-08-01T14:58:10.995+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 3023, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1590, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1579, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Syntax error: Expected "(" but got keyword WHEN at [14:21]; reason: invalidQuery, location: query, message: Syntax error: Expected "(" but got keyword WHEN at [14:21]
+
+Location: US
+Job ID: airflow_pipeline_biglake_ingestion_update_control_table_2019_02_01T00_00_00_00_00_7d78e7f5b8020d415b9142e1d89a187a
+
+[2026-08-01T14:58:11.001+0000] {taskinstance.py:1225} INFO - Marking task as FAILED. dag_id=pipeline_biglake_ingestion, task_id=update_control_table, run_id=scheduled__2019-02-01T00:00:00+00:00, execution_date=20190201T000000, start_date=20260801T145810, end_date=20260801T145811
+[2026-08-01T14:58:11.006+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-01T14:58:11.006+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 125 for task update_control_table (400 Syntax error: Expected "(" but got keyword WHEN at [14:21]; reason: invalidQuery, location: query, message: Syntax error: Expected "(" but got keyword WHEN at [14:21]
+
+Location: US
+Job ID: airflow_pipeline_biglake_ingestion_update_control_table_2019_02_01T00_00_00_00_00_7d78e7f5b8020d415b9142e1d89a187a
+; 1733)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 3023, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1590, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1579, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Syntax error: Expected "(" but got keyword WHEN at [14:21]; reason: invalidQuery, location: query, message: Syntax error: Expected "(" but got keyword WHEN at [14:21]
+
+Location: US
+Job ID: airflow_pipeline_biglake_ingestion_update_control_table_2019_02_01T00_00_00_00_00_7d78e7f5b8020d415b9142e1d89a187a
+
+[2026-08-01T14:58:11.038+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-08-01T14:58:11.050+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-01T14:58:11.051+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

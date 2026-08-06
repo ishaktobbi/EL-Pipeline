@@ -1,0 +1,188 @@
+version: 2
+
+models:
+  - name: fct_monthly_kpi_summary
+    description: >
+      Pre-aggregated monthly summary model built specifically to power the 
+      Executive Dashboard. Eliminates runtime joins in Looker and powers the top KPI cards, 
+      the Monthly Revenue Line Chart, and the Payment Method Donut Chart.
+    columns:
+      - name: metric_month
+        description: "The first day of the month for the trips included in the aggregate (Format: YYYY-MM-01)."
+        data_tests:
+          - not_null
+
+      - name: service_type
+        description: "{{ doc('service_type_doc') }}"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['yellow', 'green']
+
+      - name: payment_method
+        description: "Human-readable payment method name (e.g., Credit card, Cash). Joined directly from dim_payment_methods."
+        data_tests:
+          - not_null
+
+      - name: total_trips
+        description: "Total count of trips completed during the month for the given service type and payment method."
+        data_tests:
+          - not_null
+
+      - name: gross_revenue
+        description: "Total gross amount charged to passengers, including fare, tips, and tolls."
+        data_tests:
+          - not_null
+
+
+  - name: fct_monthly_zone_pickup_summary
+    description: >
+      Pre-aggregated monthly location summary model powering the Dashboard Pickup Density Map. 
+      Pre-joins pickup location attributes and pre-constructs full address strings for Google Maps geocoding in Looker.
+    columns:
+      - name: metric_month
+        description: "The first day of the month for the aggregated trips (Format: YYYY-MM-01)."
+        data_tests:
+          - not_null
+
+      - name: service_type
+        description: "{{ doc('service_type_doc') }}"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['yellow', 'green']
+
+      - name: borough
+        description: "NYC Borough name (e.g., Manhattan, Queens, Brooklyn)."
+        data_tests:
+          - not_null
+
+      - name: zone
+        description: "NYC Taxi Neighborhood Zone name (e.g., Midtown Center, Astoria)."
+        data_tests:
+          - not_null
+
+      - name: zone_full_address
+        description: "{{ doc('zone_full_address_doc') }}"
+        data_tests:
+          - not_null
+
+      - name: total_trips
+        description: "Count of pickups in this location used as the density/size weight on dashboard maps."
+        data_tests:
+          - not_null
+
+
+unit_tests:
+  # =========================================================
+  # 1. UNIT TEST FOR fct_monthly_kpi_summary
+  # =========================================================
+  - name: test_fct_monthly_kpi_summary_aggregation
+    model: fct_monthly_kpi_summary
+    description: "Verify that date truncation, payment joins, revenue sums, and avg fare division work correctly."
+    
+    given:
+      - input: ref('fct_taxi_trips') # or source('my_database_sources', 'fct_taxi_trips')
+        rows:
+          # March 2024 Trips (Should group together)
+          - { trip_id: 1, pickup_datetime: "2024-03-15 10:00:00", service_type: "yellow", payment_type_id: 1, passenger_count: 2, total_amount: 50.00, fare_amount: 40.00, tip_amount: 10.00 }
+          - { trip_id: 2, pickup_datetime: "2024-03-20 14:30:00", service_type: "yellow", payment_type_id: 1, passenger_count: 1, total_amount: 30.00, fare_amount: 20.00, tip_amount: 10.00 }
+          # March 2024 Green Taxi (Should stay separate due to service_type)
+          - { trip_id: 3, pickup_datetime: "2024-03-01 08:00:00", service_type: "green", payment_type_id: 2, passenger_count: 1, total_amount: 20.00, fare_amount: 20.00, tip_amount: 0.00 }
+          # April 2024 Trip (Should stay separate due to different month)
+          - { trip_id: 4, pickup_datetime: "2024-04-05 12:00:00", service_type: "yellow", payment_type_id: 1, passenger_count: 3, total_amount: 100.00, fare_amount: 80.00, tip_amount: 20.00 }
+
+      - input: ref('dim_payment_methods') # or source('my_database_sources', 'dim_payment_methods')
+        rows:
+          - { payment_type_id: 1, payment_method: "Credit card" }
+          - { payment_type_id: 2, payment_method: "Cash" }
+
+    expect:
+      rows:
+        # Expected row 1: March 2024 Yellow Credit Card (Aggregates trips 1 & 2)
+        - { 
+            metric_month: "2024-03-01", 
+            service_type: "yellow", 
+            payment_method: "Credit card", 
+            total_trips: 2, 
+            gross_revenue: 80.00, 
+            total_passengers: 3, 
+            avg_fare_per_trip: 30.00 
+          }
+        # Expected row 2: March 2024 Green Cash (Trip 3)
+        - { 
+            metric_month: "2024-03-01", 
+            service_type: "green", 
+            payment_method: "Cash", 
+            total_trips: 1, 
+            gross_revenue: 20.00, 
+            total_passengers: 1,
+            avg_fare_per_trip: 20.00 
+          }
+        # Expected row 3: April 2024 Yellow Credit Card (Trip 4)
+        - { 
+            metric_month: "2024-04-01", 
+            service_type: "yellow", 
+            payment_method: "Credit card", 
+            total_trips: 1, 
+            gross_revenue: 100.00, 
+            total_passengers: 3,
+            avg_fare_per_trip: 80.00 
+          }
+
+
+  # =========================================================
+  # 2. UNIT TEST FOR fct_monthly_zone_pickup_summary
+  # =========================================================
+  - name: test_fct_monthly_zone_pickup_summary_address_and_density
+    model: fct_monthly_zone_pickup_summary
+    description: "Verify that full address string construction, location joins, and density counts work correctly."
+
+    given:
+      - input: ref('fct_taxi_trips')  # or source('my_database_sources', 'fct_taxi_trips')
+        rows:
+          # 2 Trips in Midtown Manhattan (Location ID 100)
+          - { trip_id: 101, pickup_datetime: "2024-05-10 12:00:00", service_type: "yellow", pickup_location_id: 100, total_amount: 15.00 }
+          - { trip_id: 102, pickup_datetime: "2024-05-12 15:00:00", service_type: "yellow", pickup_location_id: 100, total_amount: 25.00 }
+          # 1 Trip in Astoria Queens (Location ID 200)
+          - { trip_id: 103, pickup_datetime: "2024-05-18 09:00:00", service_type: "green", pickup_location_id: 200, total_amount: 30.00 }
+          # 1 Trip with Unknown / Null Location ID (Location ID 999 - no match)
+          - { trip_id: 104, pickup_datetime: "2024-05-20 18:00:00", service_type: "yellow", pickup_location_id: 999, total_amount: 10.00 }
+
+      - input: ref('dim_locations') # or source('my_database_sources', 'dim_locations')
+        rows:
+          - { location_id: 100, borough: "Manhattan", zone: "Midtown Center" }
+          - { location_id: 200, borough: "Queens", zone: "Astoria" }
+          
+
+    expect:
+      rows:
+        # Expected row 1: Midtown Center (2 trips)
+        - { 
+            metric_month: "2024-05-01", 
+            service_type: "yellow", 
+            borough: "Manhattan", 
+            zone: "Midtown Center", 
+            zone_full_address: "Midtown Center, Manhattan, New York, USA", 
+            total_trips: 2, 
+          }
+        # Expected row 2: Astoria (1 trip)
+        - { 
+            metric_month: "2024-05-01", 
+            service_type: "green", 
+            borough: "Queens", 
+            zone: "Astoria", 
+            zone_full_address: "Astoria, Queens, New York, USA", 
+            total_trips: 1, 
+          }
+        # Expected row 3: Unmatched Location ID (Fallback to 'Unknown')
+        - { 
+            metric_month: "2024-05-01", 
+            service_type: "yellow", 
+            borough: null, 
+            zone: null, 
+            zone_full_address: null, 
+            total_trips: 1, 
+          }

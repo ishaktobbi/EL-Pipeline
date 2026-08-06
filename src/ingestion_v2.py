@@ -13,7 +13,7 @@ from google.cloud import storage
 from google.cloud.exceptions import NotFound, Forbidden
 from tqdm import tqdm
 
-from src.utils import parse_date, validate_color
+from utils import parse_date, validate_color
 
 # from airflow.exceptions import AirflowSkipException
 

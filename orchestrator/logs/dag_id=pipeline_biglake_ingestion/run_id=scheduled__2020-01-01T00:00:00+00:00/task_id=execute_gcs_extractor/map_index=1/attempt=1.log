@@ -1,0 +1,1293 @@
+[2026-07-31T05:03:35.269+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T05:03:35.277+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:03:35.282+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:03:35.282+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T05:03:35.288+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T05:03:35.293+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=226) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T05:03:35.295+0000] {standard_task_runner.py:72} INFO - Started process 242 to run task
+[2026-07-31T05:03:35.295+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '41', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmp22unwbfz', '--map-index', '1']
+[2026-07-31T05:03:35.296+0000] {standard_task_runner.py:105} INFO - Job 41: Subtask execute_gcs_extractor
+[2026-07-31T05:03:35.318+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host cfe3f7bb3965
+[2026-07-31T05:03:35.338+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T05:03:35.351+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T05:03:35.352+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T05:03:35.407+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T05:03:35.411+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 275, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 399, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 440, in create_container
+    return self.create_container_from_config(config, name, platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 457, in create_container_from_config
+    return self._result(res, True)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 281, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 277, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script")
+[2026-07-31T05:03:35.419+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T050335, end_date=20260731T050335
+[2026-07-31T05:03:35.426+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T05:03:35.427+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 41 for task execute_gcs_extractor (400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script"); 242)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 275, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 399, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 440, in create_container
+    return self.create_container_from_config(config, name, platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 457, in create_container_from_config
+    return self._result(res, True)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 281, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 277, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script")
+[2026-07-31T05:03:35.435+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-31T05:03:35.438+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T05:08:54.862+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T05:08:54.869+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:08:54.874+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:08:54.874+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T05:08:54.880+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T05:08:54.883+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1071) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T05:08:54.884+0000] {standard_task_runner.py:72} INFO - Started process 1079 to run task
+[2026-07-31T05:08:54.885+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '230', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmp8r83sxai', '--map-index', '1']
+[2026-07-31T05:08:54.885+0000] {standard_task_runner.py:105} INFO - Job 230: Subtask execute_gcs_extractor
+[2026-07-31T05:08:54.911+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host cfe3f7bb3965
+[2026-07-31T05:08:54.943+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T05:08:54.956+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T05:08:54.957+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T05:08:55.002+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T05:08:57.653+0000] {docker.py:438} INFO - Traceback (most recent call last):
+[2026-07-31T05:08:57.654+0000] {docker.py:438} INFO -   File "/app/src/ingestion_v2.py", line 16, in <module>
+[2026-07-31T05:08:57.654+0000] {docker.py:438} INFO - from src.utils import parse_date, validate_color
+[2026-07-31T05:08:57.655+0000] {docker.py:438} INFO - ModuleNotFoundError: No module named 'src'
+[2026-07-31T05:08:58.119+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-31T05:08:58.123+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T050854, end_date=20260731T050858
+[2026-07-31T05:08:58.139+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T05:08:58.141+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 230 for task execute_gcs_extractor (Docker container failed: {'StatusCode': 1}; 1079)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-31T05:08:58.187+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-31T05:08:58.209+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T05:08:58.210+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T05:13:29.139+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T05:13:29.156+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:13:29.161+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:13:29.162+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T05:13:29.170+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T05:13:29.176+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1869) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T05:13:29.177+0000] {standard_task_runner.py:72} INFO - Started process 1881 to run task
+[2026-07-31T05:13:29.178+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '414', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpns6kno94', '--map-index', '1']
+[2026-07-31T05:13:29.179+0000] {standard_task_runner.py:105} INFO - Job 414: Subtask execute_gcs_extractor
+[2026-07-31T05:13:29.204+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host cfe3f7bb3965
+[2026-07-31T05:13:29.240+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T05:13:29.271+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T05:13:29.274+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T05:13:29.321+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T05:13:29.327+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 275, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 399, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 440, in create_container
+    return self.create_container_from_config(config, name, platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 457, in create_container_from_config
+    return self._result(res, True)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 281, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 277, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script")
+[2026-07-31T05:13:29.340+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T051329, end_date=20260731T051329
+[2026-07-31T05:13:29.350+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T05:13:29.351+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 414 for task execute_gcs_extractor (400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script"); 1881)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 275, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 399, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 440, in create_container
+    return self.create_container_from_config(config, name, platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 457, in create_container_from_config
+    return self._result(res, True)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 281, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 277, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script")
+[2026-07-31T05:13:29.358+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-31T05:13:29.378+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T05:13:29.379+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T05:15:56.405+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T05:15:56.422+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:15:56.427+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:15:56.427+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T05:15:56.435+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T05:15:56.438+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2006) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T05:15:56.439+0000] {standard_task_runner.py:72} INFO - Started process 2019 to run task
+[2026-07-31T05:15:56.440+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '451', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpb0femrxe', '--map-index', '1']
+[2026-07-31T05:15:56.441+0000] {standard_task_runner.py:105} INFO - Job 451: Subtask execute_gcs_extractor
+[2026-07-31T05:15:56.480+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host cfe3f7bb3965
+[2026-07-31T05:15:56.523+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T05:15:56.549+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T05:15:56.550+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T05:15:56.628+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T05:15:59.061+0000] {docker.py:438} INFO - Traceback (most recent call last):
+[2026-07-31T05:15:59.062+0000] {docker.py:438} INFO -   File "/app/src/ingestion_v2.py", line 16, in <module>
+[2026-07-31T05:15:59.063+0000] {docker.py:438} INFO -     from src.utils import parse_date, validate_color
+[2026-07-31T05:15:59.063+0000] {docker.py:438} INFO - ModuleNotFoundError: No module named 'src'
+[2026-07-31T05:15:59.321+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-31T05:15:59.329+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T051556, end_date=20260731T051559
+[2026-07-31T05:15:59.339+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T05:15:59.340+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 451 for task execute_gcs_extractor (Docker container failed: {'StatusCode': 1}; 2019)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 446, in _run_image_with_mounts
+    raise DockerContainerFailedException(f"Docker container failed: {result!r}", logs=log_lines)
+airflow.providers.docker.exceptions.DockerContainerFailedException: Docker container failed: {'StatusCode': 1}
+[2026-07-31T05:15:59.378+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-31T05:15:59.439+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T05:15:59.441+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T05:23:57.654+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T05:23:57.665+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:23:57.670+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:23:57.670+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T05:23:57.675+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T05:23:57.678+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=87) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T05:23:57.679+0000] {standard_task_runner.py:72} INFO - Started process 100 to run task
+[2026-07-31T05:23:57.679+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '5', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpidpgagww', '--map-index', '1']
+[2026-07-31T05:23:57.680+0000] {standard_task_runner.py:105} INFO - Job 5: Subtask execute_gcs_extractor
+[2026-07-31T05:23:57.722+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host 2df4394d5797
+[2026-07-31T05:23:57.742+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T05:23:57.757+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T05:23:57.758+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T05:23:57.806+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T05:24:00.678+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-07-31T05:24:00.679+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-07-31T05:24:01.088+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-07-31T05:24:14.019+0000] {docker.py:438} INFO - 
+[2026-07-31T05:24:14.020+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-07-31T05:24:14.104+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet exists. Overwriting...
+[2026-07-31T05:24:14.104+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-07-31T05:24:32.125+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-07-31T05:24:32.135+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-07-31T05:24:32.354+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T05:24:32.354+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T052357, end_date=20260731T052432
+[2026-07-31T05:24:32.379+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-31T05:24:32.396+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T05:24:32.396+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T05:27:08.452+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T05:27:08.466+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:27:08.473+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:27:08.473+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T05:27:08.484+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T05:27:08.489+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=201) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T05:27:08.492+0000] {standard_task_runner.py:72} INFO - Started process 213 to run task
+[2026-07-31T05:27:08.492+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '21', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpvz1_vu4e', '--map-index', '1']
+[2026-07-31T05:27:08.494+0000] {standard_task_runner.py:105} INFO - Job 21: Subtask execute_gcs_extractor
+[2026-07-31T05:27:08.525+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host 2df4394d5797
+[2026-07-31T05:27:08.553+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T05:27:08.570+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T05:27:08.571+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T05:27:08.611+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T05:27:08.616+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 275, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 399, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 440, in create_container
+    return self.create_container_from_config(config, name, platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 457, in create_container_from_config
+    return self._result(res, True)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 281, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 277, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script")
+[2026-07-31T05:27:08.625+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T052708, end_date=20260731T052708
+[2026-07-31T05:27:08.632+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T05:27:08.632+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 21 for task execute_gcs_extractor (400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script"); 213)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 275, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 399, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 440, in create_container
+    return self.create_container_from_config(config, name, platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 457, in create_container_from_config
+    return self._result(res, True)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 281, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 277, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script")
+[2026-07-31T05:27:08.676+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-31T05:27:08.694+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T05:27:08.695+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T05:31:28.726+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T05:31:28.738+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:31:28.742+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:31:28.743+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T05:31:28.748+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T05:31:28.755+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '42', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmp0u7a66xr', '--map-index', '1']
+[2026-07-31T05:31:28.754+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=87) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T05:31:28.757+0000] {standard_task_runner.py:72} INFO - Started process 101 to run task
+[2026-07-31T05:31:28.756+0000] {standard_task_runner.py:105} INFO - Job 42: Subtask execute_gcs_extractor
+[2026-07-31T05:31:28.795+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host f1a0b8895f94
+[2026-07-31T05:31:28.828+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T05:31:28.849+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T05:31:28.850+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T05:31:28.901+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T05:31:28.905+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 275, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 399, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 440, in create_container
+    return self.create_container_from_config(config, name, platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 457, in create_container_from_config
+    return self._result(res, True)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 281, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 277, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script")
+[2026-07-31T05:31:28.918+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T053128, end_date=20260731T053128
+[2026-07-31T05:31:28.926+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T05:31:28.927+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 42 for task execute_gcs_extractor (400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script"); 101)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 275, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 399, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 440, in create_container
+    return self.create_container_from_config(config, name, platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 457, in create_container_from_config
+    return self._result(res, True)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 281, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 277, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": bind source path does not exist: /opt/airflow/script")
+[2026-07-31T05:31:28.939+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-31T05:31:28.962+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T05:31:28.963+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T05:50:16.412+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T05:50:16.422+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:50:16.428+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T05:50:16.428+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T05:50:16.434+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T05:50:16.439+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=80) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T05:50:16.441+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '64', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpwje7ergw', '--map-index', '1']
+[2026-07-31T05:50:16.442+0000] {standard_task_runner.py:72} INFO - Started process 95 to run task
+[2026-07-31T05:50:16.442+0000] {standard_task_runner.py:105} INFO - Job 64: Subtask execute_gcs_extractor
+[2026-07-31T05:50:16.489+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host 99f6c21d92ca
+[2026-07-31T05:50:16.513+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T05:50:16.530+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T05:50:16.531+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T05:50:16.588+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T05:50:16.594+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 275, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 399, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 440, in create_container
+    return self.create_container_from_config(config, name, platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 457, in create_container_from_config
+    return self._result(res, True)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 281, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 277, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": field Source must not be empty")
+[2026-07-31T05:50:16.607+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T055016, end_date=20260731T055016
+[2026-07-31T05:50:16.616+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T05:50:16.616+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 64 for task execute_gcs_extractor (400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": field Source must not be empty"); 95)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 275, in _raise_for_status
+    response.raise_for_status()
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http+docker://localhost/v1.54/containers/create
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 513, in execute
+    return self._run_image()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 384, in _run_image
+    return self._run_image_with_mounts(self.mounts, add_tmp_variable=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/docker/operators/docker.py", line 399, in _run_image_with_mounts
+    self.container = self.cli.create_container(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 440, in create_container
+    return self.create_container_from_config(config, name, platform)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/container.py", line 457, in create_container_from_config
+    return self._result(res, True)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 281, in _result
+    self._raise_for_status(response)
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/api/client.py", line 277, in _raise_for_status
+    raise create_api_error_from_http_exception(e) from e
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/docker/errors.py", line 39, in create_api_error_from_http_exception
+    raise cls(e, response=response, explanation=explanation) from e
+docker.errors.APIError: 400 Client Error for http+docker://localhost/v1.54/containers/create: Bad Request ("invalid mount config for type "bind": field Source must not be empty")
+[2026-07-31T05:50:16.623+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-07-31T05:50:16.631+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T06:01:09.352+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T06:01:09.362+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T06:01:09.368+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T06:01:09.368+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T06:01:09.375+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T06:01:09.379+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=123) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T06:01:09.380+0000] {standard_task_runner.py:72} INFO - Started process 135 to run task
+[2026-07-31T06:01:09.381+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '4', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpne28g_vl', '--map-index', '1']
+[2026-07-31T06:01:09.382+0000] {standard_task_runner.py:105} INFO - Job 4: Subtask execute_gcs_extractor
+[2026-07-31T06:01:09.423+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host 370f8e8bea9b
+[2026-07-31T06:01:09.450+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T06:01:09.467+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T06:01:09.468+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T06:01:09.569+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T06:01:13.036+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-07-31T06:01:13.038+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-07-31T06:01:13.329+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-07-31T06:01:29.069+0000] {docker.py:438} INFO - 
+[2026-07-31T06:01:29.072+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-07-31T06:01:29.156+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet exists. Overwriting...
+[2026-07-31T06:01:29.157+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-07-31T06:01:39.378+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-07-31T06:01:39.385+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-07-31T06:01:39.785+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T06:01:39.786+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T060109, end_date=20260731T060139
+[2026-07-31T06:01:39.826+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-31T06:01:39.861+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T06:01:39.864+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T10:04:00.402+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T10:04:00.414+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T10:04:00.421+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T10:04:00.422+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T10:04:00.429+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T10:04:00.432+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1818) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T10:04:00.434+0000] {standard_task_runner.py:72} INFO - Started process 1831 to run task
+[2026-07-31T10:04:00.434+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '114', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpffptlr6o', '--map-index', '1']
+[2026-07-31T10:04:00.434+0000] {standard_task_runner.py:105} INFO - Job 114: Subtask execute_gcs_extractor
+[2026-07-31T10:04:00.463+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host 370f8e8bea9b
+[2026-07-31T10:04:00.495+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T10:04:00.514+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T10:04:00.515+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T10:04:00.548+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T10:04:03.476+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-07-31T10:04:03.476+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-07-31T10:04:03.916+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-07-31T10:04:15.492+0000] {docker.py:438} INFO - 
+[2026-07-31T10:04:15.493+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-07-31T10:04:15.572+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet exists. Overwriting...
+[2026-07-31T10:04:15.573+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-07-31T10:04:25.698+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-07-31T10:04:25.707+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-07-31T10:04:25.884+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T10:04:25.884+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T100400, end_date=20260731T100425
+[2026-07-31T10:04:25.901+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-31T10:04:25.915+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T10:04:25.916+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T10:13:35.764+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T10:13:35.777+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T10:13:35.781+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T10:13:35.781+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T10:13:35.788+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T10:13:35.794+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2290) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T10:13:35.795+0000] {standard_task_runner.py:72} INFO - Started process 2302 to run task
+[2026-07-31T10:13:35.796+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '204', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmp6y731ki4', '--map-index', '1']
+[2026-07-31T10:13:35.796+0000] {standard_task_runner.py:105} INFO - Job 204: Subtask execute_gcs_extractor
+[2026-07-31T10:13:35.832+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host 370f8e8bea9b
+[2026-07-31T10:13:35.868+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T10:13:35.892+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T10:13:35.893+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T10:13:35.937+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T10:13:38.450+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-07-31T10:13:38.451+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-07-31T10:13:38.764+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-07-31T10:13:50.067+0000] {docker.py:438} INFO - 
+[2026-07-31T10:13:50.068+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-07-31T10:13:50.501+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet exists. Overwriting...
+[2026-07-31T10:13:50.502+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-07-31T10:14:10.172+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-07-31T10:14:10.172+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-07-31T10:14:10.347+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T10:14:10.347+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T101335, end_date=20260731T101410
+[2026-07-31T10:14:10.359+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-31T10:14:10.373+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T10:14:10.374+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T10:34:38.756+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T10:34:38.766+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T10:34:38.771+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T10:34:38.772+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T10:34:38.779+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T10:34:38.782+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=215) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T10:34:38.784+0000] {standard_task_runner.py:72} INFO - Started process 227 to run task
+[2026-07-31T10:34:38.785+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '32', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmp4oqm3am9', '--map-index', '1']
+[2026-07-31T10:34:38.786+0000] {standard_task_runner.py:105} INFO - Job 32: Subtask execute_gcs_extractor
+[2026-07-31T10:34:38.817+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host 88289be03ede
+[2026-07-31T10:34:38.847+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T10:34:38.868+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T10:34:38.871+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T10:34:38.930+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T10:34:41.868+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-07-31T10:34:41.868+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-07-31T10:34:42.195+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-07-31T10:34:55.362+0000] {docker.py:438} INFO - 
+[2026-07-31T10:34:55.363+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-07-31T10:34:55.444+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet exists. Overwriting...
+[2026-07-31T10:34:55.444+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-07-31T10:35:09.351+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-07-31T10:35:09.355+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-07-31T10:35:09.545+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T10:35:09.545+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T103438, end_date=20260731T103509
+[2026-07-31T10:35:09.556+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-31T10:35:09.578+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T10:35:09.580+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-07-31T20:11:34.212+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-07-31T20:11:34.221+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T20:11:34.226+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-07-31T20:11:34.226+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-07-31T20:11:34.231+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-07-31T20:11:34.235+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=125) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-07-31T20:11:34.236+0000] {standard_task_runner.py:72} INFO - Started process 141 to run task
+[2026-07-31T20:11:34.236+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '134', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmp8lvywepb', '--map-index', '1']
+[2026-07-31T20:11:34.236+0000] {standard_task_runner.py:105} INFO - Job 134: Subtask execute_gcs_extractor
+[2026-07-31T20:11:34.279+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host df7a6ce2258c
+[2026-07-31T20:11:34.310+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-07-31T20:11:34.330+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-07-31T20:11:34.331+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-07-31T20:11:34.367+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-07-31T20:11:37.184+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-07-31T20:11:37.185+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-07-31T20:11:37.642+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-07-31T20:11:50.136+0000] {docker.py:438} INFO - 
+[2026-07-31T20:11:50.137+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-07-31T20:11:50.314+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet exists. Overwriting...
+[2026-07-31T20:11:50.314+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-07-31T20:12:08.771+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-07-31T20:12:08.780+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-07-31T20:12:08.998+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-07-31T20:12:08.999+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260731T201134, end_date=20260731T201208
+[2026-07-31T20:12:09.010+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-07-31T20:12:09.023+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-07-31T20:12:09.024+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-01T07:09:57.236+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-01T07:09:57.260+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T07:09:57.265+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T07:09:57.266+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-01T07:09:57.274+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-08-01T07:09:57.284+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1112) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-01T07:09:57.283+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '248', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpf8veb_vu', '--map-index', '1']
+[2026-08-01T07:09:57.286+0000] {standard_task_runner.py:105} INFO - Job 248: Subtask execute_gcs_extractor
+[2026-08-01T07:09:57.286+0000] {standard_task_runner.py:72} INFO - Started process 1141 to run task
+[2026-08-01T07:09:57.349+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host a1ef9b0be57d
+[2026-08-01T07:09:57.683+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-01T07:09:57.705+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-08-01T07:09:57.706+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-01T07:09:57.762+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-01T07:10:00.740+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-08-01T07:10:00.740+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-08-01T07:10:01.278+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-01T07:10:16.768+0000] {docker.py:438} INFO - 
+[2026-08-01T07:10:16.769+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-08-01T07:10:17.126+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet exists. Overwriting...
+[2026-08-01T07:10:17.126+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-08-01T07:10:50.935+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-01T07:10:50.936+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-08-01T07:10:51.593+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-01T07:10:51.593+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260801T070957, end_date=20260801T071051
+[2026-08-01T07:10:51.615+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-01T07:10:51.784+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-01T07:10:51.786+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-01T07:41:20.342+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-01T07:41:20.363+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T07:41:20.371+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T07:41:20.372+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-01T07:41:20.384+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-08-01T07:41:20.389+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=546) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-01T07:41:20.391+0000] {standard_task_runner.py:72} INFO - Started process 554 to run task
+[2026-08-01T07:41:20.391+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '101', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmp26tje9pl', '--map-index', '1']
+[2026-08-01T07:41:20.393+0000] {standard_task_runner.py:105} INFO - Job 101: Subtask execute_gcs_extractor
+[2026-08-01T07:41:20.436+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host 04946f67f638
+[2026-08-01T07:41:20.663+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-01T07:41:20.682+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-08-01T07:41:20.683+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-01T07:41:20.728+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-01T07:41:23.511+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-08-01T07:41:23.512+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-08-01T07:41:23.971+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-01T07:41:49.196+0000] {docker.py:438} INFO - 
+[2026-08-01T07:41:49.198+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-08-01T07:41:49.294+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet exists. Overwriting...
+[2026-08-01T07:41:49.294+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-08-01T07:42:01.286+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-01T07:42:01.292+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-08-01T07:42:01.656+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-01T07:42:01.656+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260801T074120, end_date=20260801T074201
+[2026-08-01T07:42:01.675+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-01T07:42:01.874+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-01T07:42:01.876+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-01T15:41:00.126+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-01T15:41:00.135+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T15:41:00.138+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T15:41:00.139+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-01T15:41:00.145+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-08-01T15:41:00.148+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=749) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-01T15:41:00.149+0000] {standard_task_runner.py:72} INFO - Started process 758 to run task
+[2026-08-01T15:41:00.150+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '141', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpzh3f5a3n', '--map-index', '1']
+[2026-08-01T15:41:00.151+0000] {standard_task_runner.py:105} INFO - Job 141: Subtask execute_gcs_extractor
+[2026-08-01T15:41:00.173+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host 6cae56718f8f
+[2026-08-01T15:41:00.318+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-01T15:41:00.328+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-08-01T15:41:00.329+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-01T15:41:00.348+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-01T15:41:02.025+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-08-01T15:41:02.026+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-08-01T15:41:02.460+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-01T15:41:12.935+0000] {docker.py:438} INFO - 
+[2026-08-01T15:41:12.936+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-08-01T15:41:13.027+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-08-01T15:41:22.816+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-01T15:41:22.820+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-08-01T15:41:23.046+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-01T15:41:23.047+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260801T154100, end_date=20260801T154123
+[2026-08-01T15:41:23.085+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-01T15:41:23.203+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-01T15:41:23.203+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-01T17:14:40.162+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-01T17:14:40.167+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T17:14:40.170+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T17:14:40.170+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-01T17:14:40.174+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-08-01T17:14:40.177+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=613) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-01T17:14:40.178+0000] {standard_task_runner.py:72} INFO - Started process 618 to run task
+[2026-08-01T17:14:40.178+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '133', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpx3oxv0w5', '--map-index', '1']
+[2026-08-01T17:14:40.179+0000] {standard_task_runner.py:105} INFO - Job 133: Subtask execute_gcs_extractor
+[2026-08-01T17:14:40.195+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host fa3becb14a61
+[2026-08-01T17:14:40.336+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-01T17:14:40.346+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-08-01T17:14:40.347+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-01T17:14:40.376+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-01T17:14:44.320+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-08-01T17:14:44.321+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-08-01T17:14:47.074+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-01T17:14:59.710+0000] {docker.py:438} INFO - 
+[2026-08-01T17:14:59.712+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-08-01T17:14:59.803+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-08-01T17:15:19.527+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-01T17:15:19.531+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-08-01T17:15:19.738+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-01T17:15:19.738+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260801T171440, end_date=20260801T171519
+[2026-08-01T17:15:19.753+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-01T17:15:19.887+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-01T17:15:19.889+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-01T17:41:07.741+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-01T17:41:07.749+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T17:41:07.752+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-01T17:41:07.752+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-01T17:41:07.756+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2020-01-01 00:00:00+00:00
+[2026-08-01T17:41:07.759+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=506) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-01T17:41:07.760+0000] {standard_task_runner.py:72} INFO - Started process 509 to run task
+[2026-08-01T17:41:07.760+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_biglake_ingestion', 'execute_gcs_extractor', 'scheduled__2020-01-01T00:00:00+00:00', '--job-id', '452', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_biglake_solo.py', '--cfg-path', '/tmp/tmpo17vt1cp', '--map-index', '1']
+[2026-08-01T17:41:07.761+0000] {standard_task_runner.py:105} INFO - Job 452: Subtask execute_gcs_extractor
+[2026-08-01T17:41:07.782+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_biglake_ingestion.execute_gcs_extractor scheduled__2020-01-01T00:00:00+00:00 map_index=1 [running]> on host 77b3ddd0f914
+[2026-08-01T17:41:07.939+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-01T17:41:07.950+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_biglake_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2020-01-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2020-01-01T00:00:00+00:00'
+[2026-08-01T17:41:07.951+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-01T17:41:07.974+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-01T17:41:12.518+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2020-01-01...
+[2026-08-01T17:41:12.518+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2020-01.csv.gz
+[2026-08-01T17:41:15.148+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-01T17:41:28.357+0000] {docker.py:438} INFO - 
+[2026-08-01T17:41:28.360+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2020-01.parquet
+[2026-08-01T17:41:28.442+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet exists. Overwriting...
+[2026-08-01T17:41:28.443+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2020/month=01/data.parquet
+[2026-08-01T17:41:38.151+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-01T17:41:38.157+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2020-01.parquet
+[2026-08-01T17:41:38.397+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-01T17:41:38.397+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_biglake_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2020-01-01T00:00:00+00:00, map_index=1, execution_date=20200101T000000, start_date=20260801T174107, end_date=20260801T174138
+[2026-08-01T17:41:38.423+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-01T17:41:38.549+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-01T17:41:38.549+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

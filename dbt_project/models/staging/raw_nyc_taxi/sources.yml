@@ -3,6 +3,47 @@ version: 2
 # sources.yml checks the data before your code runs (Testing the Ingestion from the external source).
 
 sources:
+  # - name: my_database_sources
+  #   database: elpipeline  # Optional if using default target project
+  #   schema: ishak_tobbi_dataset
+  #   tables:
+  #     - name: fct_taxi_trips
+  #     - name: dim_locations
+  #     - name: dim_payment_methods
+
+  - name: partition_control      # ◄ The internal nickname of the table source
+    database: elpipeline # ◄ the actual Google Cloud Project ID
+    schema: control # ◄  BigQuery dataset name which contains the raw data tables
+      
+    tables:
+      - name: ingestion_partition_control # ◄ The actual raw table name in the BigQuery (inside the dataset)
+        description: "Raw table containing ingestion partition control events."
+        columns:
+          - name: partition_key
+            description: "The primary key for this table"
+            # data_tests:       # "Did the city portal send us nulls in the raw file today?"
+            #   - not_null:
+            #       config:
+            #         severity: warn
+          - name: status
+            description: "The status of the ingestion partition control"
+            # data_tests:       # "Did the city portal send us nulls in the raw file today?"
+            #   - not_null:
+            #       config:
+            #         severity: warn
+          - name: last_ingested_at
+            description: "timestamp of the last ingested partition"
+            # data_tests:       # "Did the city portal send us nulls in the raw file today?"
+            #   - not_null:
+            #       config:
+            #         severity: warn
+          - name: last_transformed_at
+            description: "timestamp of the last transformed partition"
+            # data_tests:       # "Did the city portal send us nulls in the raw file today?"
+            #   - not_null:
+            #       config:
+            #         severity: warn
+            
   - name: raw_nyc_taxi      # ◄ The internal nickname of the table source
     database: elpipeline # ◄ the actual Google Cloud Project ID
     schema: ishak_tobbi_dataset # ◄  BigQuery dataset name which contains the raw data tables

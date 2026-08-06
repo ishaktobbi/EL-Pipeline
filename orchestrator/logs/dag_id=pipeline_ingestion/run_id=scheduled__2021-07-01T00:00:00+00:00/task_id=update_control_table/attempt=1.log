@@ -1,0 +1,503 @@
+[2026-08-05T07:51:55.313+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T07:51:55.318+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T07:51:55.320+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T07:51:55.320+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T07:51:55.323+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T07:51:55.326+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1393) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T07:51:55.326+0000] {standard_task_runner.py:72} INFO - Started process 1395 to run task
+[2026-08-05T07:51:55.326+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '318', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpkcocugx1']
+[2026-08-05T07:51:55.327+0000] {standard_task_runner.py:105} INFO - Job 318: Subtask update_control_table
+[2026-08-05T07:51:55.342+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 32ba35984139
+[2026-08-05T07:51:55.478+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T07:51:55.479+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T07:51:55.480+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T07:51:55.480+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T07:51:55.480+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T07:51:55.482+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T07:51:55.483+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_a423f831106d57d209cd5229dffb44d0
+[2026-08-05T07:51:57.436+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T07:51:57.436+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T075155, end_date=20260805T075157
+[2026-08-05T07:51:57.485+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T07:51:57.493+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T07:51:57.494+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T08:46:07.919+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T08:46:07.928+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T08:46:07.934+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T08:46:07.935+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T08:46:07.943+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T08:46:07.946+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3565) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T08:46:07.947+0000] {standard_task_runner.py:72} INFO - Started process 3571 to run task
+[2026-08-05T08:46:07.947+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '685', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpbyzybqeh']
+[2026-08-05T08:46:07.948+0000] {standard_task_runner.py:105} INFO - Job 685: Subtask update_control_table
+[2026-08-05T08:46:07.964+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 32ba35984139
+[2026-08-05T08:46:08.101+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T08:46:08.101+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T08:46:08.102+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T08:46:08.102+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T08:46:08.103+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T08:46:08.105+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T08:46:08.106+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_6a987b68cae07135c057692868110baf
+[2026-08-05T08:46:09.958+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T08:46:09.959+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T084607, end_date=20260805T084609
+[2026-08-05T08:46:09.983+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T08:46:09.997+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T08:46:09.997+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T09:25:04.004+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T09:25:04.010+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T09:25:04.015+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T09:25:04.015+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T09:25:04.020+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T09:25:04.023+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1369) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T09:25:04.023+0000] {standard_task_runner.py:72} INFO - Started process 1371 to run task
+[2026-08-05T09:25:04.024+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '304', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpgf42kzfh']
+[2026-08-05T09:25:04.024+0000] {standard_task_runner.py:105} INFO - Job 304: Subtask update_control_table
+[2026-08-05T09:25:04.040+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host ca4689b09308
+[2026-08-05T09:25:04.163+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T09:25:04.164+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T09:25:04.164+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T09:25:04.165+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T09:25:04.165+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T09:25:04.167+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T09:25:04.167+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_d5c02023840156b7ab6e160e206d560c
+[2026-08-05T09:25:06.328+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T09:25:06.329+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T092504, end_date=20260805T092506
+[2026-08-05T09:25:06.387+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T09:25:06.404+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T09:25:06.405+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T09:35:48.187+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T09:35:48.192+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T09:35:48.194+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T09:35:48.194+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T09:35:48.197+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T09:35:48.200+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3029) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T09:35:48.200+0000] {standard_task_runner.py:72} INFO - Started process 3031 to run task
+[2026-08-05T09:35:48.201+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '695', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmparzewokk']
+[2026-08-05T09:35:48.201+0000] {standard_task_runner.py:105} INFO - Job 695: Subtask update_control_table
+[2026-08-05T09:35:48.214+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host ca4689b09308
+[2026-08-05T09:35:48.320+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T09:35:48.320+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T09:35:48.321+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T09:35:48.321+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T09:35:48.322+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T09:35:48.324+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T09:35:48.324+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_6d93cc6f7defbf228367ff134ef39f2b
+[2026-08-05T09:35:50.415+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T09:35:50.415+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T093548, end_date=20260805T093550
+[2026-08-05T09:35:50.445+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T09:35:50.454+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T09:35:50.456+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T10:16:03.141+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T10:16:03.148+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T10:16:03.151+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T10:16:03.151+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T10:16:03.155+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T10:16:03.158+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5166) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T10:16:03.159+0000] {standard_task_runner.py:72} INFO - Started process 5170 to run task
+[2026-08-05T10:16:03.159+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '1091', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpl10di21y']
+[2026-08-05T10:16:03.160+0000] {standard_task_runner.py:105} INFO - Job 1091: Subtask update_control_table
+[2026-08-05T10:16:03.176+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host ca4689b09308
+[2026-08-05T10:16:03.319+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T10:16:03.320+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T10:16:03.320+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T10:16:03.321+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T10:16:03.321+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T10:16:03.323+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T10:16:03.324+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_eab37ddc5e080ec9ef3cbc4b6fc7fcdf
+[2026-08-05T10:16:05.283+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T10:16:05.283+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T101603, end_date=20260805T101605
+[2026-08-05T10:16:05.313+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T10:16:05.324+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T10:16:05.325+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T10:45:35.226+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T10:45:35.232+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T10:45:35.234+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T10:45:35.234+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T10:45:35.237+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T10:45:35.240+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=7493) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T10:45:35.240+0000] {standard_task_runner.py:72} INFO - Started process 7495 to run task
+[2026-08-05T10:45:35.241+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '1577', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp21a7e1c1']
+[2026-08-05T10:45:35.241+0000] {standard_task_runner.py:105} INFO - Job 1577: Subtask update_control_table
+[2026-08-05T10:45:35.256+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host ca4689b09308
+[2026-08-05T10:45:35.364+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T10:45:35.364+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T10:45:35.365+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T10:45:35.365+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T10:45:35.365+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T10:45:35.368+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T10:45:35.368+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_a0f77cda14b0f44ef482fd2e5514eee6
+[2026-08-05T10:45:38.498+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T10:45:38.498+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T104535, end_date=20260805T104538
+[2026-08-05T10:45:38.520+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T10:45:38.527+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T10:45:38.527+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T11:07:09.829+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T11:07:09.834+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T11:07:09.837+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T11:07:09.837+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T11:07:09.840+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T11:07:09.843+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1487) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T11:07:09.843+0000] {standard_task_runner.py:72} INFO - Started process 1489 to run task
+[2026-08-05T11:07:09.843+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '321', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpfey83wsd']
+[2026-08-05T11:07:09.844+0000] {standard_task_runner.py:105} INFO - Job 321: Subtask update_control_table
+[2026-08-05T11:07:09.858+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host dd5addbf144e
+[2026-08-05T11:07:09.967+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T11:07:09.968+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T11:07:09.969+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T11:07:09.969+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T11:07:09.969+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T11:07:09.971+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T11:07:09.972+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_496f3b6f9f9c07343afafe4109a81dd6
+[2026-08-05T11:07:11.988+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T11:07:11.989+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T110709, end_date=20260805T110711
+[2026-08-05T11:07:12.016+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T11:07:12.024+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T11:07:12.025+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T11:26:27.035+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T11:26:27.040+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T11:26:27.042+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T11:26:27.042+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T11:26:27.046+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T11:26:27.048+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3187) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T11:26:27.049+0000] {standard_task_runner.py:72} INFO - Started process 3189 to run task
+[2026-08-05T11:26:27.049+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '689', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpn1u2vkvv']
+[2026-08-05T11:26:27.049+0000] {standard_task_runner.py:105} INFO - Job 689: Subtask update_control_table
+[2026-08-05T11:26:27.063+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host dd5addbf144e
+[2026-08-05T11:26:27.169+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T11:26:27.170+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T11:26:27.171+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T11:26:27.171+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T11:26:27.171+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T11:26:27.173+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T11:26:27.174+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_71c2beda8df7cdbd70344c16f259dfba
+[2026-08-05T11:26:29.043+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T11:26:29.044+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T112627, end_date=20260805T112629
+[2026-08-05T11:26:29.090+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T11:26:29.104+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T11:26:29.105+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T14:03:19.133+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T14:03:19.145+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T14:03:19.151+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T14:03:19.151+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T14:03:19.160+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T14:03:19.165+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=8296) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T14:03:19.166+0000] {standard_task_runner.py:72} INFO - Started process 8307 to run task
+[2026-08-05T14:03:19.166+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '1426', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpla0_4dvv']
+[2026-08-05T14:03:19.167+0000] {standard_task_runner.py:105} INFO - Job 1426: Subtask update_control_table
+[2026-08-05T14:03:19.193+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host dd5addbf144e
+[2026-08-05T14:03:19.370+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T14:03:19.371+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T14:03:19.373+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T14:03:19.373+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T14:03:19.373+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T14:03:19.376+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T14:03:19.377+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_e9e414289b4da66abc828778689e19fd
+[2026-08-05T14:03:21.758+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T14:03:21.758+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T140319, end_date=20260805T140321
+[2026-08-05T14:03:21.775+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T14:03:21.785+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T14:03:21.785+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T20:26:25.090+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T20:26:25.107+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T20:26:25.116+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T20:26:25.117+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T20:26:25.130+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T20:26:25.136+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3662) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T20:26:25.138+0000] {standard_task_runner.py:72} INFO - Started process 3674 to run task
+[2026-08-05T20:26:25.139+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '2003', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpdy5ddzig']
+[2026-08-05T20:26:25.141+0000] {standard_task_runner.py:105} INFO - Job 2003: Subtask update_control_table
+[2026-08-05T20:26:25.179+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 270cf8aabe00
+[2026-08-05T20:26:25.471+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T20:26:25.472+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T20:26:25.475+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T20:26:25.475+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T20:26:25.476+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T20:26:25.483+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T20:26:25.484+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_e1de2b7f7c2d72f8b4dd2f6a3d4a6ff7
+[2026-08-05T20:26:27.209+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T20:26:27.210+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T202625, end_date=20260805T202627
+[2026-08-05T20:26:27.257+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T20:26:27.272+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T20:26:27.272+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T20:54:14.363+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T20:54:14.430+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T20:54:14.476+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-05T20:54:14.478+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T20:54:14.518+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-05T20:54:14.538+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=6426) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T20:54:14.538+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '2613', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp3g9dof5i']
+[2026-08-05T20:54:14.542+0000] {standard_task_runner.py:105} INFO - Job 2613: Subtask update_control_table
+[2026-08-05T20:54:14.542+0000] {standard_task_runner.py:72} INFO - Started process 6436 to run task
+[2026-08-05T20:54:14.669+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 270cf8aabe00
+[2026-08-05T20:54:15.366+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-05T20:54:15.369+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T20:54:15.374+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T20:54:15.375+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T20:54:15.376+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T20:54:15.387+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-05T20:54:15.389+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_afb36b78e5afca670ee7c9871a6430bd
+[2026-08-05T20:54:17.185+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T20:54:17.185+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260805T205414, end_date=20260805T205417
+[2026-08-05T20:54:17.210+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T20:54:17.223+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T20:54:17.224+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T03:46:13.165+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T03:46:13.171+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T03:46:13.175+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T03:46:13.175+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T03:46:13.179+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-06T03:46:13.182+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1558) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T03:46:13.182+0000] {standard_task_runner.py:72} INFO - Started process 1563 to run task
+[2026-08-06T03:46:13.183+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '3092', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmprcf47037']
+[2026-08-06T03:46:13.183+0000] {standard_task_runner.py:105} INFO - Job 3092: Subtask update_control_table
+[2026-08-06T03:46:13.198+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T03:46:13.312+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-06T03:46:13.313+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T03:46:13.314+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T03:46:13.314+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T03:46:13.314+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T03:46:13.316+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-06T03:46:13.316+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_3c2b7ef0635cd3a8345d1afdd4f71ca9
+[2026-08-06T03:46:15.167+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T03:46:15.168+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260806T034613, end_date=20260806T034615
+[2026-08-06T03:46:15.305+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T03:46:15.312+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T03:46:15.313+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T03:58:26.088+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T03:58:26.098+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T03:58:26.102+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T03:58:26.102+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T03:58:26.108+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-06T03:58:26.111+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3502) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T03:58:26.113+0000] {standard_task_runner.py:72} INFO - Started process 3511 to run task
+[2026-08-06T03:58:26.113+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '3543', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpqsbvmmma']
+[2026-08-06T03:58:26.114+0000] {standard_task_runner.py:105} INFO - Job 3543: Subtask update_control_table
+[2026-08-06T03:58:26.138+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T03:58:26.337+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-06T03:58:26.338+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T03:58:26.339+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T03:58:26.339+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T03:58:26.340+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T03:58:26.343+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-06T03:58:26.343+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_6e384ac00184d7ba219aa032f2ddcdae
+[2026-08-06T03:58:28.137+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T03:58:28.138+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260806T035826, end_date=20260806T035828
+[2026-08-06T03:58:28.164+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T03:58:28.177+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T03:58:28.178+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:20:30.379+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:20:30.389+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T04:20:30.394+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T04:20:30.394+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:20:30.400+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-06T04:20:30.403+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5840) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:20:30.403+0000] {standard_task_runner.py:72} INFO - Started process 5852 to run task
+[2026-08-06T04:20:30.405+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '4067', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp2ugnuoql']
+[2026-08-06T04:20:30.405+0000] {standard_task_runner.py:105} INFO - Job 4067: Subtask update_control_table
+[2026-08-06T04:20:30.430+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:20:30.590+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-06T04:20:30.590+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:20:30.591+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T04:20:30.591+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T04:20:30.591+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T04:20:30.594+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-06T04:20:30.595+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_b143a708c1bb2fab236a09675aa92528
+[2026-08-06T04:20:32.695+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:20:32.695+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260806T042030, end_date=20260806T042032
+[2026-08-06T04:20:32.725+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:20:32.732+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:20:32.733+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:31:29.537+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:31:29.544+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T04:31:29.548+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T04:31:29.548+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:31:29.554+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-06T04:31:29.557+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=7874) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:31:29.558+0000] {standard_task_runner.py:72} INFO - Started process 7881 to run task
+[2026-08-06T04:31:29.558+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '4553', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpokxy8t50']
+[2026-08-06T04:31:29.559+0000] {standard_task_runner.py:105} INFO - Job 4553: Subtask update_control_table
+[2026-08-06T04:31:29.576+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:31:29.728+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-06T04:31:29.729+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:31:29.730+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T04:31:29.730+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T04:31:29.730+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T04:31:29.733+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-06T04:31:29.733+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_7e8f4d4eb31888946cf373881c3cabb2
+[2026-08-06T04:31:31.549+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:31:31.550+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260806T043129, end_date=20260806T043131
+[2026-08-06T04:31:31.584+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:31:31.596+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:31:31.596+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T05:03:41.195+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T05:03:41.202+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T05:03:41.206+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T05:03:41.206+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T05:03:41.210+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-06T05:03:41.213+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=11912) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T05:03:41.213+0000] {standard_task_runner.py:72} INFO - Started process 11916 to run task
+[2026-08-06T05:03:41.214+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '5453', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp4tcm2ptp']
+[2026-08-06T05:03:41.214+0000] {standard_task_runner.py:105} INFO - Job 5453: Subtask update_control_table
+[2026-08-06T05:03:41.230+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T05:03:41.360+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-06T05:03:41.361+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T05:03:41.362+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T05:03:41.362+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T05:03:41.362+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T05:03:41.365+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-06T05:03:41.365+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_63a8e7fd705a0aa1f4b4c78c2d598704
+[2026-08-06T05:03:43.319+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:03:43.320+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260806T050341, end_date=20260806T050343
+[2026-08-06T05:03:43.352+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:03:43.357+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T05:24:04.318+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T05:24:04.329+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T05:24:04.334+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T05:24:04.334+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T05:24:04.342+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-06T05:24:04.345+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=14002) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T05:24:04.346+0000] {standard_task_runner.py:72} INFO - Started process 14008 to run task
+[2026-08-06T05:24:04.346+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '5910', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp_7apty3i']
+[2026-08-06T05:24:04.347+0000] {standard_task_runner.py:105} INFO - Job 5910: Subtask update_control_table
+[2026-08-06T05:24:04.370+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T05:24:04.555+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-06T05:24:04.556+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T05:24:04.557+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T05:24:04.557+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T05:24:04.558+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T05:24:04.563+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-06T05:24:04.563+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_370b76fcf642d893e10471374775fd3e
+[2026-08-06T05:24:06.587+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:24:06.588+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260806T052404, end_date=20260806T052406
+[2026-08-06T05:24:06.621+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:24:06.636+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T05:24:06.637+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T05:47:40.293+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T05:47:40.304+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T05:47:40.310+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T05:47:40.312+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T05:47:40.319+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-06T05:47:40.322+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=15915) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T05:47:40.323+0000] {standard_task_runner.py:72} INFO - Started process 15923 to run task
+[2026-08-06T05:47:40.323+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '6308', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpq2s7vjx6']
+[2026-08-06T05:47:40.324+0000] {standard_task_runner.py:105} INFO - Job 6308: Subtask update_control_table
+[2026-08-06T05:47:40.362+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T05:47:40.543+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-06T05:47:40.544+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T05:47:40.545+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T05:47:40.546+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T05:47:40.546+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T05:47:40.549+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-06T05:47:40.549+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_51660d6e17501b73b0e1496fbafa9d9b
+[2026-08-06T05:47:42.490+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:47:42.491+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260806T054740, end_date=20260806T054742
+[2026-08-06T05:47:42.513+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:47:42.525+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T05:47:42.525+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T07:46:32.997+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T07:46:33.006+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T07:46:33.009+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T07:46:33.009+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T07:46:33.015+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-06T07:46:33.018+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1489) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T07:46:33.019+0000] {standard_task_runner.py:72} INFO - Started process 1500 to run task
+[2026-08-06T07:46:33.019+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '6755', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpdnugx2of']
+[2026-08-06T07:46:33.020+0000] {standard_task_runner.py:105} INFO - Job 6755: Subtask update_control_table
+[2026-08-06T07:46:33.038+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T07:46:33.201+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-06T07:46:33.203+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T07:46:33.205+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T07:46:33.206+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T07:46:33.206+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T07:46:33.209+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-06T07:46:33.210+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_034d452260541928e59725620689142f
+[2026-08-06T07:46:35.262+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T07:46:35.263+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260806T074633, end_date=20260806T074635
+[2026-08-06T07:46:35.317+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T07:46:35.331+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T07:46:35.332+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T08:05:04.283+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T08:05:04.293+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T08:05:04.297+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T08:05:04.297+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T08:05:04.302+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-06T08:05:04.305+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3145) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T08:05:04.306+0000] {standard_task_runner.py:72} INFO - Started process 3157 to run task
+[2026-08-06T08:05:04.307+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '7094', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpv3cemjk2']
+[2026-08-06T08:05:04.308+0000] {standard_task_runner.py:105} INFO - Job 7094: Subtask update_control_table
+[2026-08-06T08:05:04.326+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T08:05:04.501+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-06T08:05:04.502+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T08:05:04.503+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T08:05:04.504+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T08:05:04.504+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T08:05:04.507+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-06T08:05:04.508+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_4136fbf660c315766a1cd1130b6c3ac8
+[2026-08-06T08:05:06.960+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T08:05:06.960+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260806T080504, end_date=20260806T080506
+[2026-08-06T08:05:06.996+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T08:05:07.057+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T08:05:07.058+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T09:04:19.357+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T09:04:19.362+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T09:04:19.364+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [queued]>
+[2026-08-06T09:04:19.364+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T09:04:19.367+0000] {taskinstance.py:2888} INFO - Executing <Task(BigQueryInsertJobOperator): update_control_table> on 2021-07-01 00:00:00+00:00
+[2026-08-06T09:04:19.370+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=1339) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T09:04:19.370+0000] {standard_task_runner.py:72} INFO - Started process 1341 to run task
+[2026-08-06T09:04:19.371+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'update_control_table', 'scheduled__2021-07-01T00:00:00+00:00', '--job-id', '300', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp4vm8mlee']
+[2026-08-06T09:04:19.371+0000] {standard_task_runner.py:105} INFO - Job 300: Subtask update_control_table
+[2026-08-06T09:04:19.384+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.update_control_table scheduled__2021-07-01T00:00:00+00:00 [running]> on host 2b8c682c2cd4
+[2026-08-06T09:04:19.503+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='update_control_table' AIRFLOW_CTX_EXECUTION_DATE='2021-07-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2021-07-01T00:00:00+00:00'
+[2026-08-06T09:04:19.504+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T09:04:19.504+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T09:04:19.505+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T09:04:19.506+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T09:04:19.509+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                    MERGE INTO `elpipeline.control.ingestion_partition_control` T\n                    USING (\n                        SELECT \n                            CONCAT(CAST(2021 AS STRING), '-', LPAD(CAST(07 AS STRING), 2, '0')) AS partition_key,  -- Templated to current DAG run date (e.g., '2024-03')\n                            'LOADED' AS status,\n                            CURRENT_TIMESTAMP() AS updated_at\n                    ) S\n                    ON T.partition_key = S.partition_key\n                    WHEN MATCHED THEN\n                        UPDATE SET \n                            status = S.status,\n                            updated_at = S.updated_at\n                    WHEN NOT MATCHED THEN\n                        INSERT (partition_key, status, updated_at)\n                        VALUES (S.partition_key, S.status, S.updated_at);\n                ", 'useLegacySql': False}}'
+[2026-08-06T09:04:19.509+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_update_control_table_2021_07_01T00_00_00_00_00_6f3a8f717a3ef2ced2e116e38a2800fa
+[2026-08-06T09:04:22.192+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T09:04:22.193+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=update_control_table, run_id=scheduled__2021-07-01T00:00:00+00:00, execution_date=20210701T000000, start_date=20260806T090419, end_date=20260806T090422
+[2026-08-06T09:04:22.216+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T09:04:22.228+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T09:04:22.229+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

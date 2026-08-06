@@ -1,0 +1,112 @@
+[2026-08-01T17:24:21.696+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-01T17:24:21.702+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_dbt_transformations.dbt_transformations.int_yellow_taxi_trips.run manual__2026-08-01T17:23:32.454943+00:00 [queued]>
+[2026-08-01T17:24:21.704+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_dbt_transformations.dbt_transformations.int_yellow_taxi_trips.run manual__2026-08-01T17:23:32.454943+00:00 [queued]>
+[2026-08-01T17:24:21.704+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2026-08-01T17:24:21.707+0000] {taskinstance.py:2888} INFO - Executing <Task(DbtRunWatcherOperator): dbt_transformations.int_yellow_taxi_trips.run> on 2026-08-01 17:23:32.454943+00:00
+[2026-08-01T17:24:21.709+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=137) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-01T17:24:21.710+0000] {standard_task_runner.py:72} INFO - Started process 138 to run task
+[2026-08-01T17:24:21.710+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_dbt_transformations', 'dbt_transformations.int_yellow_taxi_trips.run', 'manual__2026-08-01T17:23:32.454943+00:00', '--job-id', '344', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_dbt_solo.py', '--cfg-path', '/tmp/tmpac1olumn']
+[2026-08-01T17:24:21.712+0000] {standard_task_runner.py:105} INFO - Job 344: Subtask dbt_transformations.int_yellow_taxi_trips.run
+[2026-08-01T17:24:21.725+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_dbt_transformations.dbt_transformations.int_yellow_taxi_trips.run manual__2026-08-01T17:23:32.454943+00:00 [running]> on host 943380cdadcc
+[2026-08-01T17:24:21.746+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_dbt_transformations' AIRFLOW_CTX_TASK_ID='dbt_transformations.int_yellow_taxi_trips.run' AIRFLOW_CTX_EXECUTION_DATE='2026-08-01T17:23:32.454943+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-08-01T17:23:32.454943+00:00'
+[2026-08-01T17:24:21.746+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-01T17:24:21.750+0000] {baseoperator.py:405} WARNING - DbtRunWatcherOperator.execute cannot be called outside TaskInstance!
+[2026-08-01T17:24:21.750+0000] {base.py:745} INFO - Try number #1, poke attempt #0: Pulling status from task_id 'dbt_transformations.dbt_producer_watcher' via XCom key 'model__dbt_project__int_yellow_taxi_trips_status' for model 'model.dbt_project.int_yellow_taxi_trips'
+[2026-08-01T17:24:21.762+0000] {state.py:280} ERROR - Database Error in model int_yellow_taxi_trips (models/intermediate/nyc_taxi/int_yellow_taxi_trips.sql)
+  Unrecognized name: year_ingested at [71:9]
+  compiled code at target/run/dbt_project/models/intermediate/nyc_taxi/int_yellow_taxi_trips.sql
+[2026-08-01T17:24:21.762+0000] {state.py:282} INFO - [NONE] Start: N/A, Finish: N/A
+[2026-08-01T17:24:21.764+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/watcher.py", line 560, in execute
+    super().execute(context, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 601, in execute
+    self._execute_core(context)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 561, in _execute_core
+    elif not self.poke(context):
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 789, in poke
+    raise AirflowException(f"{self._resource_label} '{self.model_unique_id}' finished with status '{status}'")
+airflow.exceptions.AirflowException: Model 'model.dbt_project.int_yellow_taxi_trips' finished with status 'error'
+[2026-08-01T17:24:21.850+0000] {_client.py:1026} INFO - HTTP Request: GET https://astronomer.gateway.scarf.sh/astronomer-cosmos/v3/task_instance?cosmos_version=1.15.0&airflow_version=2.10.2&python_version=3.12.6&platform_system=Linux&platform_machine=aarch64&status=failed&operator_name=DbtRunWatcherOperator&is_cosmos_operator_subclass=False&invocation_mode=None&execution_mode=watcher&profile_strategy=mapping&profile_mapping_class=GoogleCloudOauthProfileMapping&database=bigquery&is_mapped_task=False&dbt_command=run&install_deps=False&has_callback=False&duration=0.06419 "HTTP/1.1 200 OK"
+[2026-08-01T17:24:21.850+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_dbt_transformations, task_id=dbt_transformations.int_yellow_taxi_trips.run, run_id=manual__2026-08-01T17:23:32.454943+00:00, execution_date=20260801T172332, start_date=20260801T172421, end_date=20260801T172421
+[2026-08-01T17:24:21.856+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-01T17:24:21.856+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 344 for task dbt_transformations.int_yellow_taxi_trips.run (Model 'model.dbt_project.int_yellow_taxi_trips' finished with status 'error'; 138)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 767, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/watcher.py", line 560, in execute
+    super().execute(context, **kwargs)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 601, in execute
+    self._execute_core(context)
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 561, in _execute_core
+    elif not self.poke(context):
+             ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/cosmos/operators/_watcher/base.py", line 789, in poke
+    raise AirflowException(f"{self._resource_label} '{self.model_unique_id}' finished with status '{status}'")
+airflow.exceptions.AirflowException: Model 'model.dbt_project.int_yellow_taxi_trips' finished with status 'error'
+[2026-08-01T17:24:21.890+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-08-01T17:24:21.902+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-01T17:24:21.903+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

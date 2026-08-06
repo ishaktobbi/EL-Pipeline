@@ -49,3 +49,170 @@ models:
   - name: stg_green_taxi_trips
     description: "Staging model for green taxi trips data, checking the data after your code runs before passing it to the marts model."
     columns: *shared_tests
+
+
+
+# ==============================================================================
+# UNIT TESTS FOR STAGING MODELS
+# ==============================================================================
+unit_tests:
+  # ----------------------------------------------------------------------------
+  # 1. UNIT TEST FOR STG_YELLOW_TAXI_TRIPS
+  # ----------------------------------------------------------------------------
+  - name: test_stg_yellow_taxi_trips_filtering_and_casting
+    description: "Tests partition key formatting, status filtering, safe casting, and null column padding for Yellow Taxi trips."
+    model: stg_yellow_taxi_trips
+    given:
+      # Mock raw yellow taxi trip source
+      - input: source('raw_nyc_taxi', 'yellow_taxi_trips')
+        rows:
+          # Row 1: Valid partition, status should match control table
+          - {
+              year: 2024,
+              month: 3,
+              VendorID: "1",
+              RatecodeID: "1",
+              PULocationID: "161",
+              DOLocationID: "234",
+              payment_type: "1",
+              tpep_pickup_datetime: "2024-03-01 10:00:00",
+              tpep_dropoff_datetime: "2024-03-01 10:20:00",
+              passenger_count: "2",
+              trip_distance: "3.5",
+              store_and_fwd_flag: "N",
+              fare_amount: "15.0",
+              extra: "1.0",
+              mta_tax: "0.5",
+              tip_amount: "3.0",
+              tolls_amount: "0.0",
+              improvement_surcharge: "0.3",
+              total_amount: "19.8",
+              congestion_surcharge: "2.5"
+            }
+          # Row 2: Belonging to a pending partition (should be filtered out by inner join)
+          - {
+              year: 2024,
+              month: 4,
+              VendorID: "2",
+              payment_type: "2",
+              tpep_pickup_datetime: "2024-04-01 12:00:00",
+              tpep_dropoff_datetime: "2024-04-01 12:30:00",
+              fare_amount: "20.0",
+              total_amount: "20.0"
+            }
+
+      # Mock partition control source
+      - input: source('partition_control', 'ingestion_partition_control')
+        rows:
+          - { partition_key: "2024-03", status: "LOADED" }
+          - { partition_key: "2024-04", status: "PENDING" }
+
+    # Expected output after staging transformation logic runs
+    expect:
+      rows:
+        - {
+            partition_key: "2024-03",
+            partition_date: "2024-03-01",
+            vendor_id: 1,
+            rate_code_id: 1,
+            pickup_location_id: 161,
+            dropoff_location_id: 234,
+            payment_type_id: 1,
+            pickup_datetime: "2024-03-01 10:00:00",
+            dropoff_datetime: "2024-03-01 10:20:00",
+            passenger_count: 2,
+            trip_distance: 3.5,
+            store_and_fwd_flag: "N",
+            fare_amount: 15.0,
+            extra: 1.0,
+            mta_tax: 0.5,
+            tip_amount: 3.0,
+            tolls_amount: 0.0,
+            improvement_surcharge: 0.3,
+            total_amount: 19.8,
+            congestion_surcharge: 2.5,
+            ehail_fee: null,      # Padded column assertion
+            trip_type_id: null    # Padded column assertion
+          }
+          
+
+  # ----------------------------------------------------------------------------
+  # 2. UNIT TEST FOR STG_GREEN_TAXI_TRIPS
+  # ----------------------------------------------------------------------------
+  - name: test_stg_green_taxi_trips_filtering_and_casting
+    description: "Tests partition key formatting, status filtering, safe casting, and green-specific fields (trip_type, ehail_fee)."
+    model: stg_green_taxi_trips
+    given:
+      # Mock raw green taxi trip source
+      - input: source('raw_nyc_taxi', 'green_taxi_trips')
+        rows:
+          # Row 1: Valid green taxi record
+          - {
+              year: 2024,
+              month: 3,
+              VendorID: "2",
+              RatecodeID: "1",
+              PULocationID: "74",
+              DOLocationID: "41",
+              payment_type: "2",
+              lpep_pickup_datetime: "2024-03-15 14:00:00",
+              lpep_dropoff_datetime: "2024-03-15 14:15:00",
+              passenger_count: "1",
+              trip_distance: "2.1",
+              trip_type: "1",        # Green specific
+              ehail_fee: "0.0",       # Green specific
+              store_and_fwd_flag: "N",
+              fare_amount: "10.0",
+              extra: "0.0",
+              mta_tax: "0.5",
+              tip_amount: "0.0",
+              tolls_amount: "0.0",
+              improvement_surcharge: "0.3",
+              total_amount: "10.8",
+              congestion_surcharge: "0.0"
+            }
+          # Row 2: Belonging to a pending partition (should be filtered out by inner join)
+          - {
+              year: 2024,
+              month: 4,
+              VendorID: "2",
+              payment_type: "2",
+              lpep_pickup_datetime: "2024-04-01 12:00:00",
+              lpep_dropoff_datetime: "2024-04-01 12:30:00",
+              fare_amount: "20.0",
+              total_amount: "20.0"
+            }
+
+      # Mock partition control source
+      - input: source('partition_control', 'ingestion_partition_control')
+        rows:
+          - { partition_key: "2024-03", status: "LOADED" }
+          - { partition_key: "2024-04", status: "PENDING" }
+
+
+    expect:
+      rows:
+        - {
+            partition_key: "2024-03",
+            partition_date: "2024-03-01",
+            vendor_id: 2,
+            rate_code_id: 1,
+            pickup_location_id: 74,
+            dropoff_location_id: 41,
+            payment_type_id: 2,
+            pickup_datetime: "2024-03-15 14:00:00",
+            dropoff_datetime: "2024-03-15 14:15:00",
+            passenger_count: 1,
+            trip_distance: 2.1,
+            trip_type_id: 1,       # Green specific
+            ehail_fee: 0.0,        # Green specific
+            store_and_fwd_flag: "N",
+            fare_amount: 10.0,
+            extra: 0.0,
+            mta_tax: 0.5,
+            tip_amount: 0.0,
+            tolls_amount: 0.0,
+            improvement_surcharge: 0.3,
+            total_amount: 10.8,
+            congestion_surcharge: 0.0
+          }

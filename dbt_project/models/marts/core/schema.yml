@@ -23,6 +23,8 @@ models:
                 field: location_id
               config:
                 severity: warn
+                tags: ['fct_dependent']
+          
 
       - name: vendor_id
         data_tests:
@@ -32,6 +34,7 @@ models:
                 field: vendor_id
               config:
                 severity: warn
+                tags: ['fct_dependent']
 
       - name: payment_type_id
         data_tests:
@@ -41,6 +44,7 @@ models:
                 field: payment_type_id
               config:
                 severity: warn
+                tags: ['fct_dependent']
 
       # Value / Accepted Values Test
       - name: service_type
@@ -79,3 +83,167 @@ models:
         data_tests:
           - unique
           - not_null
+
+
+
+unit_tests:
+  # ============================================================================
+  # UNIT TEST FOR dimensions
+  # ============================================================================
+
+  - name: test_dim_locations_includes_seed_rows_and_missing_row
+    description: "Ensures the location dimension preserves seed rows and adds the system null sentinel row."
+    model: dim_locations
+    given:
+      - input: ref('lkp_locations')
+        rows:
+          - { location_id: 1, borough: "Queens", zone: "JFK Airport", service_zone: "Airports" }
+          - { location_id: 2, borough: "Brooklyn", zone: "Williamsburg", service_zone: "Boro" }
+    expect:
+      rows:
+        - { location_id: 1, borough: "Queens", zone: "JFK Airport", service_zone: "Airports" }
+        - { location_id: 2, borough: "Brooklyn", zone: "Williamsburg", service_zone: "Boro" }
+        - { location_id: -1, borough: "Missing Borough (System Null)", zone: "Missing zone (System Null)", service_zone: "Missing service (System Null)" }
+
+  - name: test_dim_rate_codes_includes_seed_rows_and_missing_row
+    description: "Ensures the rate code dimension preserves seed rows and adds the system null sentinel row."
+    model: dim_rate_codes
+    given:
+      - input: ref('lkp_rate_codes')
+        rows:
+          - { rate_code_id: 1, rate_code: "Standard rate" }
+          - { rate_code_id: 2, rate_code: "JFK" }
+    expect:
+      rows:
+        - { rate_code_id: 1, rate_code: "Standard rate" }
+        - { rate_code_id: 2, rate_code: "JFK" }
+        - { rate_code_id: -1, rate_code: "Missing Rate Code (System Null)" }
+
+  - name: test_dim_payment_methods_includes_seed_rows_and_missing_row
+    description: "Ensures the payment method dimension preserves seed rows and adds the system null sentinel row."
+    model: dim_payment_methods
+    given:
+      - input: ref('lkp_payment_methods')
+        rows:
+          - { payment_type_id: 1, payment_method: "Credit card" }
+          - { payment_type_id: 2, payment_method: "Cash" }
+    expect:
+      rows:
+        - { payment_type_id: 1, payment_method: "Credit card" }
+        - { payment_type_id: 2, payment_method: "Cash" }
+        - { payment_type_id: -1, payment_method: "Missing Payment (System Null)" }
+
+  - name: test_dim_vendors_includes_seed_rows_and_missing_row
+    description: "Ensures the vendor dimension preserves seed rows and adds the system null sentinel row."
+    model: dim_vendors
+    given:
+      - input: ref('lkp_vendors')
+        rows:
+          - { vendor_id: 1, vendor_name: "Creative Mobile Technologies" }
+          - { vendor_id: 2, vendor_name: "VeriFone Inc." }
+    expect:
+      rows:
+        - { vendor_id: 1, vendor_name: "Creative Mobile Technologies" }
+        - { vendor_id: 2, vendor_name: "VeriFone Inc." }
+        - { vendor_id: -1, vendor_name: "Missing Vendor (System Null)" }
+
+  - name: test_dim_trip_types_includes_seed_rows_and_missing_row
+    description: "Ensures the trip type dimension preserves seed rows and adds the system null sentinel row."
+    model: dim_trip_types
+    given:
+      - input: ref('lkp_trip_types')
+        rows:
+          - { trip_type_id: 1, trip_type: "Street-hail" }
+          - { trip_type_id: 2, trip_type: "Dispatch" }
+    expect:
+      rows:
+        - { trip_type_id: 1, trip_type: "Street-hail" }
+        - { trip_type_id: 2, trip_type: "Dispatch" }
+        - { trip_type_id: -1, trip_type: "Missing Trip Type (System Null)" }
+
+  # ============================================================================
+  # UNIT TEST FOR FCT_TAXI_TRIPS
+  # ============================================================================
+  - name: test_fct_taxi_trips_combines_yellow_and_green_trips
+    description: "Ensures the fact table unions yellow and green trip data with the expected service label and key columns."
+    model: fct_taxi_trips
+    overrides:
+      macros:
+        is_incremental: false  # Tells dbt to test the full model logic without looking for an existing table
+    given:
+      - input: ref('int_yellow_taxi_trips')
+      # Mock input from intermediate yellow taxi model
+        rows:
+          - {
+              vendor_id: 1,
+              pickup_datetime: "2024-03-01 10:00:00",
+              dropoff_datetime: "2024-03-01 10:15:00",
+              passenger_count: 1,
+              trip_distance: 2.5,
+              total_amount: 15.0,
+              fare_amount: 12.0,
+              tip_amount: 3.0,
+              rate_code_id: 1,
+              pickup_location_id: 100,
+              dropoff_location_id: 200,
+              payment_type_id: 1,
+              partition_date: "2024-03-01",
+              partition_key: "2024-03"
+            }
+      - input: ref('int_green_taxi_trips')
+      # Mock input from intermediate green taxi model
+        rows:
+          - {
+              vendor_id: 2,
+              pickup_datetime: "2024-03-01 11:00:00",
+              dropoff_datetime: "2024-03-01 11:20:00",
+              passenger_count: 2,
+              trip_distance: 3.0,
+              total_amount: 20.0,
+              fare_amount: 15.0,
+              tip_amount: 5.0,
+              rate_code_id: 2,
+              pickup_location_id: 101,
+              dropoff_location_id: 201,
+              payment_type_id: 2,
+              partition_date: "2024-03-01",
+              partition_key: "2024-03"
+            }
+    expect:
+      # Mock input from intermediate yellow taxi model
+      rows:
+        - {
+            pickup_location_id: 100,
+            dropoff_location_id: 200,
+            payment_type_id: 1,
+            rate_code_id: 1,
+            fare_amount: 12.0,
+            tip_amount: 3.0,
+            vendor_id: 1,
+            pickup_datetime: "2024-03-01 10:00:00",
+            dropoff_datetime: "2024-03-01 10:15:00",
+            passenger_count: 1,
+            trip_distance: 2.5,
+            total_amount: 15.0,
+            partition_date: "2024-03-01",
+            partition_key: "2024-03",
+            service_type: "yellow"
+          }
+        # Mock input from intermediate green taxi model
+        - {
+            pickup_location_id: 101,
+            dropoff_location_id: 201,
+            payment_type_id: 2,
+            rate_code_id: 2,
+            fare_amount: 15.0,
+            tip_amount: 5.0,
+            vendor_id: 2,
+            pickup_datetime: "2024-03-01 11:00:00",
+            dropoff_datetime: "2024-03-01 11:20:00",
+            passenger_count: 2,
+            trip_distance: 3.0,
+            total_amount: 20.0,
+            partition_date: "2024-03-01",
+            partition_key: "2024-03",
+            service_type: "green"
+          }

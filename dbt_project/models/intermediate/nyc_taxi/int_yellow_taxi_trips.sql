@@ -16,12 +16,7 @@ with staging_data as (
     passenger_count IS NOT NULL
     AND
     trip_distance IS NOT NULL
-    AND
-    pickup_datetime >= DATE_SUB('{{ var("run_date") }}', INTERVAL 1 MONTH)
-    AND
-    dropoff_datetime <= DATE_ADD('{{ var("run_date") }}', INTERVAL 2 MONTH)
-    
-    -- Purges the record from entering the int_
+ 
 
 ),
 
@@ -43,8 +38,8 @@ deduplicated as (
 cleaned as (
 
     select
-        
 
+        
         -- Handle missing business keys gracefully (Null Resolution)
         -- COALESCE(vendor_id, -1) AS vendor_id,
         COALESCE(rate_code_id, -1) AS rate_code_id,
@@ -63,13 +58,12 @@ cleaned as (
         total_amount,
         congestion_surcharge,
 
-        year_ingested,
-        month_ingested,
-        
         -- Structural Alignment Placeholder (Column only exists in Green taxi data)
-        CAST(NULL AS FLOAT64) AS ehail_fee,
-        CAST(NULL AS FLOAT64) AS trip_type_id
+        ehail_fee,
+        COALESCE(trip_type_id, -1) AS trip_type_id,
 
+        partition_key,
+        partition_date,
         -- Standardize Values to a common set of values (Data Standardization)
        
         -- 🟢 2. Pull the Clean Human-Readable Values from our Seeds
@@ -80,19 +74,18 @@ cleaned as (
 
     from deduplicated
 
-    -- -- 🟢 The Seed Joins
-    -- left join {{ ref('lkp_vendors') }} v 
-    --     on vendor_id = v.vendor_id
-    -- left join {{ ref('lkp_rate_codes') }} r 
-    --     on rate_code_id = r.rate_code_id
-    -- left join {{ ref('lkp_payment_methods') }} p 
-    --     on payment_type_id = p.payment_type_id
 
 
-    where row_num = 1 -- 🟢 Drop the duplicates!
-      and total_amount >= 0 -- 🟢 Clean out negative fare anomalies
-      and passenger_count > 0 -- 🟢 Clean out data errors with 0 passengers
-      and trip_distance > 0 -- 🟢 Clean out data errors with 0 trip distance.
+    where 
+
+        ABS(DATE_DIFF(dropoff_datetime, partition_date, YEAR)) <= 1
+        AND
+        ABS(DATE_DIFF(pickup_datetime, partition_date, YEAR)) <= 1
+        AND
+            row_num = 1 -- 🟢 Drop the duplicates!
+        AND total_amount >= 0 -- 🟢 Clean out negative fare anomalies
+        AND passenger_count > 0 -- 🟢 Clean out data errors with 0 passengers
+        AND trip_distance > 0 -- 🟢 Clean out data errors with 0 trip distance.
 
 )
 

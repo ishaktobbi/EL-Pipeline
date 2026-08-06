@@ -1,16 +1,30 @@
 with source as (
 
-    select * from {{ source('raw_nyc_taxi', 'yellow_taxi_trips') }}
+    SELECT * ,
+        -- Construct partition key from Hive partitions (e.g., '2024-03')
+        CONCAT(CAST(year AS STRING), '-', LPAD(CAST(month AS STRING), 2, '0')) AS partition_key
+    FROM {{ source('raw_nyc_taxi', 'yellow_taxi_trips') }} 
 
+   
     -- BigQuery uses these variables to prune the GCS bucket *before* executing any cleaning logic.
-    where 
-        year = CAST('{{ var("run_year") }}' AS INT64) and 
-        month = CAST('{{ var("run_month") }}' AS INT64)  -- we need to add a default values in yaml dbt_project
+    -- where 
+    --     year = CAST('{{ var("run_year") }}' AS INT64) and 
+    --     month = CAST('{{ var("run_month") }}' AS INT64)  -- we need to add a default values in yaml dbt_project
+),
+
+source_polished as (
+    SELECT r.*
+    FROM source r
+    -- Reference the external control source!
+    INNER JOIN {{ source('partition_control', 'ingestion_partition_control') }} c
+        ON r.partition_key = c.partition_key
+    WHERE c.status = 'LOADED'
 ),
 
 staged as (
 
     select
+        PARSE_DATE('%Y-%m-%d', CONCAT(partition_key, '-01')) AS partition_date,
         -- Identifiers (Cast to Int64 or String)
         safe_cast(VendorID as int64) as vendor_id,
         safe_cast(RatecodeID as int64) as rate_code_id,
@@ -37,11 +51,14 @@ staged as (
         safe_cast(total_amount as float64) as total_amount,
         safe_cast(congestion_surcharge as float64) as congestion_surcharge,
 
-        safe_cast('{{ var("run_year") }}' as INT64) as year_ingested,
-        safe_cast('{{ var("run_month") }}' as INT64) as month_ingested,
+        -- Structural Alignment Placeholder (Column only exists in Green taxi data)
+        CAST(NULL AS FLOAT64) AS ehail_fee,
+        CAST(NULL AS INT64) AS trip_type_id,
+
+        partition_key
 
 
-    from source
+    from source_polished
 
 
 )

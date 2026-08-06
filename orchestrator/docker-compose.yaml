@@ -77,8 +77,10 @@ x-airflow-common:
     GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS} # added by me, to pass the GCP credentials path to the container, so we can use it in the script
     GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT} # added by me, to pass the GCP project id to the container, so we can use it in the script
     DBT_IMAGE_URL: ${DBT_IMAGE_URL}
+    HOST_SRC_DIR: ${HOST_SRC_DIR}
     AIRFLOW__COSMOS__CACHE_DIR: "/tmp/cosmos" # added by me, where cosmos should save its runtime tmp cache files.
     OPENLINEAGE_DISABLED: "true"    # let cosmos use it under the hood, but make it sleep elsewhere.
+    AIRFLOW__CORE__DAG_IGNORE_FILE_SYNTAX: "glob"   # added by me, to make .airflowignore file work with synax like gitignore and not using regex.
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server
@@ -90,15 +92,15 @@ x-airflow-common:
     # The following line can be used to set a custom config file, stored in the local config folder
     # If you want to use it, outcomment it and replace airflow.cfg with the name of your config file
     # AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'
+    AIRFLOW_CONN_SLACK_ALERT_CHANNEL: ${SLACK_ALERT_CHANNEL} # added by me, to pass the Slack connection to the container, so we can use it in the script
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - ${AIRFLOW_PROJ_DIR:-.}/tests:/opt/airflow/tests
     - /var/run/docker.sock:/var/run/docker.sock # Required to run docker in docker
     - gcp-creds:/opt/airflow/secrets # shared named volume for GCP credentials
-    - ../gcloud:/opt/airflow/gcloud # shared named volume for GCP credentials
-    # - ../dbt_project/target/manifest.json:/opt/airflow/dbt_project/target/manifest.json # shared named volume for dbt project
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -262,7 +264,8 @@ services:
         # --- MY CODE TO CREATE POOLS FOR DAG TASKS ---
         echo '---- Creating Custom Airflow Pools ----'
         /entrypoint airflow pools set ingestion_pool 3 'Pool for limiting ingestion concurrency'
-        /entrypoint airflow pools set dbt_pool 2 'Pool for limiting dbt concurrency'
+        /entrypoint airflow pools set dbt_pool 3 'Pool for limiting dbt concurrency'
+        /entrypoint airflow pools set gate_last_run 1 'Pool for limiting ingestion concurrency'
         # ---------------------------------------------------------------
 
         exec /entrypoint airflow version

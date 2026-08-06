@@ -1,0 +1,287 @@
+[2026-08-05T13:07:01.811+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T13:07:01.816+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-05T13:07:01.818+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-05T13:07:01.819+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T13:07:01.822+0000] {taskinstance.py:2888} INFO - Executing <Task(ShortCircuitOperator): gate_last_run> on 2019-05-01 00:00:00+00:00
+[2026-08-05T13:07:01.824+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5012) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T13:07:01.825+0000] {standard_task_runner.py:72} INFO - Started process 5014 to run task
+[2026-08-05T13:07:01.825+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'gate_last_run', 'scheduled__2019-05-01T00:00:00+00:00', '--job-id', '804', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpzp7x9k2h']
+[2026-08-05T13:07:01.826+0000] {standard_task_runner.py:105} INFO - Job 804: Subtask gate_last_run
+[2026-08-05T13:07:01.839+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [running]> on host dd5addbf144e
+[2026-08-05T13:07:01.859+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='gate_last_run' AIRFLOW_CTX_EXECUTION_DATE='2019-05-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-05-01T00:00:00+00:00'
+[2026-08-05T13:07:01.949+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T13:07:01.950+0000] {baseoperator.py:405} WARNING - ShortCircuitOperator.execute cannot be called outside TaskInstance!
+[2026-08-05T13:07:01.951+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 762, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 308, in execute
+    condition = super().execute(context)
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/pipeline_ingestion.py", line 69, in current_run_is_last
+    return next_run_date > datetime.now()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: can't compare offset-naive and offset-aware datetimes
+[2026-08-05T13:07:01.955+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_ingestion, task_id=gate_last_run, run_id=scheduled__2019-05-01T00:00:00+00:00, execution_date=20190501T000000, start_date=20260805T130701, end_date=20260805T130701
+[2026-08-05T13:07:01.958+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T13:07:01.959+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 804 for task gate_last_run (can't compare offset-naive and offset-aware datetimes; 5014)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 762, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 308, in execute
+    condition = super().execute(context)
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 238, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 256, in execute_callable
+    return runner.run(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/pipeline_ingestion.py", line 69, in current_run_is_last
+    return next_run_date > datetime.now()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: can't compare offset-naive and offset-aware datetimes
+[2026-08-05T13:07:01.967+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-08-05T13:07:01.973+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T13:07:01.973+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T13:54:05.873+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T13:54:05.882+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-05T13:54:05.886+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-05T13:54:05.886+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T13:54:05.893+0000] {taskinstance.py:2888} INFO - Executing <Task(ShortCircuitOperator): gate_last_run> on 2019-05-01 00:00:00+00:00
+[2026-08-05T13:54:05.897+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=7245) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T13:54:05.898+0000] {standard_task_runner.py:72} INFO - Started process 7247 to run task
+[2026-08-05T13:54:05.899+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'gate_last_run', 'scheduled__2019-05-01T00:00:00+00:00', '--job-id', '1195', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpa8gfvfei']
+[2026-08-05T13:54:05.899+0000] {standard_task_runner.py:105} INFO - Job 1195: Subtask gate_last_run
+[2026-08-05T13:54:05.925+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [running]> on host dd5addbf144e
+[2026-08-05T13:54:06.121+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='gate_last_run' AIRFLOW_CTX_EXECUTION_DATE='2019-05-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-05-01T00:00:00+00:00'
+[2026-08-05T13:54:06.122+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T13:54:06.123+0000] {baseoperator.py:405} WARNING - ShortCircuitOperator.execute cannot be called outside TaskInstance!
+[2026-08-05T13:54:06.127+0000] {python.py:240} INFO - Done. Returned value was: False
+[2026-08-05T13:54:06.127+0000] {python.py:309} INFO - Condition result is False
+[2026-08-05T13:54:06.127+0000] {python.py:336} INFO - Skipping downstream tasks
+[2026-08-05T13:54:06.136+0000] {python.py:344} INFO - Done.
+[2026-08-05T13:54:06.142+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T13:54:06.142+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=gate_last_run, run_id=scheduled__2019-05-01T00:00:00+00:00, execution_date=20190501T000000, start_date=20260805T135405, end_date=20260805T135406
+[2026-08-05T13:54:06.162+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T13:54:06.170+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T13:54:06.170+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T20:48:58.145+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T20:48:58.160+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-05T20:48:58.169+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-05T20:48:58.169+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T20:48:58.181+0000] {taskinstance.py:2888} INFO - Executing <Task(ShortCircuitOperator): gate_last_run> on 2019-05-01 00:00:00+00:00
+[2026-08-05T20:48:58.186+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5397) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T20:48:58.187+0000] {standard_task_runner.py:72} INFO - Started process 5405 to run task
+[2026-08-05T20:48:58.188+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'gate_last_run', 'scheduled__2019-05-01T00:00:00+00:00', '--job-id', '2375', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpv8tayjl3']
+[2026-08-05T20:48:58.189+0000] {standard_task_runner.py:105} INFO - Job 2375: Subtask gate_last_run
+[2026-08-05T20:48:58.235+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [running]> on host 270cf8aabe00
+[2026-08-05T20:48:58.569+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='gate_last_run' AIRFLOW_CTX_EXECUTION_DATE='2019-05-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-05-01T00:00:00+00:00'
+[2026-08-05T20:48:58.571+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T20:48:58.572+0000] {baseoperator.py:405} WARNING - ShortCircuitOperator.execute cannot be called outside TaskInstance!
+[2026-08-05T20:48:58.582+0000] {python.py:240} INFO - Done. Returned value was: False
+[2026-08-05T20:48:58.582+0000] {python.py:309} INFO - Condition result is False
+[2026-08-05T20:48:58.583+0000] {python.py:336} INFO - Skipping downstream tasks
+[2026-08-05T20:48:58.601+0000] {python.py:344} INFO - Done.
+[2026-08-05T20:48:58.618+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T20:48:58.618+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=gate_last_run, run_id=scheduled__2019-05-01T00:00:00+00:00, execution_date=20190501T000000, start_date=20260805T204858, end_date=20260805T204858
+[2026-08-05T20:48:58.657+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T20:48:58.670+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T20:48:58.671+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:43:44.686+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:43:44.693+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-06T04:43:44.697+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-06T04:43:44.697+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:43:44.777+0000] {taskinstance.py:2888} INFO - Executing <Task(ShortCircuitOperator): gate_last_run> on 2019-05-01 00:00:00+00:00
+[2026-08-06T04:43:44.783+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=8677) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:43:44.784+0000] {standard_task_runner.py:72} INFO - Started process 8679 to run task
+[2026-08-06T04:43:44.785+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'gate_last_run', 'scheduled__2019-05-01T00:00:00+00:00', '--job-id', '4716', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpga4mfxyp']
+[2026-08-06T04:43:44.786+0000] {standard_task_runner.py:105} INFO - Job 4716: Subtask gate_last_run
+[2026-08-06T04:43:44.811+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:43:44.840+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='gate_last_run' AIRFLOW_CTX_EXECUTION_DATE='2019-05-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-05-01T00:00:00+00:00'
+[2026-08-06T04:43:44.842+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:43:44.843+0000] {baseoperator.py:405} WARNING - ShortCircuitOperator.execute cannot be called outside TaskInstance!
+[2026-08-06T04:43:44.847+0000] {logging_mixin.py:190} INFO - 6
+[2026-08-06T04:43:44.847+0000] {python.py:240} INFO - Done. Returned value was: False
+[2026-08-06T04:43:44.848+0000] {python.py:309} INFO - Condition result is False
+[2026-08-06T04:43:44.849+0000] {python.py:316} INFO - No downstream tasks; nothing to do.
+[2026-08-06T04:43:44.857+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:43:44.858+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=gate_last_run, run_id=scheduled__2019-05-01T00:00:00+00:00, execution_date=20190501T000000, start_date=20260806T044344, end_date=20260806T044344
+[2026-08-06T04:43:44.884+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:43:44.892+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:43:44.893+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:49:45.273+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:49:45.279+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-06T04:49:45.282+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-06T04:49:45.282+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:49:45.286+0000] {taskinstance.py:2888} INFO - Executing <Task(ShortCircuitOperator): gate_last_run> on 2019-05-01 00:00:00+00:00
+[2026-08-06T04:49:45.289+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=9742) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:49:45.290+0000] {standard_task_runner.py:72} INFO - Started process 9744 to run task
+[2026-08-06T04:49:45.290+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'gate_last_run', 'scheduled__2019-05-01T00:00:00+00:00', '--job-id', '4964', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp8q_axprv']
+[2026-08-06T04:49:45.291+0000] {standard_task_runner.py:105} INFO - Job 4964: Subtask gate_last_run
+[2026-08-06T04:49:45.313+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:49:45.349+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='gate_last_run' AIRFLOW_CTX_EXECUTION_DATE='2019-05-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-05-01T00:00:00+00:00'
+[2026-08-06T04:49:45.535+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:49:45.536+0000] {baseoperator.py:405} WARNING - ShortCircuitOperator.execute cannot be called outside TaskInstance!
+[2026-08-06T04:49:45.541+0000] {logging_mixin.py:190} INFO - 6
+[2026-08-06T04:49:45.541+0000] {python.py:240} INFO - Done. Returned value was: False
+[2026-08-06T04:49:45.542+0000] {python.py:309} INFO - Condition result is False
+[2026-08-06T04:49:45.542+0000] {python.py:316} INFO - No downstream tasks; nothing to do.
+[2026-08-06T04:49:45.550+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:49:45.550+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=gate_last_run, run_id=scheduled__2019-05-01T00:00:00+00:00, execution_date=20190501T000000, start_date=20260806T044945, end_date=20260806T044945
+[2026-08-06T04:49:45.594+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:49:45.600+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:49:45.600+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:57:48.966+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:57:48.993+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-06T04:57:49.000+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-06T04:57:49.001+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:57:49.039+0000] {taskinstance.py:2888} INFO - Executing <Task(ShortCircuitOperator): gate_last_run> on 2019-05-01 00:00:00+00:00
+[2026-08-06T04:57:49.055+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=10284) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:57:49.058+0000] {standard_task_runner.py:72} INFO - Started process 10312 to run task
+[2026-08-06T04:57:49.078+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'gate_last_run', 'scheduled__2019-05-01T00:00:00+00:00', '--job-id', '5074', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp5ev2fv60']
+[2026-08-06T04:57:49.079+0000] {standard_task_runner.py:105} INFO - Job 5074: Subtask gate_last_run
+[2026-08-06T04:57:49.195+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:57:49.273+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='gate_last_run' AIRFLOW_CTX_EXECUTION_DATE='2019-05-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-05-01T00:00:00+00:00'
+[2026-08-06T04:57:49.428+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:57:49.429+0000] {baseoperator.py:405} WARNING - ShortCircuitOperator.execute cannot be called outside TaskInstance!
+[2026-08-06T04:57:49.432+0000] {logging_mixin.py:190} INFO - 6
+[2026-08-06T04:57:49.432+0000] {python.py:240} INFO - Done. Returned value was: False
+[2026-08-06T04:57:49.432+0000] {python.py:309} INFO - Condition result is False
+[2026-08-06T04:57:49.433+0000] {python.py:316} INFO - No downstream tasks; nothing to do.
+[2026-08-06T04:57:49.439+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:57:49.440+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=gate_last_run, run_id=scheduled__2019-05-01T00:00:00+00:00, execution_date=20190501T000000, start_date=20260806T045748, end_date=20260806T045749
+[2026-08-06T04:57:49.464+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:57:49.470+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:57:49.471+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T05:19:24.777+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T05:19:24.786+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-06T05:19:24.791+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-06T05:19:24.792+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T05:19:24.800+0000] {taskinstance.py:2888} INFO - Executing <Task(ShortCircuitOperator): gate_last_run> on 2019-05-01 00:00:00+00:00
+[2026-08-06T05:19:24.803+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=12971) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T05:19:24.804+0000] {standard_task_runner.py:72} INFO - Started process 12977 to run task
+[2026-08-06T05:19:24.805+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'gate_last_run', 'scheduled__2019-05-01T00:00:00+00:00', '--job-id', '5663', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpp5qzqhnt']
+[2026-08-06T05:19:24.805+0000] {standard_task_runner.py:105} INFO - Job 5663: Subtask gate_last_run
+[2026-08-06T05:19:24.830+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T05:19:25.016+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='gate_last_run' AIRFLOW_CTX_EXECUTION_DATE='2019-05-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-05-01T00:00:00+00:00'
+[2026-08-06T05:19:25.017+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T05:19:25.018+0000] {baseoperator.py:405} WARNING - ShortCircuitOperator.execute cannot be called outside TaskInstance!
+[2026-08-06T05:19:25.025+0000] {logging_mixin.py:190} INFO - 6
+[2026-08-06T05:19:25.026+0000] {python.py:240} INFO - Done. Returned value was: False
+[2026-08-06T05:19:25.026+0000] {python.py:309} INFO - Condition result is False
+[2026-08-06T05:19:25.026+0000] {python.py:336} INFO - Skipping downstream tasks
+[2026-08-06T05:19:25.040+0000] {python.py:344} INFO - Done.
+[2026-08-06T05:19:25.052+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:19:25.053+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=gate_last_run, run_id=scheduled__2019-05-01T00:00:00+00:00, execution_date=20190501T000000, start_date=20260806T051924, end_date=20260806T051925
+[2026-08-06T05:19:25.106+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:19:25.119+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T05:19:25.120+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T05:43:51.567+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T05:43:51.577+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-06T05:43:51.583+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [queued]>
+[2026-08-06T05:43:51.583+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T05:43:51.595+0000] {taskinstance.py:2888} INFO - Executing <Task(ShortCircuitOperator): gate_last_run> on 2019-05-01 00:00:00+00:00
+[2026-08-06T05:43:51.599+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=14873) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T05:43:51.601+0000] {standard_task_runner.py:72} INFO - Started process 14879 to run task
+[2026-08-06T05:43:51.601+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'gate_last_run', 'scheduled__2019-05-01T00:00:00+00:00', '--job-id', '6062', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp8so4dd5v']
+[2026-08-06T05:43:51.602+0000] {standard_task_runner.py:105} INFO - Job 6062: Subtask gate_last_run
+[2026-08-06T05:43:51.637+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.gate_last_run scheduled__2019-05-01T00:00:00+00:00 [running]> on host 711c7b8bdf2b
+[2026-08-06T05:43:51.834+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='gate_last_run' AIRFLOW_CTX_EXECUTION_DATE='2019-05-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-05-01T00:00:00+00:00'
+[2026-08-06T05:43:51.835+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T05:43:51.835+0000] {baseoperator.py:405} WARNING - ShortCircuitOperator.execute cannot be called outside TaskInstance!
+[2026-08-06T05:43:51.836+0000] {python.py:240} INFO - Done. Returned value was: False
+[2026-08-06T05:43:51.836+0000] {python.py:309} INFO - Condition result is False
+[2026-08-06T05:43:51.836+0000] {python.py:336} INFO - Skipping downstream tasks
+[2026-08-06T05:43:51.845+0000] {python.py:344} INFO - Done.
+[2026-08-06T05:43:51.851+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:43:51.851+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=gate_last_run, run_id=scheduled__2019-05-01T00:00:00+00:00, execution_date=20190501T000000, start_date=20260806T054351, end_date=20260806T054351
+[2026-08-06T05:43:51.866+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:43:51.873+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T05:43:51.874+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

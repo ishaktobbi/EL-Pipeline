@@ -1,0 +1,877 @@
+[2026-08-04T18:47:07.006+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-04T18:47:07.015+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-04T18:47:07.019+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-04T18:47:07.020+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-04T18:47:07.025+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-04T18:47:07.029+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=3620) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-04T18:47:07.029+0000] {standard_task_runner.py:72} INFO - Started process 3626 to run task
+[2026-08-04T18:47:07.029+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '101', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp2ihzb457', '--map-index', '1']
+[2026-08-04T18:47:07.030+0000] {standard_task_runner.py:105} INFO - Job 101: Subtask execute_gcs_extractor
+[2026-08-04T18:47:07.046+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host a7a943a89e2c
+[2026-08-04T18:47:07.063+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3114, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3533, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 913, in render_template_fields
+    unmapped_task = self.unmap(mapped_kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 820, in unmap
+    kwargs = self._get_unmap_kwargs(kwargs, strict=self._disallow_kwargs_override)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 709, in _get_unmap_kwargs
+    prevent_duplicates(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 394, in prevent_duplicates
+    raise TypeError(f"{fail_reason} argument: {duplicated_keys.pop()}")
+TypeError: unmappable or already specified argument: sla
+[2026-08-04T18:47:07.066+0000] {taskinstance.py:3358} ERROR - Unable to unmap task to determine if we need to send an alert email
+[2026-08-04T18:47:07.068+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260804T184707, end_date=20260804T184707
+[2026-08-04T18:47:07.073+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-04T18:47:07.073+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 101 for task execute_gcs_extractor (unmappable or already specified argument: sla; 3626)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3114, in _execute_task_with_callbacks
+    task_orig = self.render_templates(context=context, jinja_env=jinja_env)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3533, in render_templates
+    original_task.render_template_fields(context, jinja_env)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 913, in render_template_fields
+    unmapped_task = self.unmap(mapped_kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 820, in unmap
+    kwargs = self._get_unmap_kwargs(kwargs, strict=self._disallow_kwargs_override)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/mappedoperator.py", line 709, in _get_unmap_kwargs
+    prevent_duplicates(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/helpers.py", line 394, in prevent_duplicates
+    raise TypeError(f"{fail_reason} argument: {duplicated_keys.pop()}")
+TypeError: unmappable or already specified argument: sla
+[2026-08-04T18:47:07.088+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-08-04T18:47:07.103+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-04T18:47:07.103+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T07:47:28.435+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T07:47:28.443+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T07:47:28.523+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T07:47:28.523+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T07:47:28.528+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T07:47:28.531+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=366) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T07:47:28.532+0000] {standard_task_runner.py:72} INFO - Started process 376 to run task
+[2026-08-05T07:47:28.533+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '71', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpm_yueuxx', '--map-index', '1']
+[2026-08-05T07:47:28.534+0000] {standard_task_runner.py:105} INFO - Job 71: Subtask execute_gcs_extractor
+[2026-08-05T07:47:28.556+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 32ba35984139
+[2026-08-05T07:47:28.578+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T07:47:28.592+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T07:47:28.592+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T07:47:28.613+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T07:47:30.494+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T07:47:30.494+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T07:47:30.934+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T07:47:41.560+0000] {docker.py:438} INFO - 
+[2026-08-05T07:47:41.562+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T07:47:41.629+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T07:47:41.629+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T07:47:51.612+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T07:47:51.616+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T07:47:51.888+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T07:47:51.888+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T074728, end_date=20260805T074751
+[2026-08-05T07:47:51.921+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T07:47:51.942+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T07:47:51.944+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T08:41:54.007+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T08:41:54.016+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T08:41:54.022+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T08:41:54.022+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T08:41:54.031+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T08:41:54.036+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2564) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T08:41:54.037+0000] {standard_task_runner.py:72} INFO - Started process 2571 to run task
+[2026-08-05T08:41:54.037+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '444', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpk4wiwp5i', '--map-index', '1']
+[2026-08-05T08:41:54.038+0000] {standard_task_runner.py:105} INFO - Job 444: Subtask execute_gcs_extractor
+[2026-08-05T08:41:54.069+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 32ba35984139
+[2026-08-05T08:41:54.094+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T08:41:54.227+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T08:41:54.227+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T08:41:54.253+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T08:41:56.047+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T08:41:56.048+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T08:41:56.334+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T08:42:07.188+0000] {docker.py:438} INFO - 
+[2026-08-05T08:42:07.189+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T08:42:07.613+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T08:42:07.613+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T08:42:18.526+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T08:42:18.529+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T08:42:18.781+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T08:42:18.781+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T084154, end_date=20260805T084218
+[2026-08-05T08:42:18.815+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T08:42:18.835+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T08:42:18.835+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T09:20:38.593+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T09:20:38.600+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T09:20:38.603+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T09:20:38.603+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T09:20:38.608+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T09:20:38.611+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=403) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T09:20:38.612+0000] {standard_task_runner.py:72} INFO - Started process 410 to run task
+[2026-08-05T09:20:38.612+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '74', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpp04e3var', '--map-index', '1']
+[2026-08-05T09:20:38.613+0000] {standard_task_runner.py:105} INFO - Job 74: Subtask execute_gcs_extractor
+[2026-08-05T09:20:38.628+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host ca4689b09308
+[2026-08-05T09:20:38.645+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T09:20:38.769+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T09:20:38.770+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T09:20:38.796+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T09:20:42.105+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T09:20:42.106+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T09:20:43.367+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T09:20:54.174+0000] {docker.py:438} INFO - 
+[2026-08-05T09:20:54.176+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T09:20:54.254+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T09:20:54.255+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T09:21:04.828+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T09:21:04.831+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T09:21:05.097+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T09:21:05.098+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T092038, end_date=20260805T092105
+[2026-08-05T09:21:05.136+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T09:21:05.158+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T09:21:05.159+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T09:31:12.044+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T09:31:12.053+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T09:31:12.057+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T09:31:12.057+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T09:31:12.064+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T09:31:12.067+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2013) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T09:31:12.068+0000] {standard_task_runner.py:72} INFO - Started process 2021 to run task
+[2026-08-05T09:31:12.069+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '452', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpi8av7zw2', '--map-index', '1']
+[2026-08-05T09:31:12.070+0000] {standard_task_runner.py:105} INFO - Job 452: Subtask execute_gcs_extractor
+[2026-08-05T09:31:12.100+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host ca4689b09308
+[2026-08-05T09:31:12.128+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T09:31:12.264+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T09:31:12.264+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T09:31:12.280+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T09:31:14.742+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T09:31:14.743+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T09:31:16.115+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T09:31:29.008+0000] {docker.py:438} INFO - 
+[2026-08-05T09:31:29.012+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T09:31:29.104+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T09:31:29.104+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T09:31:39.461+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T09:31:39.466+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T09:31:39.719+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T09:31:39.719+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T093112, end_date=20260805T093139
+[2026-08-05T09:31:39.787+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T09:31:39.815+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T09:31:39.817+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T10:11:43.805+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T10:11:43.813+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T10:11:43.819+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T10:11:43.820+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T10:11:43.826+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T10:11:43.832+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4099) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T10:11:43.833+0000] {standard_task_runner.py:72} INFO - Started process 4112 to run task
+[2026-08-05T10:11:43.834+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '839', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpedjaxrm3', '--map-index', '1']
+[2026-08-05T10:11:43.834+0000] {standard_task_runner.py:105} INFO - Job 839: Subtask execute_gcs_extractor
+[2026-08-05T10:11:43.863+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host ca4689b09308
+[2026-08-05T10:11:44.018+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T10:11:44.290+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T10:11:44.292+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T10:11:44.357+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T10:11:48.364+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T10:11:48.365+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T10:11:50.771+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T10:12:01.766+0000] {docker.py:438} INFO - 
+[2026-08-05T10:12:01.767+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T10:12:01.853+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T10:12:01.853+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T10:12:12.367+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T10:12:12.370+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T10:12:12.665+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T10:12:12.666+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T101143, end_date=20260805T101212
+[2026-08-05T10:12:12.699+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T10:12:12.715+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T10:12:12.716+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T10:33:07.957+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T10:33:07.965+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T10:33:07.968+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T10:33:07.968+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T10:33:07.973+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T10:33:07.977+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=6054) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T10:33:07.978+0000] {standard_task_runner.py:72} INFO - Started process 6058 to run task
+[2026-08-05T10:33:07.978+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '1251', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpfd43p6um', '--map-index', '1']
+[2026-08-05T10:33:07.979+0000] {standard_task_runner.py:105} INFO - Job 1251: Subtask execute_gcs_extractor
+[2026-08-05T10:33:07.999+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host ca4689b09308
+[2026-08-05T10:33:08.037+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T10:33:08.210+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T10:33:08.212+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T10:33:08.259+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T10:33:09.970+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T10:33:09.971+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T10:33:10.343+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T10:33:21.519+0000] {docker.py:438} INFO - 
+[2026-08-05T10:33:21.520+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T10:33:21.820+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T10:33:21.820+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T10:33:33.194+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T10:33:33.196+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T10:33:33.841+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T10:33:33.842+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T103307, end_date=20260805T103333
+[2026-08-05T10:33:33.903+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T10:33:33.932+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T10:33:33.933+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T10:41:11.803+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T10:41:11.811+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T10:41:11.814+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T10:41:11.815+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T10:41:11.821+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T10:41:11.823+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=6494) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T10:41:11.824+0000] {standard_task_runner.py:72} INFO - Started process 6504 to run task
+[2026-08-05T10:41:11.825+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '1339', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp5ugu8xxo', '--map-index', '1']
+[2026-08-05T10:41:11.825+0000] {standard_task_runner.py:105} INFO - Job 1339: Subtask execute_gcs_extractor
+[2026-08-05T10:41:11.845+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host ca4689b09308
+[2026-08-05T10:41:11.875+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T10:41:12.060+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T10:41:12.061+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T10:41:12.080+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T10:41:16.796+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T10:41:16.797+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T10:41:18.605+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T10:41:29.922+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T10:41:30.031+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T10:41:30.040+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T10:41:40.944+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T10:41:40.946+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T10:41:41.504+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T10:41:41.505+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T104111, end_date=20260805T104141
+[2026-08-05T10:41:41.524+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T10:41:41.548+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T10:41:41.549+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T11:03:01.775+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T11:03:01.787+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T11:03:01.877+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T11:03:01.877+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T11:03:01.883+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T11:03:01.886+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=439) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T11:03:01.887+0000] {standard_task_runner.py:72} INFO - Started process 453 to run task
+[2026-08-05T11:03:01.888+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '67', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpy1dojkew', '--map-index', '1']
+[2026-08-05T11:03:01.890+0000] {standard_task_runner.py:105} INFO - Job 67: Subtask execute_gcs_extractor
+[2026-08-05T11:03:01.925+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host dd5addbf144e
+[2026-08-05T11:03:01.969+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T11:03:01.993+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T11:03:01.994+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T11:03:02.049+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T11:03:04.505+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T11:03:04.505+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T11:03:05.364+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T11:03:16.448+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T11:03:16.535+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T11:03:16.535+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T11:03:26.519+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T11:03:26.524+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T11:03:26.830+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T11:03:26.831+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T110301, end_date=20260805T110326
+[2026-08-05T11:03:26.887+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T11:03:26.895+0000] {standard_task_runner.py:217} INFO - Process not found (most likely exited), stop collecting metrics
+[2026-08-05T11:03:26.906+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T11:03:26.908+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T11:22:03.351+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T11:22:03.359+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T11:22:03.362+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T11:22:03.363+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T11:22:03.367+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T11:22:03.371+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2181) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T11:22:03.372+0000] {standard_task_runner.py:72} INFO - Started process 2185 to run task
+[2026-08-05T11:22:03.372+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '445', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpt4jvv12f', '--map-index', '1']
+[2026-08-05T11:22:03.373+0000] {standard_task_runner.py:105} INFO - Job 445: Subtask execute_gcs_extractor
+[2026-08-05T11:22:03.394+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host dd5addbf144e
+[2026-08-05T11:22:03.416+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T11:22:03.577+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T11:22:03.577+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T11:22:03.596+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T11:22:06.337+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T11:22:06.338+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T11:22:07.213+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T11:22:18.081+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T11:22:18.165+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T11:22:18.166+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T11:22:28.393+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T11:22:28.397+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T11:22:28.669+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T11:22:28.670+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T112203, end_date=20260805T112228
+[2026-08-05T11:22:28.721+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T11:22:28.741+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T11:22:28.741+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T13:07:42.357+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T13:07:42.365+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T13:07:42.368+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T13:07:42.368+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T13:07:42.372+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T13:07:42.375+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5087) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T13:07:42.376+0000] {standard_task_runner.py:72} INFO - Started process 5089 to run task
+[2026-08-05T13:07:42.376+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '821', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmparjf514f', '--map-index', '1']
+[2026-08-05T13:07:42.376+0000] {standard_task_runner.py:105} INFO - Job 821: Subtask execute_gcs_extractor
+[2026-08-05T13:07:42.393+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host dd5addbf144e
+[2026-08-05T13:07:42.409+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T13:07:42.530+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T13:07:42.531+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T13:07:42.551+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T13:07:46.407+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T13:07:46.408+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T13:07:49.194+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T13:08:00.708+0000] {docker.py:438} INFO - 
+[2026-08-05T13:08:00.708+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T13:08:00.801+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T13:08:00.801+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T13:08:10.902+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T13:08:10.916+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T13:08:11.212+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T13:08:11.212+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T130742, end_date=20260805T130811
+[2026-08-05T13:08:11.259+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T13:08:11.279+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T13:08:11.280+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T13:54:03.551+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T13:54:03.558+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T13:54:03.561+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T13:54:03.562+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T13:54:03.566+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T13:54:03.569+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=7237) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T13:54:03.570+0000] {standard_task_runner.py:72} INFO - Started process 7239 to run task
+[2026-08-05T13:54:03.570+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '1193', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpavbg89yx', '--map-index', '1']
+[2026-08-05T13:54:03.571+0000] {standard_task_runner.py:105} INFO - Job 1193: Subtask execute_gcs_extractor
+[2026-08-05T13:54:03.589+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host dd5addbf144e
+[2026-08-05T13:54:03.608+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T13:54:03.732+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T13:54:03.732+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T13:54:03.752+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T13:54:07.741+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T13:54:07.741+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T13:54:10.516+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T13:54:21.885+0000] {docker.py:438} INFO - 
+[2026-08-05T13:54:21.887+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T13:54:22.059+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T13:54:22.059+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T13:54:32.380+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T13:54:32.383+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T13:54:32.805+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T13:54:32.805+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T135403, end_date=20260805T135432
+[2026-08-05T13:54:32.833+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T13:54:32.851+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T13:54:32.852+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T20:20:00.051+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T20:20:00.068+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T20:20:00.075+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T20:20:00.075+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T20:20:00.082+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T20:20:00.086+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2511) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T20:20:00.087+0000] {standard_task_runner.py:72} INFO - Started process 2517 to run task
+[2026-08-05T20:20:00.088+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '1723', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp3n_pno1i', '--map-index', '1']
+[2026-08-05T20:20:00.089+0000] {standard_task_runner.py:105} INFO - Job 1723: Subtask execute_gcs_extractor
+[2026-08-05T20:20:00.115+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 270cf8aabe00
+[2026-08-05T20:20:00.153+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T20:20:00.345+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T20:20:00.346+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T20:20:00.394+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T20:20:03.322+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T20:20:03.323+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T20:20:03.748+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T20:20:18.553+0000] {docker.py:438} INFO - 
+[2026-08-05T20:20:18.555+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T20:20:18.944+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T20:20:18.944+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T20:20:32.376+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T20:20:32.425+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T20:20:37.338+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T20:20:37.359+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T202000, end_date=20260805T202037
+[2026-08-05T20:20:37.445+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T20:20:37.653+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T20:20:37.664+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T20:36:13.924+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T20:36:13.956+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T20:36:13.966+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T20:36:13.966+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T20:36:13.981+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T20:36:13.989+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4800) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T20:36:13.991+0000] {standard_task_runner.py:72} INFO - Started process 4804 to run task
+[2026-08-05T20:36:13.991+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '2263', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp4vwb_ke0', '--map-index', '1']
+[2026-08-05T20:36:13.993+0000] {standard_task_runner.py:105} INFO - Job 2263: Subtask execute_gcs_extractor
+[2026-08-05T20:36:14.038+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 270cf8aabe00
+[2026-08-05T20:36:14.082+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T20:36:14.440+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T20:36:14.445+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T20:36:14.604+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T20:36:18.526+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T20:36:18.527+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T20:36:18.840+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T20:36:49.277+0000] {docker.py:438} INFO - 
+[2026-08-05T20:36:49.281+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T20:36:49.357+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T20:36:49.358+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T20:37:00.030+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T20:37:00.034+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T20:37:00.946+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T20:37:00.948+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T203613, end_date=20260805T203700
+[2026-08-05T20:37:00.996+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T20:37:01.051+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T20:37:01.053+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T20:49:09.330+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T20:49:09.345+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T20:49:09.352+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-05T20:49:09.353+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T20:49:09.361+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-05T20:49:09.367+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5424) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T20:49:09.368+0000] {standard_task_runner.py:72} INFO - Started process 5428 to run task
+[2026-08-05T20:49:09.369+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '2379', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp8rmg0mf7', '--map-index', '1']
+[2026-08-05T20:49:09.370+0000] {standard_task_runner.py:105} INFO - Job 2379: Subtask execute_gcs_extractor
+[2026-08-05T20:49:09.406+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 270cf8aabe00
+[2026-08-05T20:49:09.445+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-05T20:49:09.665+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-05T20:49:09.666+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T20:49:09.706+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-05T20:49:13.066+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-05T20:49:13.070+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-05T20:49:13.346+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-05T20:49:36.873+0000] {docker.py:438} INFO - 
+[2026-08-05T20:49:36.876+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-05T20:49:36.961+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-05T20:49:36.962+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-05T20:49:47.899+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-05T20:49:47.903+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-05T20:49:48.732+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T20:49:48.733+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260805T204909, end_date=20260805T204948
+[2026-08-05T20:49:48.803+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T20:49:48.872+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T20:49:48.875+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T03:42:52.716+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T03:42:52.726+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T03:42:52.730+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T03:42:52.730+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T03:42:52.736+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T03:42:52.740+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=471) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T03:42:52.741+0000] {standard_task_runner.py:72} INFO - Started process 476 to run task
+[2026-08-06T03:42:52.741+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '2822', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpt7a1uckd', '--map-index', '1']
+[2026-08-06T03:42:52.741+0000] {standard_task_runner.py:105} INFO - Job 2822: Subtask execute_gcs_extractor
+[2026-08-06T03:42:52.760+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 711c7b8bdf2b
+[2026-08-06T03:42:52.782+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T03:42:52.926+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T03:42:52.927+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T03:42:52.954+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T03:42:55.943+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T03:42:55.944+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T03:42:57.579+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T03:43:09.689+0000] {docker.py:438} INFO - 
+[2026-08-06T03:43:09.690+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T03:43:09.764+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T03:43:09.765+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T03:43:19.491+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T03:43:19.495+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T03:43:19.721+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T03:43:19.722+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T034252, end_date=20260806T034319
+[2026-08-06T03:43:19.761+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T03:43:19.792+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T03:43:19.793+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T03:55:06.214+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T03:55:06.220+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T03:55:06.223+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T03:55:06.223+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T03:55:06.227+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T03:55:06.230+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2436) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T03:55:06.230+0000] {standard_task_runner.py:72} INFO - Started process 2438 to run task
+[2026-08-06T03:55:06.231+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '3281', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpjx4omiyw', '--map-index', '1']
+[2026-08-06T03:55:06.231+0000] {standard_task_runner.py:105} INFO - Job 3281: Subtask execute_gcs_extractor
+[2026-08-06T03:55:06.248+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 711c7b8bdf2b
+[2026-08-06T03:55:06.265+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T03:55:06.372+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T03:55:06.373+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T03:55:06.428+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T03:55:10.256+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T03:55:10.257+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T03:55:12.554+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T03:55:24.353+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T03:55:24.430+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T03:55:24.431+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T03:55:34.603+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T03:55:34.607+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T03:55:34.825+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T03:55:34.826+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T035506, end_date=20260806T035534
+[2026-08-06T03:55:34.866+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T03:55:34.884+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T03:55:34.884+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:16:50.944+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:16:50.950+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T04:16:50.952+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T04:16:50.952+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:16:50.957+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T04:16:50.959+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4754) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:16:50.960+0000] {standard_task_runner.py:72} INFO - Started process 4756 to run task
+[2026-08-06T04:16:50.960+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '3798', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpyc54_93k', '--map-index', '1']
+[2026-08-06T04:16:50.961+0000] {standard_task_runner.py:105} INFO - Job 3798: Subtask execute_gcs_extractor
+[2026-08-06T04:16:50.976+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:16:50.992+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T04:16:51.095+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T04:16:51.096+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:16:51.117+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T04:16:54.966+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T04:16:54.968+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T04:16:57.525+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T04:17:10.558+0000] {docker.py:438} INFO - 
+[2026-08-06T04:17:10.560+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T04:17:10.645+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T04:17:10.645+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T04:17:21.748+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T04:17:21.750+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T04:17:22.028+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:17:22.028+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T041650, end_date=20260806T041722
+[2026-08-06T04:17:22.072+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:17:22.092+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:17:22.093+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:28:00.131+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:28:00.142+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T04:28:00.148+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T04:28:00.149+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:28:00.154+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T04:28:00.158+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=6811) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:28:00.159+0000] {standard_task_runner.py:72} INFO - Started process 6822 to run task
+[2026-08-06T04:28:00.159+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '4293', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp5ua796nz', '--map-index', '1']
+[2026-08-06T04:28:00.159+0000] {standard_task_runner.py:105} INFO - Job 4293: Subtask execute_gcs_extractor
+[2026-08-06T04:28:00.177+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:28:00.199+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T04:28:00.334+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T04:28:00.335+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:28:00.357+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T04:28:02.916+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T04:28:02.917+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T04:28:03.461+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T04:28:15.031+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T04:28:15.109+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T04:28:15.110+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T04:28:25.586+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T04:28:25.587+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T04:28:25.820+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:28:25.821+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T042800, end_date=20260806T042825
+[2026-08-06T04:28:25.852+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:28:25.884+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:28:25.885+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:45:37.117+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:45:37.122+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T04:45:37.125+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T04:45:37.125+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:45:37.128+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T04:45:37.130+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=9013) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:45:37.131+0000] {standard_task_runner.py:72} INFO - Started process 9017 to run task
+[2026-08-06T04:45:37.131+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '4791', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmppjozil4v', '--map-index', '1']
+[2026-08-06T04:45:37.132+0000] {standard_task_runner.py:105} INFO - Job 4791: Subtask execute_gcs_extractor
+[2026-08-06T04:45:37.146+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:45:37.162+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T04:45:37.263+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T04:45:37.263+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:45:37.284+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T04:45:40.070+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T04:45:40.071+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T04:45:41.819+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T04:45:55.696+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T04:45:55.764+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T04:45:55.765+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T04:46:07.177+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T04:46:07.180+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T04:46:07.595+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:46:07.596+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T044537, end_date=20260806T044607
+[2026-08-06T04:46:07.611+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:46:07.629+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:46:07.630+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:51:34.943+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:51:34.952+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T04:51:34.956+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T04:51:34.956+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:51:34.961+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T04:51:34.964+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=10069) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:51:34.965+0000] {standard_task_runner.py:72} INFO - Started process 10071 to run task
+[2026-08-06T04:51:34.965+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '5034', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpff4mwg2e', '--map-index', '1']
+[2026-08-06T04:51:34.966+0000] {standard_task_runner.py:105} INFO - Job 5034: Subtask execute_gcs_extractor
+[2026-08-06T04:51:34.986+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:51:35.009+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T04:51:35.150+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T04:51:35.151+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:51:35.176+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T04:51:37.641+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T04:51:37.642+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T04:51:37.914+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T04:51:51.975+0000] {docker.py:438} INFO - 
+[2026-08-06T04:51:51.977+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T04:51:52.051+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T04:51:52.051+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T04:52:02.669+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T04:52:02.671+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T04:52:03.053+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:52:03.053+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T045134, end_date=20260806T045203
+[2026-08-06T04:52:03.090+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:52:03.122+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:52:03.124+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:59:36.983+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:59:36.988+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T04:59:36.991+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T04:59:36.991+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:59:36.994+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T04:59:36.997+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=10656) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:59:36.997+0000] {standard_task_runner.py:72} INFO - Started process 10658 to run task
+[2026-08-06T04:59:36.997+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '5151', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp_do50zrt', '--map-index', '1']
+[2026-08-06T04:59:36.998+0000] {standard_task_runner.py:105} INFO - Job 5151: Subtask execute_gcs_extractor
+[2026-08-06T04:59:37.012+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:59:37.027+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T04:59:37.126+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T04:59:37.127+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:59:37.144+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T04:59:40.723+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T04:59:40.724+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T04:59:42.204+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T04:59:55.481+0000] {docker.py:438} INFO - 
+[2026-08-06T04:59:55.484+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T04:59:55.565+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T04:59:55.565+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T05:00:06.484+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T05:00:06.484+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T05:00:06.737+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:00:06.738+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T045936, end_date=20260806T050006
+[2026-08-06T05:00:06.778+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:00:06.796+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T05:00:06.797+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T05:19:32.625+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T05:19:32.635+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T05:19:32.639+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T05:19:32.640+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T05:19:32.646+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T05:19:32.651+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=12995) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T05:19:32.652+0000] {standard_task_runner.py:72} INFO - Started process 12997 to run task
+[2026-08-06T05:19:32.652+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '5669', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpum7w5oq0', '--map-index', '1']
+[2026-08-06T05:19:32.652+0000] {standard_task_runner.py:105} INFO - Job 5669: Subtask execute_gcs_extractor
+[2026-08-06T05:19:32.675+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 711c7b8bdf2b
+[2026-08-06T05:19:32.694+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T05:19:32.824+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T05:19:32.824+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T05:19:32.844+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T05:19:35.724+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T05:19:35.726+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T05:19:37.147+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T05:19:48.810+0000] {docker.py:438} INFO - 
+[2026-08-06T05:19:48.811+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T05:19:48.888+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T05:19:48.888+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T05:20:00.502+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T05:20:00.505+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T05:20:00.789+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:20:00.789+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T051932, end_date=20260806T052000
+[2026-08-06T05:20:00.803+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:20:00.824+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T05:20:00.825+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T05:44:04.090+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T05:44:04.095+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T05:44:04.098+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T05:44:04.098+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T05:44:04.101+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T05:44:04.104+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=14911) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T05:44:04.104+0000] {standard_task_runner.py:72} INFO - Started process 14913 to run task
+[2026-08-06T05:44:04.105+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '6069', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp8o4u_w23', '--map-index', '1']
+[2026-08-06T05:44:04.105+0000] {standard_task_runner.py:105} INFO - Job 6069: Subtask execute_gcs_extractor
+[2026-08-06T05:44:04.119+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 711c7b8bdf2b
+[2026-08-06T05:44:04.135+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T05:44:04.236+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T05:44:04.237+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T05:44:04.254+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T05:44:07.576+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T05:44:07.576+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T05:44:08.824+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T05:44:20.900+0000] {docker.py:438} INFO - 
+[2026-08-06T05:44:20.901+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T05:44:20.983+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T05:44:20.983+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T05:44:32.297+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T05:44:32.300+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T05:44:32.562+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:44:32.563+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T054404, end_date=20260806T054432
+[2026-08-06T05:44:32.584+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:44:32.605+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T05:44:32.606+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T07:42:54.669+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T07:42:54.676+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T07:42:54.680+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T07:42:54.680+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T07:42:54.685+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T07:42:54.688+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=379) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T07:42:54.690+0000] {standard_task_runner.py:72} INFO - Started process 384 to run task
+[2026-08-06T07:42:54.690+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '6482', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpado6libb', '--map-index', '1']
+[2026-08-06T07:42:54.690+0000] {standard_task_runner.py:105} INFO - Job 6482: Subtask execute_gcs_extractor
+[2026-08-06T07:42:54.708+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 711c7b8bdf2b
+[2026-08-06T07:42:54.730+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T07:42:54.842+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T07:42:54.842+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T07:42:54.861+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T07:42:58.688+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T07:42:58.688+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T07:43:00.737+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T07:43:12.242+0000] {docker.py:438} INFO - 
+[2026-08-06T07:43:12.244+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T07:43:12.320+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T07:43:12.320+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T07:43:23.624+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T07:43:23.629+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T07:43:23.874+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T07:43:23.875+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T074254, end_date=20260806T074323
+[2026-08-06T07:43:23.907+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T07:43:23.932+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T07:43:23.933+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T09:00:28.738+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T09:00:28.745+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T09:00:28.748+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [queued]>
+[2026-08-06T09:00:28.749+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T09:00:28.753+0000] {taskinstance.py:2888} INFO - Executing <Mapped(DockerOperator): execute_gcs_extractor> on 2019-09-01 00:00:00+00:00
+[2026-08-06T09:00:28.757+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=343) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T09:00:28.757+0000] {standard_task_runner.py:72} INFO - Started process 345 to run task
+[2026-08-06T09:00:28.757+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'execute_gcs_extractor', 'scheduled__2019-09-01T00:00:00+00:00', '--job-id', '65', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpc1m5qg4h', '--map-index', '1']
+[2026-08-06T09:00:28.758+0000] {standard_task_runner.py:105} INFO - Job 65: Subtask execute_gcs_extractor
+[2026-08-06T09:00:28.774+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.execute_gcs_extractor scheduled__2019-09-01T00:00:00+00:00 map_index=1 [running]> on host 2b8c682c2cd4
+[2026-08-06T09:00:28.791+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/models/mappedoperator.py:824: AirflowProviderDeprecationWarning: bool value for `auto_remove` is deprecated and will be removed in the future. Please use 'never', 'success', or 'force' instead
+  op = self.operator_class(**kwargs, _***_from_mapped=True)
+
+[2026-08-06T09:00:28.910+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='execute_gcs_extractor' AIRFLOW_CTX_EXECUTION_DATE='2019-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-09-01T00:00:00+00:00'
+[2026-08-06T09:00:28.911+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T09:00:28.931+0000] {docker.py:367} INFO - Starting docker container from image ingestion:latest
+[2026-08-06T09:00:32.596+0000] {docker.py:438} INFO - 🚀 Pipeline starting for yellow taxi data on 2019-09-01...
+[2026-08-06T09:00:32.596+0000] {docker.py:438} INFO - 📡 Stream-ingesting from: https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2019-09.csv.gz
+[2026-08-06T09:00:35.014+0000] {docker.py:438} INFO - reading file with pandas starting
+[2026-08-06T09:00:46.478+0000] {docker.py:438} INFO - 
+[2026-08-06T09:00:46.479+0000] {docker.py:438} INFO - 🚀 Saved Parquet locally: yellow_tripdata_2019-09.parquet
+[2026-08-06T09:00:46.575+0000] {docker.py:438} INFO - ⚠️ Blob gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet exists. Overwriting...
+[2026-08-06T09:00:46.575+0000] {docker.py:438} INFO - 🚀 Uploading to GCS: gs://ishak-tobbi-data-lake-2026/raw/taxi/yellow/year=2019/month=09/data.parquet
+[2026-08-06T09:00:57.615+0000] {docker.py:438} INFO - ✅ Upload complete.
+[2026-08-06T09:00:57.619+0000] {docker.py:438} INFO - 🧹 Local file removed: yellow_tripdata_2019-09.parquet
+[2026-08-06T09:00:57.885+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T09:00:57.885+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=execute_gcs_extractor, run_id=scheduled__2019-09-01T00:00:00+00:00, map_index=1, execution_date=20190901T000000, start_date=20260806T090028, end_date=20260806T090057
+[2026-08-06T09:00:57.923+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T09:00:57.944+0000] {taskinstance.py:3900} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T09:00:57.945+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

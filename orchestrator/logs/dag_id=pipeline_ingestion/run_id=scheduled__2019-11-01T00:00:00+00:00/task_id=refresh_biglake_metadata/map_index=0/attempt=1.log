@@ -1,0 +1,719 @@
+[2026-08-05T07:48:25.755+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T07:48:25.764+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T07:48:25.768+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T07:48:25.768+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T07:48:25.773+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T07:48:25.777+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=517) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T07:48:25.777+0000] {standard_task_runner.py:72} INFO - Started process 527 to run task
+[2026-08-05T07:48:25.778+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '107', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpmx1pon4_', '--map-index', '0']
+[2026-08-05T07:48:25.779+0000] {standard_task_runner.py:105} INFO - Job 107: Subtask refresh_biglake_metadata
+[2026-08-05T07:48:25.799+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 32ba35984139
+[2026-08-05T07:48:25.967+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T07:48:25.968+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T07:48:25.969+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T07:48:25.969+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T07:48:25.969+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T07:48:25.970+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T07:48:25.972+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_3c4fc6d87c6e359d5f1245817722143a
+[2026-08-05T07:48:28.329+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 762, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 3023, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1590, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1579, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Another metadata cache refresh job with id airflow_pipeline_ingestion_refresh_biglake_metadata_2019_10_01T00_00_00_00_00_bd7bb1c8414a12353883368700a8146c is ongoing for table green_taxi_trips. at [2:34]
+
+Location: europe-west3
+Job ID: airflow_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_3c4fc6d87c6e359d5f1245817722143a
+
+[2026-08-05T07:48:28.334+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T074825, end_date=20260805T074828
+[2026-08-05T07:48:28.338+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T07:48:28.338+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 107 for task refresh_biglake_metadata (400 Another metadata cache refresh job with id airflow_pipeline_ingestion_refresh_biglake_metadata_2019_10_01T00_00_00_00_00_bd7bb1c8414a12353883368700a8146c is ongoing for table green_taxi_trips. at [2:34]
+
+Location: europe-west3
+Job ID: airflow_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_3c4fc6d87c6e359d5f1245817722143a
+; 527)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 762, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 3023, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1590, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1579, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Another metadata cache refresh job with id airflow_pipeline_ingestion_refresh_biglake_metadata_2019_10_01T00_00_00_00_00_bd7bb1c8414a12353883368700a8146c is ongoing for table green_taxi_trips. at [2:34]
+
+Location: europe-west3
+Job ID: airflow_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_3c4fc6d87c6e359d5f1245817722143a
+
+[2026-08-05T07:48:28.377+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-08-05T07:48:28.386+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T07:48:28.386+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T08:43:01.831+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T08:43:01.908+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T08:43:01.911+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T08:43:01.912+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T08:43:01.916+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T08:43:01.919+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2748) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T08:43:01.919+0000] {standard_task_runner.py:72} INFO - Started process 2753 to run task
+[2026-08-05T08:43:01.919+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '486', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpzs4mzvjc', '--map-index', '0']
+[2026-08-05T08:43:01.920+0000] {standard_task_runner.py:105} INFO - Job 486: Subtask refresh_biglake_metadata
+[2026-08-05T08:43:01.936+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 32ba35984139
+[2026-08-05T08:43:01.963+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T08:43:01.964+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T08:43:01.966+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T08:43:01.966+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T08:43:01.966+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T08:43:01.967+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T08:43:01.970+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_088e69f4d05ce080e1c4c0039874b060
+[2026-08-05T08:43:05.834+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T08:43:05.834+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T084301, end_date=20260805T084305
+[2026-08-05T08:43:05.868+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T08:43:05.877+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T08:43:05.878+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T09:21:38.487+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T09:21:38.498+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T09:21:38.502+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T09:21:38.503+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T09:21:38.511+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T09:21:38.514+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=577) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T09:21:38.515+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '115', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmprfug9bcx', '--map-index', '0']
+[2026-08-05T09:21:38.515+0000] {standard_task_runner.py:105} INFO - Job 115: Subtask refresh_biglake_metadata
+[2026-08-05T09:21:38.515+0000] {standard_task_runner.py:72} INFO - Started process 580 to run task
+[2026-08-05T09:21:38.533+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host ca4689b09308
+[2026-08-05T09:21:38.695+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T09:21:38.696+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T09:21:38.698+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T09:21:38.698+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T09:21:38.698+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T09:21:38.699+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T09:21:38.703+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_28b1d003add4d5afd361bb3bd0813fd3
+[2026-08-05T09:21:41.026+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T09:21:41.026+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T092138, end_date=20260805T092141
+[2026-08-05T09:21:41.073+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T09:21:41.082+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T09:21:41.083+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T09:32:15.432+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T09:32:15.441+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T09:32:15.446+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T09:32:15.446+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T09:32:15.453+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T09:32:15.457+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2170) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T09:32:15.458+0000] {standard_task_runner.py:72} INFO - Started process 2174 to run task
+[2026-08-05T09:32:15.458+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '487', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpnifj5qnm', '--map-index', '0']
+[2026-08-05T09:32:15.459+0000] {standard_task_runner.py:105} INFO - Job 487: Subtask refresh_biglake_metadata
+[2026-08-05T09:32:15.476+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host ca4689b09308
+[2026-08-05T09:32:15.653+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T09:32:15.653+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T09:32:15.654+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T09:32:15.654+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T09:32:15.655+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T09:32:15.655+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T09:32:15.658+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_1c9ee22b149b11aad11ca9ab4f2e10bf
+[2026-08-05T09:32:19.408+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T09:32:19.409+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T093215, end_date=20260805T093219
+[2026-08-05T09:32:19.458+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T09:32:19.467+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T09:32:19.467+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T10:12:41.769+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T10:12:41.777+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T10:12:41.780+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T10:12:41.780+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T10:12:41.784+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T10:12:41.787+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4258) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T10:12:41.788+0000] {standard_task_runner.py:72} INFO - Started process 4264 to run task
+[2026-08-05T10:12:41.789+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '875', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpxzoawawl', '--map-index', '0']
+[2026-08-05T10:12:41.790+0000] {standard_task_runner.py:105} INFO - Job 875: Subtask refresh_biglake_metadata
+[2026-08-05T10:12:41.810+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host ca4689b09308
+[2026-08-05T10:12:41.989+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T10:12:41.990+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T10:12:41.991+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T10:12:41.991+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T10:12:41.991+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T10:12:41.991+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T10:12:41.994+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_2a6d046279e2f30ab17ecf720a14fdd3
+[2026-08-05T10:12:49.876+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T10:12:49.877+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T101241, end_date=20260805T101249
+[2026-08-05T10:12:49.901+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T10:12:49.911+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T10:12:49.912+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T10:42:12.392+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T10:42:12.401+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T10:42:12.405+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T10:42:12.405+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T10:42:12.411+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T10:42:12.415+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=6658) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T10:42:12.416+0000] {standard_task_runner.py:72} INFO - Started process 6663 to run task
+[2026-08-05T10:42:12.416+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '1376', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpv9vx77hy', '--map-index', '0']
+[2026-08-05T10:42:12.417+0000] {standard_task_runner.py:105} INFO - Job 1376: Subtask refresh_biglake_metadata
+[2026-08-05T10:42:12.441+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host ca4689b09308
+[2026-08-05T10:42:12.617+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T10:42:12.618+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T10:42:12.619+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T10:42:12.619+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T10:42:12.620+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T10:42:12.620+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T10:42:12.622+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_f60959fad3b70f753e8e05b71c733341
+[2026-08-05T10:42:14.789+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T10:42:14.790+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T104212, end_date=20260805T104214
+[2026-08-05T10:42:14.821+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T10:42:14.831+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T10:42:14.831+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T11:04:02.471+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T11:04:02.484+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T11:04:02.490+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T11:04:02.490+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T11:04:02.496+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T11:04:02.499+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=632) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T11:04:02.500+0000] {standard_task_runner.py:72} INFO - Started process 637 to run task
+[2026-08-05T11:04:02.502+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '113', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpd59notol', '--map-index', '0']
+[2026-08-05T11:04:02.504+0000] {standard_task_runner.py:105} INFO - Job 113: Subtask refresh_biglake_metadata
+[2026-08-05T11:04:02.533+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host dd5addbf144e
+[2026-08-05T11:04:02.687+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T11:04:02.688+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T11:04:02.689+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T11:04:02.689+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T11:04:02.690+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T11:04:02.690+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T11:04:02.693+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_32b24bd0f6ba956863bfbc9b564e616a
+[2026-08-05T11:04:05.209+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T11:04:05.210+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T110402, end_date=20260805T110405
+[2026-08-05T11:04:05.225+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T11:04:05.242+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T11:04:05.244+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T11:23:05.130+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T11:23:05.141+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T11:23:05.146+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T11:23:05.146+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T11:23:05.152+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T11:23:05.156+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2343) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T11:23:05.157+0000] {standard_task_runner.py:72} INFO - Started process 2346 to run task
+[2026-08-05T11:23:05.157+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '483', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp6qtc0ctl', '--map-index', '0']
+[2026-08-05T11:23:05.158+0000] {standard_task_runner.py:105} INFO - Job 483: Subtask refresh_biglake_metadata
+[2026-08-05T11:23:05.180+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host dd5addbf144e
+[2026-08-05T11:23:05.368+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T11:23:05.369+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T11:23:05.371+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T11:23:05.371+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T11:23:05.372+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T11:23:05.372+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T11:23:05.377+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_0136577aefee8527e7704660784f803a
+[2026-08-05T11:23:07.605+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T11:23:07.607+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T112305, end_date=20260805T112307
+[2026-08-05T11:23:07.631+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T11:23:07.645+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T11:23:07.646+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T13:55:15.518+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T13:55:15.638+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T13:55:15.649+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T13:55:15.650+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T13:55:15.674+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T13:55:15.681+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=7409) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T13:55:15.683+0000] {standard_task_runner.py:72} INFO - Started process 7422 to run task
+[2026-08-05T13:55:15.687+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '1232', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp85z5lloy', '--map-index', '0']
+[2026-08-05T13:55:15.689+0000] {standard_task_runner.py:105} INFO - Job 1232: Subtask refresh_biglake_metadata
+[2026-08-05T13:55:15.749+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host dd5addbf144e
+[2026-08-05T13:55:15.808+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T13:55:15.812+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T13:55:15.814+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T13:55:15.814+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T13:55:15.816+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T13:55:15.820+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T13:55:15.832+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_f684ee17dbb7c316f5c67a2087a719cd
+[2026-08-05T13:55:21.080+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T13:55:21.089+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T135515, end_date=20260805T135521
+[2026-08-05T13:55:21.145+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T13:55:21.176+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T13:55:21.177+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T20:22:52.182+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T20:22:52.200+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T20:22:52.207+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T20:22:52.213+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T20:22:52.226+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T20:22:52.233+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2755) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T20:22:52.234+0000] {standard_task_runner.py:72} INFO - Started process 2770 to run task
+[2026-08-05T20:22:52.236+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '1781', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpfer3g_mj', '--map-index', '0']
+[2026-08-05T20:22:52.239+0000] {standard_task_runner.py:105} INFO - Job 1781: Subtask refresh_biglake_metadata
+[2026-08-05T20:22:52.302+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 270cf8aabe00
+[2026-08-05T20:23:03.920+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T20:23:03.998+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T20:23:04.301+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T20:23:04.308+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T20:23:04.352+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T20:23:04.371+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T20:23:05.270+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_1e426ea41c6a7d98e9368009097f18ca
+[2026-08-05T20:23:09.961+0000] {taskinstance.py:3310} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 762, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 3023, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1590, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1579, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Another metadata cache refresh job with id airflow_pipeline_ingestion_refresh_biglake_metadata_2019_12_01T00_00_00_00_00_11ea118a67791fbbb88d5a3a112706a3 is ongoing for table green_taxi_trips. at [2:34]
+
+Location: europe-west3
+Job ID: airflow_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_1e426ea41c6a7d98e9368009097f18ca
+
+[2026-08-05T20:23:11.048+0000] {taskinstance.py:1225} INFO - Marking task as UP_FOR_RETRY. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T202252, end_date=20260805T202311
+[2026-08-05T20:23:11.372+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T20:23:11.378+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 1781 for task refresh_biglake_metadata (400 Another metadata cache refresh job with id airflow_pipeline_ingestion_refresh_biglake_metadata_2019_12_01T00_00_00_00_00_11ea118a67791fbbb88d5a3a112706a3 is ongoing for table green_taxi_trips. at [2:34]
+
+Location: europe-west3
+Job ID: airflow_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_1e426ea41c6a7d98e9368009097f18ca
+; 2770)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 115, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3004, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 273, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3158, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3182, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 762, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 733, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 406, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/google/cloud/operators/bigquery.py", line 3023, in execute
+    job.result(timeout=self.result_timeout, retry=self.result_retry)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1590, in result
+    do_get_result()
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/query.py", line 1579, in do_get_result
+    super(QueryJob, self).result(retry=retry, timeout=timeout)
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/cloud/bigquery/job/base.py", line 971, in result
+    return super(_AsyncJob, self).result(timeout=timeout, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/google/api_core/future/polling.py", line 261, in result
+    raise self._exception
+google.api_core.exceptions.BadRequest: 400 Another metadata cache refresh job with id airflow_pipeline_ingestion_refresh_biglake_metadata_2019_12_01T00_00_00_00_00_11ea118a67791fbbb88d5a3a112706a3 is ongoing for table green_taxi_trips. at [2:34]
+
+Location: europe-west3
+Job ID: airflow_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_1e426ea41c6a7d98e9368009097f18ca
+
+[2026-08-05T20:23:11.488+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-08-05T20:23:11.717+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T20:23:11.720+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T20:37:53.079+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T20:37:53.101+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T20:37:53.111+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T20:37:53.111+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T20:37:53.235+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T20:37:53.243+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4994) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T20:37:53.245+0000] {standard_task_runner.py:72} INFO - Started process 5001 to run task
+[2026-08-05T20:37:53.247+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '2308', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmph041kpgj', '--map-index', '0']
+[2026-08-05T20:37:53.248+0000] {standard_task_runner.py:105} INFO - Job 2308: Subtask refresh_biglake_metadata
+[2026-08-05T20:37:53.295+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 270cf8aabe00
+[2026-08-05T20:37:53.603+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T20:37:53.604+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T20:37:53.606+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T20:37:53.607+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T20:37:53.607+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T20:37:53.608+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T20:37:53.614+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_8175e1d390ea51a6346d9ca7c14e5cad
+[2026-08-05T20:37:56.092+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T20:37:56.093+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T203753, end_date=20260805T203756
+[2026-08-05T20:37:56.133+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T20:37:56.159+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T20:37:56.160+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-05T20:50:40.277+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-05T20:50:40.293+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T20:50:40.299+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-05T20:50:40.299+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-05T20:50:40.308+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-05T20:50:40.313+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=5590) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-05T20:50:40.315+0000] {standard_task_runner.py:72} INFO - Started process 5596 to run task
+[2026-08-05T20:50:40.316+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '2416', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp8e4amnpy', '--map-index', '0']
+[2026-08-05T20:50:40.317+0000] {standard_task_runner.py:105} INFO - Job 2416: Subtask refresh_biglake_metadata
+[2026-08-05T20:50:40.354+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 270cf8aabe00
+[2026-08-05T20:50:40.594+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-05T20:50:40.595+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-05T20:50:40.597+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-05T20:50:40.598+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-05T20:50:40.598+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-05T20:50:40.599+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-05T20:50:40.605+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_3470cbce7e321b1e3b81e406e9920769
+[2026-08-05T20:50:44.920+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-05T20:50:44.921+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260805T205040, end_date=20260805T205044
+[2026-08-05T20:50:44.943+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-05T20:50:44.974+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-05T20:50:44.975+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T03:43:46.036+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T03:43:46.047+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T03:43:46.053+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T03:43:46.053+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T03:43:46.058+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-06T03:43:46.062+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=658) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T03:43:46.063+0000] {standard_task_runner.py:72} INFO - Started process 664 to run task
+[2026-08-06T03:43:46.063+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '2867', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp8_ngm_ij', '--map-index', '0']
+[2026-08-06T03:43:46.065+0000] {standard_task_runner.py:105} INFO - Job 2867: Subtask refresh_biglake_metadata
+[2026-08-06T03:43:46.090+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 711c7b8bdf2b
+[2026-08-06T03:43:46.252+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-06T03:43:46.253+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T03:43:46.254+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T03:43:46.254+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T03:43:46.255+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-06T03:43:46.255+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T03:43:46.258+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_e7d562f94b7bc9e923eec3986e66c7aa
+[2026-08-06T03:43:48.371+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T03:43:48.371+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260806T034346, end_date=20260806T034348
+[2026-08-06T03:43:48.388+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T03:43:48.396+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T03:43:48.396+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T03:56:00.439+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T03:56:00.531+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T03:56:00.535+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T03:56:00.535+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T03:56:00.540+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-06T03:56:00.544+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=2623) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T03:56:00.544+0000] {standard_task_runner.py:72} INFO - Started process 2628 to run task
+[2026-08-06T03:56:00.545+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '3326', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpklpjloz1', '--map-index', '0']
+[2026-08-06T03:56:00.545+0000] {standard_task_runner.py:105} INFO - Job 3326: Subtask refresh_biglake_metadata
+[2026-08-06T03:56:00.566+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 711c7b8bdf2b
+[2026-08-06T03:56:00.603+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-06T03:56:00.604+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T03:56:00.606+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T03:56:00.606+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T03:56:00.606+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-06T03:56:00.606+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T03:56:00.610+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_3281b3a7c04878c6248f3468bb102723
+[2026-08-06T03:56:03.987+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T03:56:03.987+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260806T035600, end_date=20260806T035603
+[2026-08-06T03:56:04.015+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T03:56:04.021+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:17:57.945+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:17:57.952+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T04:17:57.955+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T04:17:57.955+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:17:57.958+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-06T04:17:57.961+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=4944) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:17:57.961+0000] {standard_task_runner.py:72} INFO - Started process 4947 to run task
+[2026-08-06T04:17:57.962+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '3843', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpq29t5ga6', '--map-index', '0']
+[2026-08-06T04:17:57.962+0000] {standard_task_runner.py:105} INFO - Job 3843: Subtask refresh_biglake_metadata
+[2026-08-06T04:17:57.978+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:17:58.112+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-06T04:17:58.112+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:17:58.113+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T04:17:58.113+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T04:17:58.114+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-06T04:17:58.114+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T04:17:58.116+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_72fe987a9ae3e871a1b775b9e47aa0ae
+[2026-08-06T04:18:03.933+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:18:03.935+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260806T041757, end_date=20260806T041803
+[2026-08-06T04:18:03.983+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:18:03.994+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:18:03.996+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:28:56.023+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:28:56.038+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T04:28:56.044+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T04:28:56.045+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:28:56.050+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-06T04:28:56.054+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=6995) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:28:56.055+0000] {standard_task_runner.py:72} INFO - Started process 7001 to run task
+[2026-08-06T04:28:56.055+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '4335', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpieai2059', '--map-index', '0']
+[2026-08-06T04:28:56.056+0000] {standard_task_runner.py:105} INFO - Job 4335: Subtask refresh_biglake_metadata
+[2026-08-06T04:28:56.082+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:28:56.272+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-06T04:28:56.273+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:28:56.274+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T04:28:56.275+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T04:28:56.275+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-06T04:28:56.275+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T04:28:56.279+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_5c38dabaf5cb8c53e3210582fb4770d5
+[2026-08-06T04:28:58.906+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:28:58.907+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260806T042856, end_date=20260806T042858
+[2026-08-06T04:28:58.954+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:28:58.963+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:28:58.964+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T04:46:31.576+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T04:46:31.586+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T04:46:31.590+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T04:46:31.590+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T04:46:31.595+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-06T04:46:31.599+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=9204) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T04:46:31.599+0000] {standard_task_runner.py:72} INFO - Started process 9213 to run task
+[2026-08-06T04:46:31.600+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '4837', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpf1w1_009', '--map-index', '0']
+[2026-08-06T04:46:31.601+0000] {standard_task_runner.py:105} INFO - Job 4837: Subtask refresh_biglake_metadata
+[2026-08-06T04:46:31.621+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 711c7b8bdf2b
+[2026-08-06T04:46:31.781+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-06T04:46:31.781+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T04:46:31.782+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T04:46:31.782+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T04:46:31.783+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-06T04:46:31.783+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T04:46:31.786+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_436ad0c997faf2cb4fd9fba30b37199a
+[2026-08-06T04:46:33.983+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T04:46:33.983+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260806T044631, end_date=20260806T044633
+[2026-08-06T04:46:34.000+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T04:46:34.010+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T04:46:34.010+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T05:00:41.513+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T05:00:41.522+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T05:00:41.526+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T05:00:41.526+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T05:00:41.531+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-06T05:00:41.534+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=10871) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T05:00:41.535+0000] {standard_task_runner.py:72} INFO - Started process 10875 to run task
+[2026-08-06T05:00:41.535+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '5204', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpbihq21wp', '--map-index', '0']
+[2026-08-06T05:00:41.536+0000] {standard_task_runner.py:105} INFO - Job 5204: Subtask refresh_biglake_metadata
+[2026-08-06T05:00:41.556+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 711c7b8bdf2b
+[2026-08-06T05:00:41.705+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-06T05:00:41.706+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T05:00:41.707+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T05:00:41.707+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T05:00:41.707+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-06T05:00:41.707+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T05:00:41.710+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_1f9bde09b0a470f4c151c1106ac41fae
+[2026-08-06T05:00:45.331+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:00:45.331+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260806T050041, end_date=20260806T050045
+[2026-08-06T05:00:45.370+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:00:45.383+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T05:00:45.384+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T05:20:33.609+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T05:20:33.620+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T05:20:33.623+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T05:20:33.624+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T05:20:33.629+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-06T05:20:33.632+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=13174) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T05:20:33.633+0000] {standard_task_runner.py:72} INFO - Started process 13180 to run task
+[2026-08-06T05:20:33.634+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '5711', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmptrslwsty', '--map-index', '0']
+[2026-08-06T05:20:33.634+0000] {standard_task_runner.py:105} INFO - Job 5711: Subtask refresh_biglake_metadata
+[2026-08-06T05:20:33.652+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 711c7b8bdf2b
+[2026-08-06T05:20:33.812+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-06T05:20:33.813+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T05:20:33.814+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T05:20:33.814+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T05:20:33.814+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-06T05:20:33.814+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T05:20:33.817+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_3fbf496e9eee9189bd82eaf3ad4ca530
+[2026-08-06T05:20:35.917+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:20:35.917+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260806T052033, end_date=20260806T052035
+[2026-08-06T05:20:35.952+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:20:35.961+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T05:20:35.961+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T05:44:59.232+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T05:44:59.243+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T05:44:59.247+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T05:44:59.248+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T05:44:59.253+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-06T05:44:59.256+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=15081) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T05:44:59.257+0000] {standard_task_runner.py:72} INFO - Started process 15086 to run task
+[2026-08-06T05:44:59.257+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '6108', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmp02hqkxeg', '--map-index', '0']
+[2026-08-06T05:44:59.258+0000] {standard_task_runner.py:105} INFO - Job 6108: Subtask refresh_biglake_metadata
+[2026-08-06T05:44:59.278+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 711c7b8bdf2b
+[2026-08-06T05:44:59.437+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-06T05:44:59.438+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T05:44:59.439+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T05:44:59.439+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T05:44:59.439+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-06T05:44:59.440+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T05:44:59.443+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_0a1b91693d712db73f63f18f07276a7e
+[2026-08-06T05:45:02.898+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T05:45:02.898+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260806T054459, end_date=20260806T054502
+[2026-08-06T05:45:02.934+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T05:45:02.944+0000] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T05:45:02.945+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T07:43:54.228+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T07:43:54.237+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T07:43:54.241+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T07:43:54.241+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T07:43:54.246+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-06T07:43:54.249+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=563) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T07:43:54.250+0000] {standard_task_runner.py:72} INFO - Started process 567 to run task
+[2026-08-06T07:43:54.250+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '6524', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmplux2zdy5', '--map-index', '0']
+[2026-08-06T07:43:54.251+0000] {standard_task_runner.py:105} INFO - Job 6524: Subtask refresh_biglake_metadata
+[2026-08-06T07:43:54.271+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 711c7b8bdf2b
+[2026-08-06T07:43:54.428+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-06T07:43:54.428+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T07:43:54.429+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T07:43:54.429+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T07:43:54.430+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-06T07:43:54.430+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T07:43:54.432+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_47f8584a6ddf65006e92c5369fc5bd96
+[2026-08-06T07:43:57.993+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T07:43:57.994+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260806T074354, end_date=20260806T074357
+[2026-08-06T07:43:58.019+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T07:43:58.029+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T07:43:58.030+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-08-06T09:01:31.396+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-08-06T09:01:31.408+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T09:01:31.413+0000] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [queued]>
+[2026-08-06T09:01:31.413+0000] {taskinstance.py:2865} INFO - Starting attempt 1 of 3
+[2026-08-06T09:01:31.420+0000] {taskinstance.py:2888} INFO - Executing <Mapped(BigQueryInsertJobOperator): refresh_biglake_metadata> on 2019-11-01 00:00:00+00:00
+[2026-08-06T09:01:31.424+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=522) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2026-08-06T09:01:31.424+0000] {standard_task_runner.py:72} INFO - Started process 528 to run task
+[2026-08-06T09:01:31.425+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'pipeline_ingestion', 'refresh_biglake_metadata', 'scheduled__2019-11-01T00:00:00+00:00', '--job-id', '107', '--raw', '--subdir', 'DAGS_FOLDER/pipeline_ingestion.py', '--cfg-path', '/tmp/tmpl97mcte2', '--map-index', '0']
+[2026-08-06T09:01:31.426+0000] {standard_task_runner.py:105} INFO - Job 107: Subtask refresh_biglake_metadata
+[2026-08-06T09:01:31.452+0000] {task_command.py:467} INFO - Running <TaskInstance: pipeline_ingestion.refresh_biglake_metadata scheduled__2019-11-01T00:00:00+00:00 map_index=0 [running]> on host 2b8c682c2cd4
+[2026-08-06T09:01:31.648+0000] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='ishak_tobbi' AIRFLOW_CTX_DAG_ID='pipeline_ingestion' AIRFLOW_CTX_TASK_ID='refresh_biglake_metadata' AIRFLOW_CTX_EXECUTION_DATE='2019-11-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2019-11-01T00:00:00+00:00'
+[2026-08-06T09:01:31.649+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2026-08-06T09:01:31.650+0000] {connection.py:277} WARNING - Connection schemes (type: google_cloud_platform) shall not contain '_' according to RFC3986.
+[2026-08-06T09:01:31.650+0000] {base.py:84} INFO - Retrieving connection 'google_cloud_default'
+[2026-08-06T09:01:31.652+0000] {bigquery.py:2957} INFO - Executing: {'query': {'query': "\n                            CALL BQ.REFRESH_EXTERNAL_METADATA_CACHE(\n                            'elpipeline.ishak_tobbi_dataset.green_taxi_trips', \n                            ['gs://ishak-tobbi-data-lake-2026/raw/taxi/green/year=2019/month=11/*']\n                            );\n                        ", 'useLegacySql': False}}'
+[2026-08-06T09:01:31.652+0000] {credentials_provider.py:402} INFO - Getting connection using `google.auth.default()` since no explicit credentials are provided.
+[2026-08-06T09:01:31.656+0000] {bigquery.py:1702} INFO - Inserting job ***_pipeline_ingestion_refresh_biglake_metadata_2019_11_01T00_00_00_00_00_c9735fb2749442342a9b0f12530c1783
+[2026-08-06T09:01:35.058+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2026-08-06T09:01:35.058+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=pipeline_ingestion, task_id=refresh_biglake_metadata, run_id=scheduled__2019-11-01T00:00:00+00:00, map_index=0, execution_date=20191101T000000, start_date=20260806T090131, end_date=20260806T090135
+[2026-08-06T09:01:35.107+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-08-06T09:01:35.117+0000] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-08-06T09:01:35.118+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
